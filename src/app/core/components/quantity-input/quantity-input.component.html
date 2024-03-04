@@ -1,0 +1,9 @@
+<ion-row class="quantity-input" [formGroup]="form">
+  <ion-button fill="clear" (click)="onClickRemove()" [disabled]="disabled || max < 0 || +form.value.quantity === 1">
+      <ion-icon name="remove"></ion-icon>
+  </ion-button>
+  <input readonly formControlName="quantity"  class="quantity-input__input">
+  <ion-button fill="clear" (click)="onClickAdd()" [disabled]="disabled || +form.value.quantity >= max || max < 0">
+      <ion-icon name="add"></ion-icon>
+  </ion-button>
+</ion-row>

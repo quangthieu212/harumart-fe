@@ -1,0 +1,64 @@
+<ng-container [formGroup]="form">
+    <!-- <ng-container>
+      <app-string-field
+        formControlName="name"
+        placeholder="Tên khách hàng"
+        name="Tên khách hàng"
+      >
+      </app-string-field>
+      <app-string-field
+        formControlName="phone"
+        placeholder="Số điện thoại"
+        [name]="'common.label.phoneNumber'"
+        type="tel"
+      >
+      </app-string-field>
+    </ng-container> -->
+    <ng-container formGroupName="province">
+      <app-string-field
+        class="is-location-search"
+        [disabled]="true"
+        (click)="onClickSelectProvince()"
+        formControlName="name"
+        placeholder="Chọn Tỉnh/TP"
+        [name]="'common.label.provinceCity'"
+      >
+      </app-string-field>
+    </ng-container>
+
+    <ng-container formGroupName="district">
+      <app-string-field
+        class="is-location-search"
+        (click)="onClickSelectDistrict()"
+        formControlName="name"
+        [disabled]="true"
+        placeholder="Chọn Quận/Huyện"
+        [name]="'common.label.district'"
+      >
+      </app-string-field>
+    </ng-container>
+
+    <ng-container formGroupName="ward">
+      <app-string-field
+        class="is-location-search"
+        (click)="onClickWard()"
+        formControlName="name"
+        [disabled]="true"
+        placeholder="Chọn Phường/Xã"
+        [name]="'common.label.wards'"
+      >
+      </app-string-field>
+    </ng-container>
+
+    <ng-container>
+      <app-textarea-field
+        formControlName="street2"
+        placeholder="Số nhà / ngõ / xóm"
+        name="Số nhà / ngõ / xóm"
+      >
+      </app-textarea-field>
+    </ng-container>
+
+
+
+</ng-container>

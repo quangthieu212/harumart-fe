@@ -1,0 +1,8 @@
+{
+  "name": "Tii-Sale",
+  "integrations": {
+    "cordova": {},
+    "capacitor": {}
+  },
+  "type": "angular"
+}

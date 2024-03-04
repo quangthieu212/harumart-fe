@@ -1,0 +1,80 @@
+<ion-header color="mytheme" class="head ion-padding">
+    <ion-row class="ion-justify-content-center">
+      <ion-img style="margin: 10%;" src="assets/logo2.svg" class="head-image"></ion-img>
+    </ion-row>
+  </ion-header>
+  
+  <ion-content class="ion-padding">
+    <app-spinner *ngIf="isLoading"></app-spinner>
+    <ion-text><h3 class="title ion-no-margin ion-margin-bottom ion-text-center">Đăng ký</h3></ion-text>
+    <ion-grid>
+      <form [formGroup]="form" (ngSubmit)="signup(form.value)">
+        <ion-row>
+          <ion-col>
+            <ion-input type="text" placeholder="Họ" formControlName="firstName" class="input ion-padding-horizontal"></ion-input>
+          </ion-col>
+          <ion-col>
+            <ion-input type="text" placeholder="Tên" formControlName="lastName" class="input ion-padding-horizontal"></ion-input>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            <ion-select class="input ion-padding-horizontal" id="type" formControlName="type" placeholder="Bạn muốn đăng ký?" (ionChange)="onChangeType()">
+              <ion-select-option *ngFor="let item of typeOptions" value="{{item.code}}">{{item.name}}</ion-select-option>
+          </ion-select>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            <ion-input clearInput placeholder="Số điện thoại" formControlName="phone" class="input ion-padding-horizontal"></ion-input>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            <ion-input clearInput placeholder="Số điện thoại người giới thiệu" formControlName="phoneParent" class="input ion-padding-horizontal"></ion-input>
+          </ion-col>
+        </ion-row>
+
+        <div formGroupName="matchingPasswords">
+          <ion-row>
+            <ion-col>
+              <ion-input clearInput type="password" placeholder="Mật khẩu" formControlName="password" class="input ion-padding-horizontal"></ion-input>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-input clearInput type="password" placeholder="Nhập lại mật khẩu" formControlName="confirmPassword" class="input ion-padding-horizontal"></ion-input>
+            </ion-col>
+          </ion-row>
+        </div>
+        <ion-row>
+          <ion-col>
+            <ion-button expand="block" color="primary" type="submit" [disabled]="!form.valid" color="mytheme"><strong class="white">Tạo tài khoản</strong></ion-button>
+          </ion-col>
+        </ion-row>
+      </form>
+      <div class="line"></div>
+      <!-- <ion-row>
+        <ion-col>
+          <ion-button expand="block" fill="outline" color="fb"><ion-img src="assets/images/facebook_logo.png" slot="start" class="logo ion- margin-end"></ion-img>Facebook</ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button expand="block" color="light"><ion-img src="assets/images/google_logo.png" slot="start" class="logo ion-margin-end"></ion-img>Google</ion-button>
+        </ion-col>
+      </ion-row> -->
+      <ion-row>
+        <ion-col>
+          <ion-button expand="block" fill="outline" color="mytheme" (click)="fun.navigate('login')"><strong>Nếu bạn đã có tài khoản? Đăng nhập</strong></ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-text class="ion-text-center" color="medium"><h6 class="small ion-no-margin"><a (click)="openModal(true)">Điều khoản sử dụng</a> và <a (click)="openModal(false)">chính sách bảo mật</a></h6></ion-text>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-content>
+  

@@ -1,0 +1,159 @@
+<ion-header>
+  <ion-toolbar color="mytheme">
+    <ion-buttons slot="start">
+      <ion-menu-button color="light"></ion-menu-button>
+    </ion-buttons>
+    <ion-title color="light">Giỏ hàng</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding-top" color="light">
+  <div class="mid" *ngIf="!show">
+    <ion-row size="12" class="ion-justify-content-center" disabled="true">
+      <button class="circle">
+        <ion-icon name="cart" size="large"></ion-icon>
+      </button>
+    </ion-row>
+    <ion-row size="12" class="ion-justify-content-center" disabled="true">
+      <ion-text><strong>Giỏ hàng trống</strong></ion-text>
+    </ion-row>
+    <ion-row size="12" class="ion-justify-content-center" disabled="true">
+      <ion-button fill="clear" color="primary" (click)="browse()">Tìm sản phẩm</ion-button>
+    </ion-row>
+  </div>
+  <div *ngIf="show">
+    <ion-row class="ion-margin-horizontal ion-margin-bottom">
+      <ion-text><strong class="text">Sản phẩm trong giỏ</strong></ion-text>
+    </ion-row>
+    <ion-list #slidingList>
+      <ion-item-sliding  *ngFor="let item of data; let j = index;" class="card ion-no-padding" no-margin>
+        <ion-item lines="none">
+          <ion-row style="width: 100%;">
+            <ion-col size="3" class="ion-text-center">
+              <ng-container *ngIf="item.product && item.product.productTempImage && item.product.productTempImage[0]">
+                <img src="{{imageUrl}}/{{item.product.productTempImage[0]}}" [alt]="item.product.name" >
+              </ng-container>
+
+              <ng-container *ngIf="!item.product || !item.product.productTempImage || !item.product.productTempImage[0]">
+                <img src="assets/logo2.svg">
+              </ng-container>
+
+              <ion-text color="danger" class="small" (click)="remove(item, j)">Xoá</ion-text>
+            </ion-col>
+            <ion-col style="display: flex;flex-direction: column;justify-content: space-between;" size="6">
+              <h3 style="font-size: 14px;" class="ion-no-margin item-name">{{item.product.name}}</h3>
+              <!-- <h5 class="ion-no-margin item-def">{{item.product.size}}, {{item.product.color}}</h5>
+              <h5 class="ion-no-margin item-def">shipping: {{item.product.currency}}{{item.product.shipping}}</h5>
+              <h5 class="ion-no-margin item-def">Dec 31 - Jan 17</h5> -->
+              <ion-row class="ion-justify-content-end" style="width: 65%; margin-bottom: 25px;">
+                <!-- <ion-select placeholder="-" interface="popover" [interfaceOptions]="customAlertOptions" [(ngModel)]='item.quantity'
+                  class="select">
+                  <ion-select-option *ngFor="let q of qty" (value)="q" text-center>{{q}}</ion-select-option>
+                </ion-select> -->
+                <div class="d-flex ion-justify-content-between ion-align-items-center cart-pro-quantity" [ngClass]="avaiableQty(item.product) ? '' : 'disabled hidden'"> 
+                  <!-- <div class="font-small">Số lượng:</div> -->
+                  <div class="ion-text-right font-weight-bold d-flex ion-justify-content-end">
+                    <app-quantity-input [disabled]="!avaiableQty(item.product)" (outputQty)="getQty($event, item)" [max]="item.product.qtyAvailable">
+                    </app-quantity-input>
+                  </div>
+                </div>
+              </ion-row>
+            </ion-col>
+            <ion-col class="ion-float-right">
+              <ion-row class="ion-text-end ion-justify-content-end">
+                <!-- <h3  class="ion-no-margin item-name" *ngIf="item.product.offer" text-end>{{item.product.currency}}{{fun.calculate(item.product.cost_price,
+                  item.product.discount)}}</h3>
+                <h3 class="ion-no-margin item-name" *ngIf="item.product.offer" text-end><span class="cut">{{item.product.currency}}{{item.product.cost_price}}</span></h3>
+                <h3 class="ion-no-margin item-name" *ngIf="!item.product.offer" text-end>{{item.product.currency}}{{item.product.cost_price}}</h3> -->
+                <h3 style="font-weight: 600;" class="ion-no-margin item-name ion-text-end">{{item.product.finalPrice || item.product.price | currency:'VND':'symbol'}}</h3>
+              </ion-row>
+              
+            </ion-col>
+          </ion-row>
+        </ion-item>
+        <!-- <ion-item-options side="end">
+          <ion-item-option color="danger" (click)="remove(item, j)">
+            <ion-icon name="trash" size="large"></ion-icon>
+          </ion-item-option>
+        </ion-item-options> -->
+      </ion-item-sliding>
+    </ion-list>
+    <ion-row size="12" class="ion-justify-content-center" disabled="true">
+        <ion-button style="margin-top: 10px; height: 40px;" fill="outline" color="primary" (click)="browse()">Tiếp tục mua hàng</ion-button>
+      </ion-row>
+    <ion-row class="ion-margin">
+      <ion-text><strong class="text">Chi tiết đơn hàng</strong></ion-text>
+    </ion-row>
+    <ion-item lines="none" class="ion-no-margin card">
+      <ion-row class="full">
+        <ion-col size="9">
+          <ion-input placeholder="Nhập mã giảm giá" (value)="code" class="input"></ion-input>
+        </ion-col>
+        <ion-col class="ion-align-self-center" size="3">
+          <ion-button fill="outline" expand="block" color="mytheme"><span class="small">Áp dụng</span></ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-item>
+    <div lines="none" class="card ion-no-margin ion-padding-bottom">
+      <ion-row class="ion-padding-horizontal full">
+        <ion-col size="6">
+          <ion-text>Tổng tiền</ion-text>
+        </ion-col>
+        <ion-col size="6" class="ion-text-end">
+          <ion-text>{{fix(calculate(0)) | currency:'VND':'symbol'}}</ion-text>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-padding-horizontal full">
+        <ion-col size="6">
+          <ion-text>Tổng chiết khấu</ion-text>
+        </ion-col>
+        <ion-col size="6" class="ion-text-end">
+          <ion-text>{{fix(calculate(1)) | currency:'VND':'symbol'}}</ion-text>
+        </ion-col>
+      </ion-row>
+      <!-- <ion-row class="full ion-padding-horizontal">
+        <ion-col size="9">
+          <ion-text>Phí ship</ion-text>
+        </ion-col>
+        <ion-col size="3" class="ion-text-end">
+          <ion-text>{{data[0].product.currency}}{{fix(calculate(1))}}</ion-text>
+        </ion-col>
+      </ion-row> -->
+
+      <!-- <div class="sep"></div>
+      <ion-row>
+        <ion-col>
+          <ion-text class="item-def" text-start>
+            <div class="pad">
+              By tapping 'Checkout' you aggree to the <a (click)="open_modal(true)" class="mycolor">Terms of Use</a>
+              and <a class="mycolor" (click)="open_modal(false)">Privacy Policy</a>
+            </div>
+          </ion-text>
+        </ion-col>
+      </ion-row> -->
+      <!-- <div class="sep"></div>
+      <ion-row>
+        <ion-col>
+          <ion-text class="item-def" text-start padding-bottom>
+            <div class="mycolor pad">
+              30 Day Free Return and Refund
+            </div>
+          </ion-text>
+        </ion-col>
+      </ion-row> -->
+    </div>
+  </div>
+</ion-content>
+<ion-footer *ngIf="show" (click)="fun.checkout()">
+  <ion-row style="padding: 10px;" class="full ion-padding-horizontal">
+    <ion-col size="6">
+      <ion-text style="font-size: 22px;">Tổng thanh toán</ion-text>
+    </ion-col>
+    <ion-col size="6" class="ion-text-end">
+      <ion-text style="font-size: 22px; font-weight: bold;" >{{fix(add()) | currency:'VND':'symbol'}}</ion-text>
+    </ion-col>
+  </ion-row>
+  <ion-toolbar style="text-align: center; font-weight: bold; height: 48px;" color="success">
+    <ion-title>Đặt đơn</ion-title>
+  </ion-toolbar>
+</ion-footer>

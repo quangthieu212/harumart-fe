@@ -1,0 +1,16 @@
+<app-dialog-primary [title]="'Chia sẻ'" [showCloseButton]="true">
+  <div class="dialog-body">
+    <ion-list>
+      <ion-item *ngIf="canShareImages" (click)="shareImgs()" button>
+        <ion-icon *ngIf="!doneShareImages" name="download-outline" slot="start"></ion-icon>
+        <ion-icon *ngIf="doneShareImages" name="checkmark-circle-outline" style="color: green" slot="start"></ion-icon>
+        <ion-label>Ảnh sản phẩm</ion-label>
+      </ion-item>
+      <ion-item *ngIf="canShareDescription" (click)="shareDescription()" button>
+        <ion-icon *ngIf="!doneShareDescription" name="download-outline" slot="start"></ion-icon>
+        <ion-icon *ngIf="doneShareDescription" name="checkmark-circle-outline" style="color: green" slot="start"></ion-icon>
+        <ion-label>Thông tin sản phẩm</ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
+</app-dialog-primary>

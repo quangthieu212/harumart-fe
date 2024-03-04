@@ -1,0 +1,47 @@
+<ion-header class="mybg">
+  <ion-toolbar color="mytheme">
+    <ion-buttons slot="start">
+      <ion-menu-button color="light"></ion-menu-button>
+    </ion-buttons>
+    <ion-title color="light">Chi tiết sản phẩm</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="fun.navigate('cart')">
+        <ion-icon name="cart" slot="icon-only" class="white top-btn ion-no-margin" ></ion-icon>
+      </ion-button>
+      <ion-button>
+        <ion-icon name="search" slot="icon-only" class="white top-btn ion-no-margin"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <!-- <ion-toolbar color="mytheme" class="segmenttoolbarSection">
+    <ion-segment (ionChange)="seg($event)" mode="md" scrollable="true" id="dag" class="segSection">
+      <ion-segment-button [attr.id]="'seg_' + i" *ngFor="let item of data; let i = index;" (ionSelect)="update(i)" class="my-btn ion-no-margin ion-no-padding"
+        [value]="item.title" [ngClass]="{'btn-active':segment == item.title}">
+        <ion-text padding-horizontal class="text">{{item.title}}</ion-text>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar> -->
+</ion-header>
+
+<ion-content>
+  
+  <app-spinner *ngIf="isLoading"></app-spinner>
+  
+    <app-product *ngIf="product" (notify)="onReviewClick($event)" [product]="product"></app-product>
+  
+  
+  <!-- <ion-slides *ngIf="product" pager="false" [options]="slideOpts" (ionSlideDidChange)="change()" #Slides>
+    <ion-slide>
+      
+    </ion-slide>
+    
+  </ion-slides> -->
+  
+</ion-content>
+<ion-footer class="ion-align-items-center">
+  <ion-row *ngIf="product" class="ion-align-items-center">
+    <ion-col size="12">
+      <ion-button style="height: 48px;" (click)="goToCart()" [disabled]="!product.qtyAvailable" float-right class="white foot-btn" color="orange" no-margin expand="block"><strong>Thêm vào giỏ hàng</strong></ion-button>
+    </ion-col>
+  </ion-row>
+</ion-footer>

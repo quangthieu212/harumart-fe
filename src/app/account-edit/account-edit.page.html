@@ -1,0 +1,116 @@
+<ion-header class="main-header main-header--no-border">
+  <ion-toolbar mode="ios">
+    <ion-buttons slot="start">
+      <ion-button class="backbtn" routerLink="/account" routerDirection="back">
+        <img src="../../assets/back.svg" />
+      </ion-button>
+    </ion-buttons>
+      <ion-title>Sửa thông tin</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <app-spinner *ngIf="isLoading"></app-spinner>
+    <form *ngIf="customer" [formGroup]="form" (ngSubmit)="onSubmitUpdate(form.value)">
+
+      <ion-row>
+        <ion-col>
+          <ion-input clearInput formControlName="displayName" placeholder="Họ tên"  class="input ion-padding-horizontal"></ion-input>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-input clearInput formControlName="phone" placeholder="Số điện thoại"  [disabled]="true" class="input ion-padding-horizontal"></ion-input>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-input clearInput formControlName="email" placeholder="Email" class="input ion-padding-horizontal"></ion-input>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-input clearInput formControlName="nationalId" placeholder="Số CMT/Căn cước:" class="input ion-padding-horizontal"></ion-input>
+        </ion-col>
+      </ion-row>
+
+      <!-- <ion-item class="form___input" lines="full">
+        <ion-label class="form__label" position="floating">Họ tên</ion-label>
+        <ion-input formControlName="name" type="text" required></ion-input>
+      </ion-item>
+      <div class="validation-errors">
+        <ng-container *ngFor="let validation of validation_messages.name">
+          <ion-text color="danger" style="display:block;float: none; width: 100%" class="error-message" *ngIf="form.get('name').hasError(validation.type) && (form.get('name').dirty || form.get('name').touched)">
+            <ion-icon name="information-circle-outline"></ion-icon> {{ validation.message }}
+          </ion-text>
+        </ng-container>
+      </div> -->
+
+      <!-- <ion-item class="form___input" lines="full">
+        <ion-label class="form__label" position="floating">Số điện thoại</ion-label>
+        <ion-input type="text" required></ion-input>
+      </ion-item> -->
+  
+      <!-- <ion-item class="form___input" lines="full">
+        <ion-label class="form__label" position="floating">Email</ion-label>
+        <ion-input formControlName="email" type="email"></ion-input>
+      </ion-item>
+
+      <div class="validation-errors">
+        <ng-container *ngFor="let validation of validation_messages.email">
+          <ion-text color="danger" style="display:block;float: none; width: 100%" class="error-message" *ngIf="form.get('email').hasError(validation.type) && (form.get('email').dirty || form.get('email').touched)">
+            <ion-icon name="information-circle-outline"></ion-icon> {{ validation.message }}
+          </ion-text>
+        </ng-container>
+      </div>
+
+      <ion-item class="form___input" lines="full">
+        <ion-label class="form__label" position="floating">Số CMT/Căn cước: </ion-label>
+        <ion-input formControlName="nationalId" type="nationalId"></ion-input>
+      </ion-item>
+      <div class="validation-errors">
+        <ng-container *ngFor="let validation of validation_messages.nationalId">
+          <ion-text color="danger" style="display:block;float: none; width: 100%" class="error-message" *ngIf="form.get('nationalId').hasError(validation.type) && (form.get('nationalId').dirty || form.get('nationalId').touched)">
+            <ion-icon name="information-circle-outline"></ion-icon> {{ validation.message }}
+          </ion-text>
+        </ng-container>
+      </div> -->
+  
+      <!-- Radio buttons -->
+      <ion-radio-group formControlName="gender"lines="full">
+        <ion-list-header>
+          <ion-label>Giới tính</ion-label>
+        </ion-list-header>
+  
+        <ion-item>
+          <ion-label>Nam</ion-label>
+          <ion-radio  value="male" checked></ion-radio>
+        </ion-item>
+        <ion-item>
+          <ion-label>Nữ</ion-label>
+          <ion-radio value="female"></ion-radio>
+        </ion-item>
+      </ion-radio-group>
+
+      <ion-button expand="block" class="main-button" type="submit" [disabled]="!form.valid">Cập nhật</ion-button>
+    </form>
+
+
+</ion-content>
+<ion-footer>
+  <!-- <ion-toolbar>
+      <ion-row class="ion-justify-content-center">
+          <ion-col size="7">
+              <tizo-btn-primary
+              shape="round"
+              (btnClick)="save()"
+              [disabled]="form.invalid">
+              {{'account.button.save' | translate}}
+          </tizo-btn-primary>
+          </ion-col>
+      </ion-row>
+  </ion-toolbar> -->
+</ion-footer>

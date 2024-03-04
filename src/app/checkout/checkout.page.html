@@ -1,0 +1,183 @@
+<ion-header>
+  <ion-toolbar color="mytheme">
+    <ion-buttons slot="start">
+      <ion-back-button color="light"></ion-back-button>
+    </ion-buttons>
+    <ion-title color="light">Nhập thông tin giao hàng</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <app-pspinner *ngIf="isLoading"></app-pspinner>
+  <ion-list class="ion-no-margin">
+    <div class="section-content">
+      <ion-row>
+        <ion-col>
+          <ng-select [items]="customers" bindLabel="name" notFoundText="Không tìm thấy khách hàng"
+          placeholder="Tìm kiếm khách hàng"
+          (keyup)="search($event)" (change)="changeCustomer($event)">
+          <ng-template ng-option-tmp let-item="item">
+            <ion-grid>
+              <ion-row>
+                <ion-label style="font-size: 18px;font-weight: 600;margin-left: 5px;">{{item.displayName}}</ion-label>
+              </ion-row>
+              <ion-row>
+                <ion-col class="label" size="2">SĐT: </ion-col>
+                <ion-col size="4">{{item.phone}}</ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col  class="label" size="2">Địa chỉ: </ion-col>
+                <ion-col size="10">{{item.street2}} {{item.street}}</ion-col>
+              </ion-row>
+            </ion-grid>
+        </ng-template>
+        </ng-select>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-input 
+            [(ngModel)]="customerName"
+            placeholder="Tên khách hàng" 
+            class="input ion-padding-horizontal">
+          </ion-input>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-input 
+            [(ngModel)]="customerPhone"
+            placeholder="Số điện thoại" 
+            class="input ion-padding-horizontal">
+          </ion-input>
+        </ion-col>
+      </ion-row>
+      <div [formGroup]="form">
+        <app-address-form formControlName="shippingAddress"></app-address-form>
+      </div>
+    </div>
+  </ion-list>
+  <ion-list *ngIf="paymentAcquirers && paymentAcquirers.length > 0">
+    <ion-radio-group [value]="paymentAcquirerId" allow-empty-selection="true" name="radio-group" (ionChange)="paymentAcquirerChange($event)" #radioGroup>
+      <ion-list-header>
+        <ion-label>Phương thức thanh toán</ion-label>
+      </ion-list-header>
+
+      <ion-item *ngFor="let item of paymentAcquirers" (ionSelect)="radioSelect($event)">
+        <ion-label>{{item.name}}</ion-label>
+        <ion-radio slot="start" name="{{item.name}}" value="{{item.id}}" checked="{{item.checked}}"></ion-radio>
+      </ion-item>
+
+    </ion-radio-group>
+    <ion-row *ngIf="isShowReference">
+      <ion-col>
+        <ion-input placeholder="Mã chuyển khoản" [(ngModel)]="reference"  class="input ion-padding-horizontal"></ion-input>
+      </ion-col>
+    </ion-row>
+  </ion-list>
+
+  <!-- <ion-list class="ion-no-margin">
+    <ion-radio-group>
+      <ion-list-header color="light">
+        <ion-label>Select payment method</ion-label>
+      </ion-list-header>
+
+      <ion-item *ngFor="let add of dataService.current_user.billing; let i = index;">
+        <ion-label>
+          <ion-row class="full" align-items-center>
+            <ion-col size="10">
+              <ion-row align-items-center>
+                <p no-margin><strong>XXXX-XXXX-XXXX-{{add.card_number}}</strong></p>
+              </ion-row>
+              <ion-row align-items-center>
+                <p class="small" no-margin>Expiry date: {{add.expiry_date}}</p>
+                <h6 class="small mycolor" *ngIf="i==0" padding-start no-margin>PRIMARY</h6>
+              </ion-row>
+            </ion-col>
+          </ion-row>
+        </ion-label>
+
+        <ion-radio slot="start" value="{{i}}" checked></ion-radio>
+      </ion-item>
+
+    </ion-radio-group>
+  </ion-list>
+  <ion-row justify-content-center padding-top padding-bottom>
+    <ion-text color="primary" (click)="addPayment()">
+      {{addNewPayment ? 'Cancel' : 'Add new payment method'}}
+    </ion-text>
+  </ion-row>
+
+  <div *ngIf="addNewPayment" class="add-payment-div">
+    <ion-row>
+      <ion-col>
+        <ion-text><span class="label">Credit/Debit Number</span></ion-text>
+        <ion-input class="input" padding-horizontal type="number" placeholder="Credit/Debit Number"></ion-input>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-text><span class="label">Security Code(CVV)</span></ion-text>
+        <ion-input class="input" padding-horizontal type="number" placeholder="CVV"></ion-input>
+      </ion-col>
+      <ion-col>
+        <ion-text><span class="label">Expiry Date</span></ion-text>
+        <ion-input class="input" placeholder="MM/YY" padding-horizontal></ion-input>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <h5 no-margin class="label">Billing Zip/Postal Code</h5>
+        <h6 class="small">The zip or postal code from the address registered for this card</h6>
+      </ion-col>
+      <ion-col>
+        <ion-input class="input" placeholder="Zip/Postal Code" padding-horizontal></ion-input>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="2">
+        <ion-icon name="lock" class="icon"></ion-icon>
+      </ion-col>
+      <ion-col>
+        <h5 no-margin class="label">Secure Payment</h5>
+        <h6 class="small">Trusted by over 500 million shoppers in 50 countries</h6>
+      </ion-col>
+    </ion-row>
+  </div>
+  <ion-list>
+    <ion-radio-group>
+      <ion-list-header color="light">
+        <ion-label>Delivery Address</ion-label>
+      </ion-list-header>
+
+      <ion-item *ngFor="let add of dataService.current_user.address; let i = index;">
+        <ion-label>
+          <ion-row align-items-center>
+            <p no-margin><strong>{{add.first_name}} {{add.last_name}}</strong></p>
+            <h6 class="small mycolor" *ngIf="i==0" padding-start>PRIMARY</h6>
+          </ion-row>
+          <ion-row>
+            <p no-margin>{{add.address_line_1}}, {{add.address_line_2}}</p>
+          </ion-row>
+          <ion-row>
+            <p no-margin>{{add.city}}, {{add.state}}</p>
+          </ion-row>
+          <ion-row>
+            <p no-margin>{{add.country}}</p>
+          </ion-row>
+          <ion-row>
+            <p no-margin>{{add.zipcode}}</p>
+          </ion-row>
+        </ion-label>
+
+        <ion-radio slot="start" value="{{i}}" checked></ion-radio>
+      </ion-item>
+
+    </ion-radio-group>
+  </ion-list> -->
+</ion-content>
+<ion-footer (click)="done()">
+  <ion-toolbar style="height: 48px;" color="success">
+    <ion-title>Hoàn thành</ion-title>
+  </ion-toolbar>
+</ion-footer>

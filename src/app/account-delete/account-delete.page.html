@@ -1,0 +1,32 @@
+<ion-header class="main-header main-header--no-border">
+  <ion-toolbar mode="ios">
+    <ion-buttons slot="start">
+      <ion-button class="backbtn" routerLink="/account" routerDirection="back">
+        <img src="../../assets/back.svg" />
+      </ion-button>
+    </ion-buttons>
+      <ion-title>Xoá tài khoản</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <app-spinner *ngIf="isLoading"></app-spinner>
+  <div>
+    <div style="padding: 7px;font-size: 18px;
+    font-weight: 600;
+    margin-top: 12px;">
+      <ion-icon style="color: red;" name="alert-circle-outline" slot="start"></ion-icon>
+      <ion-label style="margin-left: 7px;">Xoá tài khoản bạn sẽ: </ion-label>
+    </div>
+    <ion-grid style="margin-left: 20px;">
+      <ion-row style="padding: 3px; font-size: 16px;">1. Xoá thông tin tài khoản, tên, email, CMT.</ion-row>
+      <ion-row style="padding: 3px; font-size: 16px;">2. Xoá hết lịch sử đơn hàng.</ion-row>
+      <ion-row style="padding: 3px;">3. Số dư chiết khấu nếu còn sẽ bị huỷ.</ion-row>
+      <ion-row style="padding: 3px;">4. Bạn muốn khôi phục tài khoản cần liên hệ với bên hỗ trợ nhưng sau khi khôi phục số dư chiết khấu của bạn nếu còn sẽ bị huỷ.</ion-row>
+    </ion-grid>
+  </div>
+  <ion-button style="width: 60%; margin: auto; margin-top: 15px;" expand="block" (click)="deleteAccount()" color="danger" class="main-button">Xoá tài khoản</ion-button>
+
+</ion-content>
+<ion-footer>
+</ion-footer>

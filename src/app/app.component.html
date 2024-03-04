@@ -1,0 +1,163 @@
+
+<ion-app>
+  <ion-split-pane contentId="content">
+    <ion-menu type="push" contentId="content">
+      <ion-header>
+        <ion-toolbar color="mytheme">
+          <ion-row *ngIf="user" class="ion-padding-horizontal ion-align-items-center">
+            <ion-col size="3" class="ion-padding-vertical ion-align-items-center">
+              <ion-avatar class="ion-margin-vertical">
+                {{user?.displayName?.charAt(0).toLocaleUpperCase()}}
+              </ion-avatar>
+            </ion-col>
+            <ion-col class="ion-padding-vertical ion-align-items-center">
+              <div class="ion-margin-vertical">
+                <h4 class="medium white ion-no-margin ion-margin-start"><strong>
+                    {{user.displayName}}</strong></h4>
+                <!-- <h6 class="small white ion-no-margin ion-margin-start">Xem thông tin</h6> -->
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages">
+          <ion-item detail="false" lines="none" [routerDirection]="'root'" [routerLink]="[p.url]">
+            <ion-icon slot="start" [name]="p.icon" class="sidemenu-icon"></ion-icon>
+            <ion-label>
+              {{p.title}}
+              <ion-badge *ngIf="p.title === 'Shopping Cart'" color="danger" class="label-subtext">6</ion-badge>
+              
+              <span *ngIf="p.title === 'Wish Cash'" class="label-subtext">: <span class="mycolor">{{dataService.wish_cash.currency}}{{fun.calculate(dataService.wish_cash.amount,
+                  0)}}</span></span>
+              <span *ngIf="p.title === 'Rewards'" class="label-subtext">: <span class="mycolor">{{dataService.rewards.points}} Points</span></span>
+            </ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <div class="line"></div>
+        <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages1">
+          <ion-item detail="false" lines="none" [routerDirection]="'root'" [routerLink]="[p.url]">
+            <ion-icon slot="start" [name]="p.icon" class="sidemenu-icon"></ion-icon>
+            <ion-label>
+              {{p.title}}
+            </ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle style="position: absolute; bottom: 0; width: 100%;" auto-hide="false" menu="end">
+          <ion-item style="text-align: center; font-weight: 600;" detail="false" lines="none">
+            <ion-label>
+              Version 1.0.7
+            </ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+      </ion-content>
+    </ion-menu>
+    <ion-router-outlet id="content" main></ion-router-outlet>
+    <!-- <ion-menu side="end" type="overlay" #side>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button color="dark" (click)="back()">
+              <ion-icon name="arrow-back" *ngIf="!side_open"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+          <ion-title color="dark">Refine</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        <ion-list *ngIf="side_open">
+          <ion-item detail="true" (click)="menu(true)">
+            Color
+          </ion-item>
+          <ion-item detail="true" (click)="menu(false)">
+            Rating
+          </ion-item>
+        </ion-list>
+        <ion-list *ngIf="side_open1 && !side_open">
+          <ion-item detail="false" *ngFor="let c of colors">
+            <ion-label>{{c}}</ion-label>
+            <ion-checkbox slot="end"></ion-checkbox>
+          </ion-item>
+        </ion-list>
+        <ion-list *ngIf="!side_open1 && !side_open">
+          <ion-radio-group>
+            <ion-item detail="false">
+              <ion-label>
+                <ion-icon name="star" class="small-menu-icon" no-margin></ion-icon>
+                <ion-icon name="star" class="small-menu-icon" no-margin></ion-icon>
+                <ion-icon name="star" class="small-menu-icon" no-margin></ion-icon>
+                <ion-icon name="star" class="small-menu-icon" no-margin></ion-icon> & up
+              </ion-label>
+              <ion-radio slot="end"></ion-radio>
+            </ion-item>
+            <ion-item detail="false">
+              <ion-label>
+                <ion-icon name="star" class="small-menu-icon" no-margin></ion-icon>
+                <ion-icon name="star" class="small-menu-icon" no-margin></ion-icon>
+                <ion-icon name="star" class="small-menu-icon" no-margin></ion-icon> & up
+              </ion-label>
+              <ion-radio slot="end"></ion-radio>
+            </ion-item>
+            <ion-item detail="false">
+              <ion-label>
+                <ion-icon name="star" class="small-menu-icon" no-margin></ion-icon>
+                <ion-icon name="star" class="small-menu-icon" no-margin></ion-icon> & up
+              </ion-label>
+              <ion-radio slot="end"></ion-radio>
+            </ion-item>
+            <ion-item detail="false">
+              <ion-label>
+                <ion-icon name="star" class="small-menu-icon" no-margin></ion-icon> & up
+              </ion-label>
+              <ion-radio slot="end"></ion-radio>
+            </ion-item>
+          </ion-radio-group>
+        </ion-list>
+      </ion-content>
+      <ion-footer no-border>
+        <ion-row>
+          <ion-col size="6">
+            <ion-button color="medium" expand="block">
+              <h4 no-margin class="white medium">Clear all</h4>
+            </ion-button>
+          </ion-col>
+          <ion-col size="6">
+            <ion-button color="mytheme" expand="block">
+              <h4 no-margin class="white medium">Apply</h4>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-footer>
+    </ion-menu> -->
+
+    <ion-tabs>
+        <ion-tab-bar slot="bottom">
+          <ion-tab-button  tab="home">
+            <ion-icon name="home-outline"></ion-icon>
+            <ion-label>Home</ion-label>
+          </ion-tab-button>
+
+          <ion-tab-button tab="customers">
+            <ion-icon name="people-outline"></ion-icon>
+            <ion-label>Khách hàng</ion-label>
+          </ion-tab-button>
+      
+          <ion-tab-button tab="cart">
+            <ion-icon name="cart-outline"></ion-icon>
+            <ion-label>Giỏ hàng</ion-label>
+          </ion-tab-button>
+    
+          <ion-tab-button tab="orders">
+            <ion-icon name="list-outline"></ion-icon>
+            <ion-label>Đơn hàng</ion-label>
+          </ion-tab-button>
+      
+          <ion-tab-button tab="account">
+            <ion-icon name="person-outline"></ion-icon>
+            <ion-label>Cá nhân</ion-label>
+          </ion-tab-button>
+        </ion-tab-bar>
+    </ion-tabs>
+  </ion-split-pane>
+  
+</ion-app>

@@ -1,0 +1,16 @@
+<app-modal-search-base
+        class="ion-page"
+        title="Chọn quận/huyện"
+        searchPlaceholder="Quận/huyện"
+        (infinite)="onInfiniteScroll($event)"
+        (search)="onSearch($event)">
+
+    <ion-item
+            [attr.data-cy]="'modal-search-district-' + d.id"
+            *ngFor="let d of districts$ | async | slice : 0 :(page * perPage )"
+            (click)="clickItem(d)"
+            detail="false"
+            button>
+        {{d.name}}
+    </ion-item>
+</app-modal-search-base>

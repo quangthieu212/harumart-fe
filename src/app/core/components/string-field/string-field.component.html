@@ -1,0 +1,16 @@
+<ion-row>
+  <ion-col>
+    <ion-input 
+    [class]="inputClass"
+    [disabled]="disabled"
+    (ionFocus)="onFocus()"
+    (ionBlur)="onBlur()"
+    [readonly]="readonly"
+    [type]="type"
+    [formControl]="form"
+    [required]="required"
+    [placeholder]="placeholder" 
+      class="input ion-padding-horizontal">
+    </ion-input>
+  </ion-col>
+</ion-row>

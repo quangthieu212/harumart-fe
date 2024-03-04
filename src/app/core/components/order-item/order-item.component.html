@@ -1,0 +1,28 @@
+<ion-card class="order-item" *ngIf="order" button>
+  <ion-row class="order-item__header ion-align-items-center">
+    <div class="order-item__code">
+      Mã #{{order?.name}}
+    </div>
+    <div>
+      {{utilService.convertStringToDateTime(order.dateOrder)}}
+    </div>
+  </ion-row>
+  <ion-item *ngFor="let lineItem of order.orderLines" lines="none" detail="false">
+    <!-- <ion-avatar slot="start" class="order-item__img">
+      <img src="">
+    </ion-avatar> -->
+    <ion-label class="order-item__info">
+      <div class="order-item__name">
+        {{ lineItem.name }}
+      </div>
+      <div class="ion-margin-top order-item__price">
+        <ion-lable>SL: {{lineItem.quantity}}</ion-lable>
+        <ion-lable style="margin-left: auto; color: red;">{{lineItem.priceSubtotal| currency:'VND':'symbol'}}</ion-lable>
+      </div>
+    </ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label style="text-align: right; margin-right: 7px; font-weight: bold;">Tổng tiền: </ion-label>
+    <ion-lable style="color:red;">{{order.amountTotal| currency:'VND':'symbol'}}</ion-lable>
+  </ion-item>
+</ion-card>

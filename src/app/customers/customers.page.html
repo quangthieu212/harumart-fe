@@ -1,0 +1,99 @@
+<ion-header class="mybg">
+  <ion-toolbar color="mytheme">
+    <ion-buttons slot="start">
+      <ion-menu-button color="light"></ion-menu-button>
+    </ion-buttons>
+    <ion-title color="light">Danh sách khách hàng</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="fun.navigate('cart')">
+        <ion-icon name="cart" slot="icon-only" class="white top-btn ion-no-margin" ></ion-icon>
+      </ion-button>
+      <ion-button (click)="fun.navigate('search')">
+        <ion-icon name="search" slot="icon-only" class="white top-btn ion-no-margin"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding" color="light">
+  <!-- <ion-item lines="none" *ngFor="let order of orders" class="card ion-margin-bottom ion-no-padding" (click)="open(order)">
+    <ion-row class="ion-align-items-center">
+      <ion-col size="2">
+        <img [src]="order.product.image[0]">
+      </ion-col>
+      <ion-col>
+        <ion-row>
+          <ion-text>
+            <h5 class="title ion-no-margin"><strong>{{order.product.name}}</strong></h5>
+          </ion-text>
+        </ion-row>
+        <ion-row>
+          <ion-text>
+            <h6 class="sub ion-no-margin">{{order.status}}</h6>
+          </ion-text>
+        </ion-row>
+      </ion-col>
+      <ion-col class="ion-float-right" size="2">
+        <ion-icon class="item-icon mycolor ion-float-right" name="arrow-dropright" mode="ios"></ion-icon>
+      </ion-col>
+    </ion-row>
+  </ion-item> -->
+
+  <app-spinner *ngIf="isLoading"></app-spinner>
+  <ng-container *ngIf="isLogin; else noOrder">
+    <ion-searchbar 
+      (ionChange)="search($event)"
+      showCancelButton
+      cancelButtonText="Huỷ"
+      placeholder="Tìm khách hàng"
+      debounce="1000">
+    </ion-searchbar>
+
+    <ng-container *ngIf="(customers && customers.length > 0); else noOrder">
+      <ng-container *ngFor="let customer of customers">
+          <ion-card class="customer-item">
+            <ion-grid>
+              <ion-row>
+                <ion-label style="font-size: 18px;font-weight: 600;margin-left: 5px;">{{customer.displayName}}</ion-label>
+              </ion-row>
+              <ion-row>
+                <ion-col class="label" size="2">SĐT: </ion-col>
+                <ion-col size="4">{{customer.phone}}</ion-col>
+                <ion-col  class="label" size="3">Ngày tạo: </ion-col>
+                <ion-col size="3">{{utilService.convertStringToDate(customer.createDate)}}</ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col  class="label" size="2">Địa chỉ: </ion-col>
+                <ion-col size="10">{{customer.street2}} {{customer.street}}</ion-col>
+              </ion-row>
+            </ion-grid>
+            
+          </ion-card>
+        <app-divider [forceFullWith]="true" [innerHeight]="1" [height]="1"></app-divider>
+      </ng-container>
+    </ng-container>
+
+    <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+      <ion-infinite-scroll-content
+        loadingSpinner="bubbles"
+        loadingText="Đang tải thêm...">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+
+    <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+      <ion-infinite-scroll-content
+        loadingSpinner="bubbles"
+        loadingText="Đang tải thêm...">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </ng-container>
+  
+
+  <ng-template #noOrder>
+    <div style="margin-top: 20%; text-align: center;">
+      <ion-label *ngIf="isLogin">Bạn chưa có khách hàng nào</ion-label>
+      <ion-label *ngIf="!isLogin">Bạn cần đăng nhập</ion-label>
+    </div>
+  </ng-template>
+  
+</ion-content>

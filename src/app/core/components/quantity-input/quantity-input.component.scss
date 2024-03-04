@@ -1,0 +1,41 @@
+:host{
+    display: block;
+  }
+  .quantity-input{
+    align-items: center;
+    outline: none;
+    border: none;//1px solid #C4C4C4;
+    // border-radius: 20px;
+    width: 100%;
+    flex: 1;
+    height: 25px;
+    overflow: hidden;
+    max-width: 120px;
+    &__input{
+      outline: none;
+      border: 0;
+      width: 100%;
+      flex: 1;
+      text-align: center;
+      border: 1px solid #C4C4C4;
+      border-radius: 30px;
+      margin: 0px 7px;
+      height: 100%;
+      background: #ffffff !important;
+    }
+  }
+  ion-button{
+    margin: 0px;
+    height: 25px;
+    width: 25px;
+    --padding-start: 0;
+    --padding-end: 0;
+    background-color: #3D49B0;
+    color: #fff;
+    border-radius: 50%;
+  }
+  
+  ion-icon {
+    color: #fff;
+  }
+  

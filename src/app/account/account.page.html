@@ -1,0 +1,59 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Cá nhân</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngIf="isLogin">
+    <ion-item button (click)="goToEdit()" detail lines="none">
+      <ion-avatar>
+        {{user?.displayName.charAt(0).toLocaleUpperCase()}}
+      </ion-avatar>
+      <ion-label>
+        {{user?.displayName}}
+      </ion-label>
+      <!-- <ion-label (click)="goToEdit()">
+
+      </ion-label> -->
+    </ion-item>
+  </ion-list>
+
+  <ion-list *ngIf="isLogin">
+    <ion-item class="logout-item" button (click)="gotoPointHistory()" lines="none">
+      <ion-icon name="card-outline" slot="start"></ion-icon>
+      <ion-label>Lịch sử chiết khấu</ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-list *ngIf="isLogin">
+    <ion-item class="logout-item" button (click)="onClickLogOut()" lines="none">
+      <ion-icon src="/assets/icon/logout.svg" slot="start"></ion-icon>
+      <ion-label>Đăng xuất</ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-list *ngIf="isLogin">
+    <ion-item style="color: red;" class="logout-item" button (click)="goToDelete()" lines="none">
+      <ion-icon name="trash-outline" slot="start"></ion-icon>
+      <ion-label>Xoá tài khoản</ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-list *ngIf="!isLogin">
+    <ion-item class="logout-item" button (click)="gotoLogin()" lines="none">
+      <ion-icon src="/assets/icon/logout.svg" slot="start"></ion-icon>
+      <ion-label>Đăng nhập</ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-list></ion-list>
+<!-- 
+  <div style="margin-top: 20%; text-align: center;">
+    <ion-label *ngIf="!isLogin">Bạn vui lòng <ion-router-link (click)="gotoLogin()">đăng nhập</ion-router-link> để xem chi tiết</ion-label>
+  </div> -->
+
+</ion-content>

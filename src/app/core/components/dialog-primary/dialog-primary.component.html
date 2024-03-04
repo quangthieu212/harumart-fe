@@ -1,0 +1,27 @@
+<div class="dialog-primary-container">
+    <ion-card class="ion-no-margin dialog-primary-content">
+        <ion-toolbar mode="ios">
+            <ion-title class="ion-text-capitalize">
+              {{title}}
+                <div>
+                    <ng-content select=".dialog-sub-title"></ng-content>
+                </div>
+            </ion-title>
+            <ion-buttons slot="end" *ngIf="showCloseButton">
+                <ion-button
+                    fill="clear"
+                    color="dark"
+                    (click)="dismiss()">
+                    <ion-icon
+                        slot="icon-only"
+                        name="close-outline">
+                    </ion-icon>
+                </ion-button>
+            </ion-buttons>
+        </ion-toolbar>
+        <ion-card-content style="clear: both;">
+            <ng-content select=".dialog-body"></ng-content>
+        </ion-card-content>
+        <ng-content select=".dialog-footer"></ng-content>
+    </ion-card>
+</div>

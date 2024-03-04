@@ -1,0 +1,16 @@
+<ion-row>
+  <ion-col>
+    <ion-textarea
+    [disabled]="disabled"
+    (ionFocus)="onFocus()"
+    (ionBlur)="onBlur()"
+    [readonly]="readonly"
+    [rows]="5"
+    [formControl]="form"
+    [required]="required"
+    [placeholder]="placeholder" 
+    class="input padding-horizontal"
+    >
+    </ion-textarea>
+  </ion-col>
+</ion-row>

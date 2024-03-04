@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar *ngIf="title">
+    <ion-title>{{title}}</ion-title>
+    <ion-buttons
+      slot="end"
+      (click)="dismissModal()">
+      <ion-button>
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar
+      animated
+      debounce="500"
+      (ionChange)="onSearch($event)"
+      [value]="keyword"
+      [placeholder]="searchPlaceholder">
+    </ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ng-content></ng-content>
+  <!-- <ion-infinite-scroll (ionInfinite)="onInfiniteScroll($event)"></ion-infinite-scroll> -->
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="onInfiniteScroll($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

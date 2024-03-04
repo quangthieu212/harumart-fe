@@ -1,0 +1,26 @@
+ion-button {
+    font-weight: bold;
+}
+
+ion-avatar  {
+  display:inline-block;
+  font-size:1em;
+  width: 3em;
+  height: 3em;
+  line-height:3em;
+  text-align:center;
+  border-radius:50%;
+  background: #F9F7FD;
+  vertical-align:middle;
+  margin-right:0.8em;
+  color:#3D49B0;
+}
+
+ion-list {
+    border-top: 1px solid #F2F2F2;
+    padding: 15px 0px;
+}
+
+.logout-item {
+  margin-left: 15px;
+}

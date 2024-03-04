@@ -1,0 +1,19 @@
+<app-modal-search-base
+    class="ion-page"
+    title="Chọn Tỉnh/TP"
+    [keyword]="keyword"
+    searchPlaceholder="Tỉnh/TP"
+    (infinite)="onInfiniteScroll($event)"
+    (search)="onSearch($event)">
+    <ion-list>
+        <ion-item
+            [attr.data-cy]="'modal-search-province-' + p.id"
+            (click)="clickItem(p)"
+            *ngFor="let p of provices$ | async | slice : 0 : (page * perPage);trackBy:trackByFn"
+            button
+            [color]="selected && p.id === selected.id ? 'light' : undefined"
+            detail="false">
+            {{p.name}}
+        </ion-item>
+    </ion-list>
+</app-modal-search-base>

@@ -1,0 +1,16 @@
+<app-modal-search-base
+        class="ion-page"
+        title="Chọn Phường/Xã"
+        searchPlaceholder="Phường/Xã"
+        (infinite)="onInfiniteScroll($event)"
+        (search)="onSearch($event)"
+>
+    <ion-item
+            [attr.data-cy]="'modal-search-ward-' + w.id"
+            (click)="clickItem(w)"
+            *ngFor="let w of wards$ |  async | slice : 0 :(page * perPage );trackBy:trackByFn"
+            button
+            detail="false">
+        {{w.name}}
+    </ion-item>
+</app-modal-search-base>

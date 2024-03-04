@@ -1,0 +1,162 @@
+<ion-header class="mybg">
+  <ion-toolbar color="mytheme">
+    <ion-buttons slot="start">
+      <ion-menu-button color="light"></ion-menu-button>
+    </ion-buttons>
+    <ion-title color="light">Doanh thu</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="fun.navigate('cart')">
+        <ion-icon name="cart" slot="icon-only" class="white top-btn ion-no-margin" ></ion-icon>
+      </ion-button>
+      <ion-button (click)="fun.navigate('search')">
+        <ion-icon name="search" slot="icon-only" class="white top-btn ion-no-margin"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar *ngIf="isLogin" color="mytheme" class="segmenttoolbarSection">
+    <ion-segment style="width: 70%;" (ionChange)="seg($event)" mode="md" scrollable="true" id="dag" class="segSection">
+      <ion-segment-button [attr.id]="'seg_' + i" *ngFor="let item of statusList; let i = index;" (ionSelect)="update(i)" class="my-btn ion-no-margin ion-no-padding"
+        [value]="item.code" [ngClass]="{'btn-active':segment === item.code}">
+        <ion-text padding-horizontal class="text">{{item.title}}</ion-text>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding" color="light">
+  
+
+  <app-spinner *ngIf="isLoading"></app-spinner>
+  <ng-container *ngIf="isLogin; else notLogin">
+    <ng-container *ngIf="segment === 'ban-le'">
+      <ion-row>
+        <ion-col size="6" style="margin-top: 7px;" class="ion-padding-start">
+          <ion-text style="font-weight: bold;" class="ion-text-left">
+            <span class="price">Doanh thu tháng</span>
+          </ion-text>
+        </ion-col>
+        <ion-col size="6">
+          <ion-datetime-button datetime="datetime"></ion-datetime-button>
+          <ion-modal [keepContentsMounted]="true">
+            <ng-template>
+              <ion-datetime
+              locale="vi-VN"
+              presentation="month-year"
+              [showDefaultButtons]="true"
+              doneText="Ok"
+              cancelText="Huỷ"
+              (ionChange)="changeDate($event)"
+               id="datetime"></ion-datetime>
+            </ng-template>
+          </ion-modal>
+        </ion-col>
+      </ion-row>
+    
+      <ion-row>
+        <ion-col size="6" style="margin-top: 7px;" class="ion-padding-start">
+          <ion-text style="font-weight: bold;" class="ion-text-left">
+            <span class="price">Tổng doanh thu: </span>
+          </ion-text>
+        </ion-col>
+        <ion-col size="6">
+          <ion-text class="ion-text-left">
+            <span class="price">{{commission?.commissionRetail || 0 | currency:'VND':'symbol'}} </span>
+          </ion-text>
+        </ion-col>
+      </ion-row>
+    
+      <ion-row>
+        <ion-col size="12" style="margin-top: 7px;" class="justify-content-center align-items-center">
+          <ion-button style="height: 40px; width: 30%;" (click)="getOrders()" class="white foot-btn" color="orange" no-margin expand="block"><strong>Chi tiết</strong></ion-button>
+        </ion-col>
+      </ion-row>
+    
+      <ng-container *ngIf="isShowOrders">
+        <ng-container *ngIf="isLogin && orders && orders.length > 0; else noOrder">
+          <ng-container *ngFor="let order of orders">
+            <app-order-item [order]="order">
+            </app-order-item>
+            <app-divider [forceFullWith]="true" [innerHeight]="1" [height]="1"></app-divider>
+          </ng-container>
+        </ng-container>
+        <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+          <ion-infinite-scroll-content
+            loadingSpinner="bubbles"
+            loadingText="Đang tải thêm...">
+          </ion-infinite-scroll-content>
+        </ion-infinite-scroll>
+        <ng-template #noOrder>
+          <div style="margin-top: 20%; text-align: center;">
+            <ion-label *ngIf="isLogin">Bạn chưa có đơn hàng nào</ion-label>
+            <ion-label *ngIf="!isLogin">Bạn cần đăng nhập</ion-label>
+          </div>
+        </ng-template>
+      </ng-container>
+    </ng-container>
+  
+    <ng-container *ngIf="segment === 'nhom'">
+      <ion-row>
+        <ion-col size="6" style="margin-top: 7px;" class="ion-padding-start">
+          <ion-text style="font-weight: bold;" class="ion-text-left">
+            <span class="price">Doanh thu nhóm: </span>
+          </ion-text>
+        </ion-col>
+        <ion-col size="6">
+          <ion-text class="ion-text-left">
+            <span class="price">{{commission?.commissionGroup || 0 | currency:'VND':'symbol'}} </span>
+          </ion-text>
+        </ion-col>
+      </ion-row>
+  
+      <ion-row>
+        <ion-col size="12" style="margin-top: 7px;" class="ion-padding-start">
+          <ion-text style="font-weight: bold;" class="ion-text-left">
+            <span class="price">Chi tiết doanh thu nhóm </span>
+          </ion-text>
+        </ion-col>
+      </ion-row>
+  
+      <ion-row>
+        <ion-col>
+          <ng-container *ngIf="commission?.userSalaries; else noUserSalaries">
+            <ng-container *ngFor="let userSalary of commission.userSalaries">
+              <ion-card class="customer-item">
+                <ion-grid>
+                  <ion-row>
+                    <ion-label style="font-size: 18px;font-weight: 600;margin-left: 5px;">{{userSalary.fullName}}</ion-label>
+                  </ion-row>
+                  <!-- <ion-row>
+                    <ion-col class="label" size="2">SĐT: </ion-col>
+                    <ion-col size="4">{{userSalary.phone}}</ion-col>
+                  </ion-row> -->
+                  <ion-row>
+                    <ion-col  class="label" size="2">Doanh thu: </ion-col>
+                    <ion-col size="4">{{userSalary.commission | currency:'VND':'symbol'}}}</ion-col>
+                    <ion-col  class="label" size="2">Điểm: </ion-col>
+                    <ion-col size="4">{{userSalary.points}}}</ion-col>
+                  </ion-row>
+                </ion-grid>
+                
+              </ion-card>
+              <app-divider [forceFullWith]="true" [innerHeight]="1" [height]="1"></app-divider>
+            </ng-container>
+          </ng-container>
+          <ng-template #noUserSalaries>
+            <div style="margin-top: 20%; text-align: center;">
+              <ion-label *ngIf="isLogin">Bạn chưa có nhóm nào</ion-label>
+            </div>
+          </ng-template>
+        </ion-col>
+        
+        
+      </ion-row>
+    </ng-container>
+  </ng-container>
+  <ng-template #notLogin>
+    <div style="margin-top: 20%; text-align: center;">
+      <ion-labe>Bạn cần đăng nhập</ion-labe>
+    </div>
+  </ng-template>
+ 
+
+</ion-content>
