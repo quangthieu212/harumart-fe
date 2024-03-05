@@ -1,5 +1,5 @@
 .search-bar {
-    background-color: rgba(240, 240, 240, .5);
+    background-color: rgba(253, 253, 253, 0.9);
     border-radius: 3px;
     font-size: .9em !important;
 }
@@ -25,17 +25,20 @@
 .btn-active{
     background-color: unset;
     color: white;
-    text-decoration: underline;
-    font-weight: bold;
+    font-weight: 800;
     font-size: 21px;
-    border-radius: 3px;
-    border-bottom: 1px solid gray;
-    --indicator-color-checked:none !important;
     ion-text{
-        border-bottom: 2px solid white;
+        color: white;
         padding-bottom: 5px;
     }
 }
+ion-segment-button::part(indicator-background) {
+    background: white;
+}
+ion-segment-button.md::part(indicator-background) {
+    height: 2px;
+}
+ 
 #dag{
     scroll-behavior: smooth;
 }
