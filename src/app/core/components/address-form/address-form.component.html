@@ -18,7 +18,8 @@
       <app-string-field
         class="is-location-search"
         [disabled]="true"
-        (click)="onClickSelectProvince()"
+        [overlay]="true"
+        (clickInput)="onClickSelectProvince()"
         formControlName="name"
         placeholder="Chọn Tỉnh/TP"
         [name]="'common.label.provinceCity'"
@@ -29,7 +30,8 @@
     <ng-container formGroupName="district">
       <app-string-field
         class="is-location-search"
-        (click)="onClickSelectDistrict()"
+        [overlay]="true"
+        (clickInput)="onClickSelectDistrict()"
         formControlName="name"
         [disabled]="true"
         placeholder="Chọn Quận/Huyện"
@@ -41,7 +43,8 @@
     <ng-container formGroupName="ward">
       <app-string-field
         class="is-location-search"
-        (click)="onClickWard()"
+        [overlay]="true"
+        (clickInput)="onClickWard()"
         formControlName="name"
         [disabled]="true"
         placeholder="Chọn Phường/Xã"

@@ -92,6 +92,7 @@ export class AddressFormComponent implements OnInit, ControlValueAccessor {
   }
 
   async onClickSelectProvince() {
+    console.log('async onClickSelectProvince');
     const modal = await this.modalCtrl.create({
         component: ProvinceSearchPage,
         mode: 'ios'

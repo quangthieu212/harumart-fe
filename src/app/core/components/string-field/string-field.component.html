@@ -1,5 +1,6 @@
 <ion-row>
   <ion-col>
+    <div *ngIf="overlay" class="input-overlay" (click)="onClickInput()"></div>
     <ion-input 
     [class]="inputClass"
     [disabled]="disabled"

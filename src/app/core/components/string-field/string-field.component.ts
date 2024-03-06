@@ -35,7 +35,9 @@ export class StringFieldComponent implements OnInit, AfterViewInit, ControlValue
   @Input() autofocus: boolean;
   @Input() type = 'text';
   @Input() required: boolean;
+  @Input() overlay: boolean;
   @Output() focus = new EventEmitter();
+  @Output() clickInput = new EventEmitter();
   // @HostBinding('class.float-field-container--is-disabled') isDisabled;
   onTouch: () => void;
   form: FormControl = new FormControl('');
@@ -86,5 +88,8 @@ export class StringFieldComponent implements OnInit, AfterViewInit, ControlValue
 
   }
   onBlur() {
+  }
+  onClickInput() {
+    this.clickInput.emit();
   }
 }
