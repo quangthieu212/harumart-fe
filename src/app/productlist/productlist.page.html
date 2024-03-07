@@ -9,18 +9,18 @@
       </ng-container> -->
 
       <ng-container *ngIf="(data.productTempImage && data.productTempImage[0])">
-        <img src="{{imageUrl}}/{{data.productTempImage[0]}}" [alt]="data.name" >
+        <img style="min-height: 205px;" src="{{imageUrl}}/{{data.productTempImage[0]}}" [alt]="data.name" >
       </ng-container>
 
       <ng-container *ngIf="!(data.productTempImage && data.productTempImage[0])">
         <img src="assets/logo.svg">
       </ng-container>
 
-      <ion-card-content style="padding-left: 7px;">
+      <ion-card-content style="padding-left: 7px; height: 136px;">
         <ion-card-title>
           <ion-row>
             <ion-col class="ion-no-padding">
-              <ion-text class="ion-text-left"><span class="price">{{data.name}}</span></ion-text>
+              <ion-text class="ion-text-left"><span class="price product-name">{{data.name}}</span></ion-text>
             </ion-col>
           </ion-row>
           <ion-row *ngIf="data.productWarehouseOdoo">
