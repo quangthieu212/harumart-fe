@@ -11,6 +11,7 @@ import { ControlValueAccessor, FormBuilder, FormControl, FormGroup, NG_VALUE_ACC
 })
 export class QuantityInputComponent implements OnInit, ControlValueAccessor {
 
+  @Input() quantityValue: number = 1;
   @Input() max = 100;
   @Input() disabled;
   @Output() outputQty = new EventEmitter<number>();
@@ -26,7 +27,7 @@ export class QuantityInputComponent implements OnInit, ControlValueAccessor {
 
   initForm() {
     this.form = this.fb.group({
-      quantity: new FormControl(1)
+      quantity: new FormControl(this.quantityValue)
     });
   }
 

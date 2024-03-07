@@ -53,7 +53,7 @@
                 <div class="d-flex ion-justify-content-between ion-align-items-center cart-pro-quantity" [ngClass]="avaiableQty(item.product) ? '' : 'disabled hidden'"> 
                   <!-- <div class="font-small">Số lượng:</div> -->
                   <div class="ion-text-right font-weight-bold d-flex ion-justify-content-end">
-                    <app-quantity-input [disabled]="!avaiableQty(item.product)" (outputQty)="getQty($event, item)" [max]="item.product.qtyAvailable">
+                    <app-quantity-input [quantityValue]="item.quantity" [disabled]="!avaiableQty(item.product)" (outputQty)="getQty($event, item)" [max]="item.product.qtyAvailable">
                     </app-quantity-input>
                   </div>
                 </div>
