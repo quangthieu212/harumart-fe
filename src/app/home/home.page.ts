@@ -25,6 +25,7 @@ export class HomePage implements OnDestroy {
   index = 0;
   data: Array<HomeTab> = [];
   products: Array<Product> = [];
+  productsOrigin: Array<Product> = [];
 
   slideOpts = {
     effect: 'flip',
@@ -62,7 +63,8 @@ export class HomePage implements OnDestroy {
     .pipe(takeUntil(this.ngUnsubscribe))
     .subscribe((result: any) => {
       if (result.isSuccess) {
-        this.products = result.data.products;
+        this.productsOrigin = result.data.products;
+        this.filterProductByWarehouse();
         const totalRecords = result.totalRecords;
         this.maxPage = this.round(totalRecords/this.pageSize, 0);
         this.isLoading = false;
@@ -73,6 +75,14 @@ export class HomePage implements OnDestroy {
   async ionViewWillEnter() {
   }
 
+  filterProductByWarehouse() {
+    if (this.segment === this.data[0].title) {
+      this.products = this.productsOrigin.filter(item => item.productWarehouseOdoo.warehouseId === 18);
+    } else {
+      this.products = this.productsOrigin.filter(item => item.productWarehouseOdoo.warehouseId === 19);
+    }
+  }
+
   loadProductConfirms(infiniteScroll?) {
     this.isLoading = true;
     this.productFilter.pageNumber = this.pageNumber;
@@ -80,7 +90,8 @@ export class HomePage implements OnDestroy {
       if (result.isSuccess) {
         const totalRecords = result.totalRecords;
         this.maxPage = this.round(totalRecords/this.pageSize, 0);
-        this.products = this.products.concat(result.data.products);
+        this.productsOrigin = this.products.concat(result.data.products);
+        this.filterProductByWarehouse();
       }
       if (infiniteScroll) {
         infiniteScroll.target.complete();
@@ -95,7 +106,12 @@ export class HomePage implements OnDestroy {
   }
 
   seg(event) {
+    if (event.detail.value === this.segment) {
+      return;
+    }
     this.segment = event.detail.value;
+    this.products = [];
+    this.filterProductByWarehouse();
   }
 
   drag() {

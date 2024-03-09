@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 export interface HomeTab {
   // id: string;
+  code?: string;
   title: string;
 };
 
@@ -149,8 +150,14 @@ export class DataService {
   ]
 
   tabs: Array<HomeTab> = [
-    { title: 'Danh sách sản phẩm' },
-  { title: 'Sản phẩm bán chạy' }
+    {
+      code: 'HN',
+      title: 'sản phẩm kho HN'
+    },
+    {
+      code: 'HN',
+      title: 'sản phẩm kho HCM'
+    }
   // { title: 'Sản phẩm yêu thích' },
   // { title: 'Automotive' },
   // { title: 'Bottoms' },
