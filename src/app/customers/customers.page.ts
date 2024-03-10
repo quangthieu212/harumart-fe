@@ -33,7 +33,8 @@ export class CustomersPage implements OnInit, OnDestroy {
     //   phone: '0987654567',
     //   street: 'Minh Khai, HBT, HN',
     //   street2: 'So 2',
-    //   name: 'Nguyen Van A'
+    //   name: 'Nguyen Van A',
+    //   createDate: new Date()
     // }
   ];
   isLoading = false;
@@ -47,6 +48,7 @@ export class CustomersPage implements OnInit, OnDestroy {
   filter = {
     pageSize: this.pageSize,
     pageNumber: this.pageNumber,
+    type: 'daily',
     searchValue: ''
   };
   ngUnsubscribe = new Subject();

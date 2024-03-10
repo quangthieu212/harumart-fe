@@ -13,7 +13,7 @@ export class CustomerService {
     ) {}
 
     searchCustomer(filter) {
-        return this.http.post(`${environment.apiUrl}/v1/Partner/search`, filter);
+        return this.http.post(`${environment.apiUrl}/v1/Users/listCustomer`, filter);
     }
 
     createAddress(data: PartnerRequest) {
