@@ -54,7 +54,7 @@
           <ion-card class="customer-item">
             <ion-grid>
               <ion-row>
-                <ion-label style="font-size: 18px;font-weight: 600;margin-left: 5px;">{{customer.displayName}}</ion-label>
+                <ion-label style="font-size: 18px;font-weight: 600;margin-left: 5px;">{{customer.displayName || customer.display_name}}</ion-label>
               </ion-row>
               <ion-row>
                 <ion-col class="label" size="2">SĐT: </ion-col>

@@ -1,7 +1,8 @@
 export interface Customer {
     id?: string;
     name: string;
-    displayName: string;
+    displayName?: string;
+    display_name?: string;
     email?: string;
     gender?: string;
     nationalId?: string;
