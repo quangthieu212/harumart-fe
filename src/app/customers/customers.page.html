@@ -60,7 +60,7 @@
                 <ion-col class="label" size="2">SĐT: </ion-col>
                 <ion-col size="4">{{customer.phone}}</ion-col>
                 <ion-col  class="label" size="3">Ngày tạo: </ion-col>
-                <ion-col size="3">{{utilService.convertStringToDate(customer.createDate)}}</ion-col>
+                <ion-col size="3">{{utilService.convertStringToDate(customer.createDate || customer.create_date)}}</ion-col>
               </ion-row>
               <ion-row>
                 <ion-col  class="label" size="2">Địa chỉ: </ion-col>

@@ -11,6 +11,7 @@ export interface Customer {
     street: string;
     street2: string;
     createDate: Date;
+    create_date: Date;
 }
 
 export interface CustomerFilter {
