@@ -51,7 +51,7 @@ const routes: Routes = [
   { path: 'account-delete',loadChildren: () => import('./account-delete/account-delete.module').then( m => m.AccountDeletePageModule)},
   { path: 'account-point',loadChildren: () => import('./account-point/account-point.module').then( m => m.AccountPointPageModule)},
   { path: 'point-history',loadChildren: () => import('./point-histories/point-histories.module').then( m => m.PointHistoriesPageModule)},
-  { path: 'info-tii',loadChildren: () => import('./info-tii/info-tii.module').then( m => m.InfoTiiPageModule)},
+  { path: 'info-app',loadChildren: () => import('./info-app/info-app.module').then( m => m.InfoAppPageModule)},
 
 ];
 

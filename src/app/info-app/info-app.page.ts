@@ -3,11 +3,11 @@ import { FunctionsService } from '../functions.service';
 
 
 @Component({
-  selector: 'app-info-tii',
-  templateUrl: './info-tii.page.html',
-  styleUrls: ['./info-tii.page.scss'],
+  selector: 'app-info-app',
+  templateUrl: './info-app.page.html',
+  styleUrls: ['./info-app.page.scss'],
 })
-export class InfoTiiPage implements OnInit {
+export class InfoAppPage implements OnInit {
   constructor(
     public fun: FunctionsService
   ) { }

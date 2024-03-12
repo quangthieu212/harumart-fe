@@ -101,12 +101,12 @@ export class AppComponent implements OnInit, OnDestroy {
       const userData = await this.auth.getUser();
       if (userData) {
         this.appPages1 = [
-          { title: 'Thông tin về Tii', url: '/info-tii', icon: 'information' }
+          { title: 'Thông tin về Harumart', url: '/info-app', icon: 'information' }
         ];
         this.user = userData;
       } else {
         this.appPages1 = [
-          { title: 'Thông tin về Tii', url: '/info-tii', icon: 'information' },
+          { title: 'Thông tin về Harumart', url: '/info-app', icon: 'information' },
           { title: 'Đăng nhập', url: '/login', icon: 'log-in' }
         ];
       }

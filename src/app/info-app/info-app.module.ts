@@ -4,14 +4,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { InfoTiiPage } from './info-tii.page';
+import { InfoAppPage } from './info-app.page';
 import { ComponentsModule } from '../core/components/components.module';
 import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
     path: '',
-    component: InfoTiiPage
+    component: InfoAppPage
   }
 ];
 
@@ -24,6 +24,6 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     ComponentsModule
   ],
-  declarations: [InfoTiiPage]
+  declarations: [InfoAppPage]
 })
-export class InfoTiiPageModule {}
+export class InfoAppPageModule {}
