@@ -58,7 +58,7 @@
     </div>
   </ion-list>
   <ion-list *ngIf="paymentAcquirers && paymentAcquirers.length > 0">
-    <ion-radio-group [value]="paymentAcquirerId" allow-empty-selection="true" name="radio-group" (ionChange)="paymentAcquirerChange($event)" #radioGroup>
+    <ion-radio-group [value]="paymentAcquirerId" name="radio-group" (ionChange)="paymentAcquirerChange($event)" #radioGroup>
       <ion-list-header>
         <ion-label>Phương thức thanh toán</ion-label>
       </ion-list-header>
