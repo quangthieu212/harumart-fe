@@ -26,14 +26,10 @@
 .btn-active{
     background-color: unset;
     color: white !important;
-    text-decoration: underline;
-    font-weight: bold;
-    border-radius: 3px;
+    font-weight: 800;
     font-size: 21px;
-    border-bottom: 1px solid gray;
-    --indicator-color-checked:none !important;
     ion-text{
-        border-bottom: 2px solid white;
+        color: white;
         padding-bottom: 5px;
     }
 }
@@ -51,6 +47,13 @@
     width: fit-content;
     --background-checked: transparent;
     min-height: 25px;
+}
+
+ion-segment-button::part(indicator-background) {
+    background: white;
+}
+ion-segment-button.md::part(indicator-background) {
+    height: 2px;
 }
 .hor-scroll{
     height: 30px;
