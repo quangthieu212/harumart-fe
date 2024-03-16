@@ -85,5 +85,6 @@ export interface OrderLine {
     priceTotal: number;
     discount: number;
     productImageOdoo?: Array<ProductImageOdoo>;
+    state: string;
 }
 

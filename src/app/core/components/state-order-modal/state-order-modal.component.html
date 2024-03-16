@@ -1,0 +1,25 @@
+<div class="timeline-wrapper">
+  <ul class="StepProgress">
+    <li class="StepProgress-item" [ngClass]="{'is-done': state >= 0}">
+      <div class="bold">Đã xác nhận</div>
+    </li>
+    <li class="StepProgress-item" [ngClass]="{'is-done': state >= 1}">
+      <div class="bold">Nhận đơn</div>
+    </li>
+    <li class="StepProgress-item" [ngClass]="{'is-done': state >= 2}">
+      <div class="bold">Chờ lấy hàng</div>
+    </li>
+    <li class="StepProgress-item" [ngClass]="{'is-done': state >= 3}">
+      <div class="bold">Không lấy được hàng</div>
+    </li>
+    <li class="StepProgress-item" [ngClass]="{'is-done': state >= 4}">
+      <div class="bold">Chờ giao hàng</div>
+    </li>
+    <li class="StepProgress-item" [ngClass]="{'is-done': state >= 5}">
+      <div class="bold">Đang giao hàng</div>
+    </li>
+    <li class="StepProgress-item" [ngClass]="{'is-done': state >= 6}">
+      <div class="bold">Không giao được hàng</div>
+    </li>
+  </ul>
+</div>

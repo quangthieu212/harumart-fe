@@ -7,6 +7,7 @@ import { OrderItemComponent } from './order-item/order-item.component';
 import { DividerComponent } from './divider/divider.component';
 import { DialogPrimaryComponent } from './dialog-primary/dialog-primary.component';
 import { ProductShareModalComponent } from './product-share-modal/product-share-modal.component';
+import { StateOrderModalComponent } from './state-order-modal/state-order-modal.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { ProductShareModalComponent } from './product-share-modal/product-share-
     OrderItemComponent,
     DividerComponent,
     DialogPrimaryComponent,
-    ProductShareModalComponent
+    ProductShareModalComponent,
+    StateOrderModalComponent
   ],
   imports: [
     FormsModule,

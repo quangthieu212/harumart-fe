@@ -7,22 +7,33 @@
       {{utilService.convertStringToDateTime(order.dateOrder)}}
     </div>
   </ion-row>
-  <ion-item *ngFor="let lineItem of order.orderLines" lines="none" detail="false">
-    <!-- <ion-avatar slot="start" class="order-item__img">
-      <img src="">
-    </ion-avatar> -->
-    <ion-label class="order-item__info">
-      <div class="order-item__name">
-        {{ lineItem.name }}
+  <ng-container *ngFor="let lineItem of order.orderLines">
+    <ion-item lines="none" detail="false">
+      <!-- <ion-avatar slot="start" class="order-item__img">
+        <img src="">
+      </ion-avatar> -->
+      <ion-label class="order-item__info">
+        <div class="order-item__name">
+          {{ lineItem.name }}
+        </div>
+        <div class="ion-margin-top order-item__price">
+          <ion-lable>SL: {{lineItem.quantity}}</ion-lable>
+          <ion-lable style="margin-left: auto; color: red;">{{lineItem.priceSubtotal| currency:'VND':'symbol'}}</ion-lable>
+        </div>
+      </ion-label>
+    </ion-item>
+    <ion-item *ngIf="lineItem.state !== 'draft'" (click)="showModalTimeLine(lineItem)">
+      <div style="display: flex; justify-content: space-between; width: 100%;color: #108a61;">
+        <span>
+          {{STATE_SALE_ORDER[lineItem.state]}}
+        </span>
+        <span>></span>
       </div>
-      <div class="ion-margin-top order-item__price">
-        <ion-lable>SL: {{lineItem.quantity}}</ion-lable>
-        <ion-lable style="margin-left: auto; color: red;">{{lineItem.priceSubtotal| currency:'VND':'symbol'}}</ion-lable>
-      </div>
-    </ion-label>
-  </ion-item>
+    </ion-item>
+  </ng-container>
   <ion-item>
     <ion-label style="text-align: right; margin-right: 7px; font-weight: bold;">Tổng tiền: </ion-label>
     <ion-lable style="color:red;">{{order.amountTotal| currency:'VND':'symbol'}}</ion-lable>
   </ion-item>
 </ion-card>
+
