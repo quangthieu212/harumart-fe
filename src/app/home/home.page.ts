@@ -29,6 +29,16 @@ export class HomePage implements OnDestroy {
 
   slideOpts = {
     effect: 'flip',
+    speed: 400,
+    loop: true,
+    autoplay: {
+      delay: 2500,
+      disableOnInteraction: false,
+    },
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+    },
     zoom: false
   };
 
@@ -129,9 +139,9 @@ export class HomePage implements OnDestroy {
   }
 
   async change() {
-    await this.slides.getActiveIndex().then(data => this.index = data);
-    this.segment = this.data[this.index].title;
-    this.drag();
+    // await this.slides.getActiveIndex().then(data => this.index = data);
+    // this.segment = this.data[this.index].title;
+    // this.drag();
   }
 
   // eslint-disable-next-line @typescript-eslint/naming-convention

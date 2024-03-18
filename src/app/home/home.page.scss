@@ -52,6 +52,18 @@ ion-segment-button.md::part(indicator-background) {
     }
 }
 
+ion-slides {
+    margin-top: 10px;
+}
+
+.slide-banner {
+    padding: 0 5px;
+    width: 100%;
+    img {
+        width: 100%;
+    }
+}
+
 // ion-infinite-scroll-content {
 //     min-height: 0px !important;
 // }

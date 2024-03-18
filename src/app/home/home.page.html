@@ -27,11 +27,23 @@
 
   <app-spinner *ngIf="isLoading"></app-spinner>
 
-  <!-- <ion-slides pager="false" [options]="slideOpts" (ionSlideDidChange)="change()" (click)="preventDefault($event)" #Slides>
+  <ion-slides pager="true" [options]="slideOpts" (ionSlideDidChange)="change()" (click)="preventDefault($event)" #Slides>
     <ion-slide>
-      
+      <div class="slide-banner">
+        <img src="assets/images/banner-web-01a.jpg" alt="">
+      </div>
     </ion-slide>
-  </ion-slides> -->
+    <ion-slide>
+      <div class="slide-banner">
+        <img src="assets/images/banner-web-02a.jpg" alt="">
+      </div>
+    </ion-slide>
+    <ion-slide>
+      <div class="slide-banner">
+        <img src="assets/images/banner-web-03a.jpg" alt="">
+      </div>
+    </ion-slide>
+  </ion-slides>
   <app-productlist [recieved_data]="products"></app-productlist>
 
 <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
