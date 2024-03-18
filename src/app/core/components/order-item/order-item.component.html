@@ -22,7 +22,7 @@
         </div>
       </ion-label>
     </ion-item>
-    <ion-item *ngIf="lineItem.state !== 'draft'" (click)="showModalTimeLine(lineItem)">
+    <ion-item *ngIf="segment === 'sale'" (click)="showModalTimeLine(lineItem)">
       <div style="display: flex; justify-content: space-between; width: 100%;color: #108a61;">
         <span>
           {{STATE_SALE_ORDER[lineItem.state]}}

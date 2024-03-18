@@ -11,6 +11,7 @@ import { StateOrderModalComponent } from '../state-order-modal/state-order-modal
 })
 export class OrderItemComponent implements OnInit {
   @Input() order: SaleOrder;
+  @Input() segment: string;
   STATE_SALE_ORDER = {
     sale: 'Đã xác nhận',
     sale_accept: 'Nhận đơn',

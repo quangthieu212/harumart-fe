@@ -50,7 +50,7 @@
   <app-spinner *ngIf="isLoading"></app-spinner>
   <ng-container *ngIf="isLogin && orders && orders.length > 0; else noOrder">
     <ng-container *ngFor="let order of orders">
-      <app-order-item [order]="order">
+      <app-order-item [order]="order" [segment]="segment">
       </app-order-item>
       <app-divider [forceFullWith]="true" [innerHeight]="1" [height]="1"></app-divider>
     </ng-container>
