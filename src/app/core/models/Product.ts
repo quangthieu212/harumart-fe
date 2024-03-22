@@ -108,4 +108,5 @@ export class ProductSearchFilter {
     priceFromValue?: number;
     priceToValue?: number;
     unitId?: string;
+    producer?: string;
 }

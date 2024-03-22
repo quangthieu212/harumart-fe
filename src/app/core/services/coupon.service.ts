@@ -13,7 +13,6 @@ export class CouponService {
   ) { }
 
   getVoucher(user: any) {
-    console.log(user);
     let httpParams = new HttpParams();
     httpParams = httpParams.append('userName', user.userName);
     return this.http.get(`${environment.apiUrl}/v1/Orders/get-vouchers`, {params: httpParams});

@@ -59,6 +59,9 @@
       </div>
     </ion-slide>
   </ion-slides>
+  <ion-text *ngIf="producer" class="ion-text-left" color="primary">
+    <h6 style="padding-left: 3px; margin-bottom: 0">{{ producer | titlecase }}</h6>
+  </ion-text>
   <app-productlist [recieved_data]="products"></app-productlist>
 
 <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">

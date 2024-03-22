@@ -18,7 +18,6 @@ const routes: Routes = [
   { path: 'cart', loadChildren: () => import('./cart/cart.module').then(x => x.CartPageModule) },
   { path: 'productdetail/:id', loadChildren: () => import('./productdetail/productdetail.module').then(x => x.ProductdetailPageModule) },
   { path: 'productlist', loadChildren: () => import('./productlist/productlist.module').then(x => x.ProductlistPageModule) },
-  { path: 'outstanding-products/:producer', loadChildren: () => import('./outstanding-products/outstanding-products.module').then(x => x.OutstandingProductsModule) },
   { path: 'search', loadChildren: () => import('./search/search.module').then(x => x.SearchPageModule) },
   // { path: 'notification', loadChildren: () => import('./notification/notification.module').then(x => x.NotificationPageModule) },
   // { path: 'NewAddress/:id', loadChildren: () => import('./new-address/new-address.module').then(x => x.NewAddressPageModule) },

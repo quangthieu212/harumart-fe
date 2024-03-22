@@ -49,7 +49,7 @@ export class HomePage implements OnDestroy {
   slideOpts = {
     effect: 'flip',
     speed: 400,
-    loop: true,
+    loop: false,
     autoplay: {
       delay: 2500,
       disableOnInteraction: false,
@@ -64,7 +64,7 @@ export class HomePage implements OnDestroy {
   slideVouchers = {
     effect: 'flip',
     speed: 400,
-    loop: true,
+    loop: false,
     pagination: {
       el: '.swiper-paginationsss',
       clickable: true,
@@ -82,6 +82,8 @@ export class HomePage implements OnDestroy {
     pageSize: this.pageSize,
     pageNumber: this.pageNumber
   };
+
+  producer: string;
 
   vouchers: any;
 
@@ -105,19 +107,34 @@ export class HomePage implements OnDestroy {
       this.segment = this.data[0].title;
     }
 
+    this.activatedRoute.queryParams.subscribe((params) => {
+      if (params.producer) {
+        this.producer = params.producer;
+      } else {
+        this.producer = null;
+      }
+      this.getData();
+    });
+
     this.isLoading = true;
     this.getVouchers();
-    this.productService.searchProduct('', this.productFilter)
-    .pipe(takeUntil(this.ngUnsubscribe))
-    .subscribe((result: any) => {
-      if (result.isSuccess) {
-        this.productsOrigin = result.data.products;
-        this.filterProductByWarehouse();
-        const totalRecords = result.totalRecords;
-        this.maxPage = this.round(totalRecords/this.pageSize, 0);
-        this.isLoading = false;
-      }
-    });
+  }
+
+  getData() {
+    this.productService.searchProduct('', {
+      ...this.productFilter,
+      producer: this.producer
+    })
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((result: any) => {
+        if (result.isSuccess) {
+          this.products = result.data.products;
+          // this.filterProductByWarehouse();
+          const totalRecords = result.totalRecords;
+          this.maxPage = this.round(totalRecords/this.pageSize, 0);
+          this.isLoading = false;
+        }
+      });
   }
 
   async getVouchers() {
@@ -146,12 +163,15 @@ export class HomePage implements OnDestroy {
   loadProductConfirms(infiniteScroll?) {
     this.isLoading = true;
     this.productFilter.pageNumber = this.pageNumber;
-    this.productService.searchProduct('', this.productFilter).subscribe((result: any) => {
+    this.productService.searchProduct('', {
+      ...this.productFilter,
+      producer: this.producer
+    }).subscribe((result: any) => {
       if (result.isSuccess) {
         const totalRecords = result.totalRecords;
         this.maxPage = this.round(totalRecords/this.pageSize, 0);
-        this.productsOrigin = this.products.concat(result.data.products);
-        this.filterProductByWarehouse();
+        this.products = this.products.concat(result.data.products);
+        // this.filterProductByWarehouse();
       }
       if (infiniteScroll) {
         infiniteScroll.target.complete();
@@ -226,6 +246,6 @@ export class HomePage implements OnDestroy {
   }
 
   goToOutstandingProductsPage(banner) {
-    this.nav.navigateForward('/outstanding-products/' + banner.producer);
+    this.nav.navigateForward('/home', {queryParams: {producer: banner.producer}});
   }
 }
