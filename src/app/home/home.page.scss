@@ -38,7 +38,7 @@ ion-segment-button::part(indicator-background) {
 ion-segment-button.md::part(indicator-background) {
     height: 2px;
 }
- 
+
 #dag{
     scroll-behavior: smooth;
 }
@@ -64,6 +64,53 @@ ion-slides {
         width: 100%;
         border-radius: 9px;
     }
+}
+.voucher-slide {
+    width: 360px !important;
+}
+.card-voucher {
+  width: 100%;
+  margin: 1px 5px 3px 5px;
+  display: flex;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+
+  &-icon {
+    width: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px dashed #cccccc;
+  }
+
+  &-content {
+    padding: 5px 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 70%;
+
+    &-title {
+        font-size: 15px;
+        padding: 5px 0;
+        text-align: left;
+    }
+    &-code {
+        font-size: 13px;
+        text-align: left;
+        color: #555555;
+    }
+    &-bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        &-date {
+            font-size: 13px;
+            text-align: left;
+            color: #555555;
+        }
+    }
+  }
 }
 
 // ion-infinite-scroll-content {

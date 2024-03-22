@@ -1,6 +1,6 @@
 
 import { Component, OnDestroy, ViewChild } from '@angular/core';
-import { MenuController, IonSlides, IonInfiniteScroll } from '@ionic/angular';
+import {MenuController, IonSlides, IonInfiniteScroll, NavController} from '@ionic/angular';
 import { FunctionsService } from '../functions.service';
 import { DataService, HomeTab } from '../data.service';
 import { ActivatedRoute } from '@angular/router';
@@ -8,6 +8,24 @@ import { Subject } from 'rxjs';
 import { ProductService } from '../core/services/product.service';
 import { takeUntil } from 'rxjs/operators';
 import { Product } from '../core/models/Product';
+import {CouponService} from '../core/services/coupon.service';
+import {AuthService} from '../core/services/auth.service';
+import {UtilService} from '../core/services/util.service';
+
+const LIST_BANNER = [
+  {
+    image: 'assets/images/banner-web-01a.jpg',
+    producer: 'sofaco'
+  },
+  {
+    image: 'assets/images/banner-web-02a.jpg',
+    producer: 'novare'
+  },
+  {
+    image: 'assets/images/banner-web-03a.jpg',
+    producer: 'purecle'
+  }
+];
 
 @Component({
   selector: 'app-home',
@@ -21,6 +39,7 @@ export class HomePage implements OnDestroy {
 
   ngUnsubscribe = new Subject();
 
+  banners = LIST_BANNER;
   segment = '';
   index = 0;
   data: Array<HomeTab> = [];
@@ -36,7 +55,18 @@ export class HomePage implements OnDestroy {
       disableOnInteraction: false,
     },
     pagination: {
-      el: ".swiper-pagination",
+      el: '.swiper-paginationsss',
+      clickable: true,
+    },
+    zoom: false
+  };
+
+  slideVouchers = {
+    effect: 'flip',
+    speed: 400,
+    loop: true,
+    pagination: {
+      el: '.swiper-paginationsss',
       clickable: true,
     },
     zoom: false
@@ -53,12 +83,19 @@ export class HomePage implements OnDestroy {
     pageNumber: this.pageNumber
   };
 
+  vouchers: any;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private menuCtrl: MenuController,
     public fun: FunctionsService,
     private productService: ProductService,
-    public dataService: DataService) {
+    public dataService: DataService,
+    private couponService: CouponService,
+    private authService: AuthService,
+    public utilService: UtilService,
+    private nav: NavController,
+  ) {
 
     this.data = dataService.tabs;
     const d = this.activatedRoute.snapshot.paramMap.get('id');
@@ -69,6 +106,7 @@ export class HomePage implements OnDestroy {
     }
 
     this.isLoading = true;
+    this.getVouchers();
     this.productService.searchProduct('', this.productFilter)
     .pipe(takeUntil(this.ngUnsubscribe))
     .subscribe((result: any) => {
@@ -82,6 +120,18 @@ export class HomePage implements OnDestroy {
     });
   }
 
+  async getVouchers() {
+    const user = await this.authService.getUser();
+    this.couponService.getVoucher(user)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(
+        (result) => {
+          this.vouchers = result || [];
+        }
+      );
+
+  }
+
   async ionViewWillEnter() {
   }
 
@@ -89,7 +139,7 @@ export class HomePage implements OnDestroy {
     if (this.segment === this.data[0].title) {
       this.products = this.productsOrigin.filter(item => item.productWarehouseOdoo.warehouseId === 18);
     } else {
-      this.products = this.productsOrigin.filter(item => item.productWarehouseOdoo.warehouseId === 19);
+      this.products = this.productsOrigin.filter(item => item.productWarehouseOdoo.warehouseId === 17);
     }
   }
 
@@ -173,5 +223,9 @@ export class HomePage implements OnDestroy {
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+  }
+
+  goToOutstandingProductsPage(banner) {
+    this.nav.navigateForward('/outstanding-products/' + banner.producer);
   }
 }

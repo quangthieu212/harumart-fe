@@ -1,0 +1,25 @@
+<ion-header class="mybg">
+  <ion-toolbar color="mytheme">
+    <ion-buttons slot="end">
+      <ion-button (click)="fun.navigate('cart')">
+        <ion-icon name="cart" slot="icon-only" class="white top-btn ion-no-margin"></ion-icon>
+      </ion-button>
+      <!-- <ion-button (click)="side_open()">
+        <ion-icon name="switch" slot="icon-only" *ngIf="segment!==data[1].title" class="white top-btn ion-no-margin"></ion-icon>
+      </ion-button> -->
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding color="light">
+
+  <app-spinner *ngIf="isLoading"></app-spinner>
+  <app-productlist [recieved_data]="products"></app-productlist>
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Đang tải thêm...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>
