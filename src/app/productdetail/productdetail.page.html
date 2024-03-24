@@ -27,7 +27,7 @@
   
   <app-spinner *ngIf="isLoading"></app-spinner>
   
-    <app-product *ngIf="product" (notify)="onReviewClick($event)" [product]="product"></app-product>
+    <app-product *ngIf="product" (notify)="onReviewClick($event)" [product]="product" (selectWarehouse)="selecWarehouse($event)"></app-product>
   
   
   <!-- <ion-slides *ngIf="product" pager="false" [options]="slideOpts" (ionSlideDidChange)="change()" #Slides>
@@ -41,7 +41,7 @@
 <ion-footer class="ion-align-items-center">
   <ion-row *ngIf="product" class="ion-align-items-center">
     <ion-col size="12">
-      <ion-button style="height: 48px;" (click)="goToCart()" [disabled]="!product.qtyAvailable" float-right class="white foot-btn" color="orange" no-margin expand="block"><strong>Thêm vào giỏ hàng</strong></ion-button>
+      <ion-button style="height: 48px;" (click)="goToCart()" [disabled]="!currentWarehouse || (currentWarehouse && !currentWarehouse.qtyAvailable)" float-right class="white foot-btn" color="orange" no-margin expand="block"><strong>Thêm vào giỏ hàng</strong></ion-button>
     </ion-col>
   </ion-row>
 </ion-footer>

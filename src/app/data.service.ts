@@ -47,7 +47,15 @@ export interface Product {
     large: number
   },
   buyer_guarantee: string,
-  sponsored: Array<Product>
+  sponsored: Array<Product>,
+  map_products?: Array<MapProduct>;
+}
+
+export interface MapProduct {
+  id: string,
+  odooId: string,
+  productTmplId: number,
+  warehouseId: number
 }
 
 export interface Review {

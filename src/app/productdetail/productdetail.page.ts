@@ -4,10 +4,11 @@ import { DataService, HomeTab } from '../data.service';
 import { IonSlides, MenuController, NavController, IonContent } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { ProductService } from '../core/services/product.service';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { Product } from '../core/models/Product';
+import { Subject, forkJoin } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
+import { MapProduct, Product } from '../core/models/Product';
 import { CartService } from '../core/services/cart.service';
+import { MapProductsService } from '../core/services/map-products.service';
 
 @Component({
   selector: 'app-productdetail',
@@ -32,6 +33,8 @@ export class ProductdetailPage implements OnInit, OnDestroy {
   isLoading = false;
   productId: string;
   product: Product;
+  mapProducts: MapProduct[];
+  currentWarehouse: MapProduct;
 
   constructor(
     private menuCtrl: MenuController,
@@ -40,7 +43,8 @@ export class ProductdetailPage implements OnInit, OnDestroy {
     private nav: NavController,
     private productService: ProductService,
     private activatedRoute: ActivatedRoute,
-    private cartService: CartService
+    private cartService: CartService,
+    private mapProductsService: MapProductsService
     ) {
 
     this.productId = this.activatedRoute.snapshot.paramMap.get('id');
@@ -56,11 +60,19 @@ export class ProductdetailPage implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.isLoading = true;
+    this.mapProducts = this.mapProductsService.getLastMapProductsValue();
     this.productService.getProductById(this.productId)
     .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((result: any) => {
         if (result.isSuccess) {
-          this.product = result.data;
+          if (this.mapProducts) {
+            this.getQtyAvailable().subscribe((res: any) => {
+              this.product = result.data;
+              this.product.mapsProducts = res;
+            });
+          } else {
+            this.product = result.data;
+          }
         }
     },
     (e) => {
@@ -70,6 +82,23 @@ export class ProductdetailPage implements OnInit, OnDestroy {
       this.isLoading = false;
     }
     );
+  }
+
+  getQtyAvailable() {
+    const mapProductsObs = [];
+    this.mapProducts.forEach((mapProduct) => {
+      mapProductsObs.push(this.productService.getProductById(mapProduct.id).pipe(
+        takeUntil(this.ngUnsubscribe),
+        map(
+          (res: any) => ({
+            ...mapProduct,
+            qtyAvailable: res.data.qtyAvailable
+            })
+        )
+      ));
+    });
+
+    return forkJoin(mapProductsObs);
   }
 
   ionViewDidEnter() {
@@ -92,9 +121,19 @@ export class ProductdetailPage implements OnInit, OnDestroy {
 
   }
 
+  selecWarehouse(value) {
+    this.currentWarehouse = value;
+  }
+
   async goToCart() {
-    await this.cartService.addProductToCart(this.product);
-    this.fun.navigate('cart', false);
+    this.productService.getProductById(this.currentWarehouse.id).pipe(takeUntil(this.ngUnsubscribe)).subscribe(
+      async (result: any) => {
+        if (result.isSuccess) {
+          await this.cartService.addProductToCart(result.data);
+          this.fun.navigate('cart', false);
+        }
+    }
+    );
   }
 
   update(i) {

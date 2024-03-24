@@ -51,7 +51,16 @@ export interface Product {
     partnerPointOdoo?: string;
     partnerDiscountOdoo: number;
     agentDiscountOdoo: number;
+    mapsProducts?: MapProduct[];
 }
+
+export class MapProduct {
+    id: string;
+    odooId: string;
+    productTmplId: number;
+    warehouseId: number;
+    qtyAvailable?: number;
+  }
 
 export class ProductCategoryOdoo {
     categoryId: number;

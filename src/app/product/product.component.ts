@@ -3,7 +3,7 @@ import { DataService } from '../data.service';
 import { FunctionsService } from '../functions.service';
 import { IonSlides, AlertController, ModalController } from '@ionic/angular';
 import { SocialSharing } from '@awesome-cordova-plugins/social-sharing/ngx';
-import { Product } from '../core/models/Product';
+import { MapProduct, Product } from '../core/models/Product';
 import { DomSanitizer } from '@angular/platform-browser';
 import { environment } from '../../environments/environment';
 import { ProductShareModalComponent } from '../core/components/product-share-modal/product-share-modal.component';
@@ -16,11 +16,11 @@ import { IonicNativeService } from '../core/ionic-native/ionic-native.service';
   inputs: ['product', 'slider']
 })
 export class ProductComponent implements OnInit {
-
   @Input() product: Product;
   @Input() slider: IonSlides;
   // eslint-disable-next-line @typescript-eslint/ban-types
   @Output() notify: EventEmitter<Number> = new EventEmitter<Number>();
+  @Output() selectWarehouse: EventEmitter<MapProduct> = new EventEmitter<MapProduct>();
   @ViewChildren('productImg') productImgElements: QueryList<ElementRef<HTMLImageElement>>;
 
   slideOpts = {
@@ -30,6 +30,7 @@ export class ProductComponent implements OnInit {
   liked = false;
   imageUrl = environment.imageUrl;
   webUrl = environment.webUrl;
+  currentWarehouse: MapProduct;
 
   constructor(public alertController: AlertController,
     public fun: FunctionsService, public dataService: DataService,
@@ -40,6 +41,11 @@ export class ProductComponent implements OnInit {
     ) { }
 
   ngOnInit() {
+  }
+
+  changeWarehouse(value: MapProduct) {
+    this.currentWarehouse = value;
+    this.selectWarehouse.emit(value);
   }
 
   goToReviews() {

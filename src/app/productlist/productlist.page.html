@@ -23,13 +23,13 @@
               <ion-text class="ion-text-left"><span class="price product-name">{{data.name}}</span></ion-text>
             </ion-col>
           </ion-row>
-          <ion-row *ngIf="data.productWarehouseOdoo">
+          <!-- <ion-row *ngIf="data.productWarehouseOdoo">
             <ion-col class="ion-no-padding">
               <ion-text class="ion-text-left">
                 <span class="price">Kho: <span style="color: #4043cb;">{{data.productWarehouseOdoo.warehouseName}}</span></span>
               </ion-text>
             </ion-col>
-          </ion-row>
+          </ion-row> -->
           <ion-row *ngIf="data.price > 0 && data.finalPrice > 0 && data.price > data.finalPrice">
             <ion-col class="ion-no-padding">
               <ion-text class="ion-text-left"><span class="price">Giá gốc: <span class="inline">{{data.price | currency:'VND':'symbol'}}</span>

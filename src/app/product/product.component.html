@@ -28,7 +28,7 @@
       <ion-button (click)="shareCommon()" size="small">Chia sẻ</ion-button>
       <ion-button (click)="copy()" size="small">Copy link</ion-button>
     </ion-row>
-    <ion-row *ngIf="product.productWarehouseOdoo" lines="none" class="row">
+    <!-- <ion-row *ngIf="product.productWarehouseOdoo" lines="none" class="row">
       <ion-col class="ion-no-padding">
         <ion-text class="ion-text-left"><strong style="font-size: 22px;
           float: left;
@@ -36,7 +36,14 @@
           margin: 3px;">Kho: <strong style="color: #4043cb;">{{product.productWarehouseOdoo.warehouseName}}</strong>
           </strong></ion-text>
       </ion-col>
-    </ion-row>
+    </ion-row> -->
+    <div class="radio-toolbar">
+      <ng-container *ngFor="let mapProduct of product.mapsProducts">
+        <input type="radio" (change)="changeWarehouse(mapProduct)" [id]="mapProduct.warehouseId" name="radioKho" [value]="mapProduct">
+        <label [for]="mapProduct.warehouseId">{{mapProduct.warehouseId === 18 ? 'Kho HN' : 'Kho HCM'}}</label>
+      </ng-container>
+    </div>
+    
 
     <ion-row *ngIf="product.qtyAvailable" lines="none" class="row">
       <ion-col class="ion-no-padding">
@@ -47,7 +54,7 @@
           </strong></ion-text>
       </ion-col>
     </ion-row>
-    <ion-row *ngIf="!product.qtyAvailable" lines="none" class="row">
+    <ion-row *ngIf="(currentWarehouse && !currentWarehouse.qtyAvailable)" lines="none" class="row">
       <ion-col class="ion-no-padding">
         <ion-text class="ion-text-left"><strong style="
           float: right;

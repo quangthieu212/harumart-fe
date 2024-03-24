@@ -6,6 +6,7 @@ import { Product } from '../core/models/Product';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AuthService } from '../core/services/auth.service';
 import { environment } from '../../environments/environment';
+import { MapProductsService } from '../core/services/map-products.service';
 
 @Component({
   selector: 'app-productlist',
@@ -26,7 +27,8 @@ export class ProductlistPage implements OnInit {
     public fun: FunctionsService,
     private nav: NavController,
     public _sanitizer: DomSanitizer,
-    public auth: AuthService
+    public auth: AuthService,
+    public mapProductService: MapProductsService
     ) {
   }
 
@@ -36,6 +38,7 @@ export class ProductlistPage implements OnInit {
   }
 
   open(data){
+    this.mapProductService.updateMapProducts(data.mapsProducts);
     this.fun.update(data);
     this.nav.navigateForward('/productdetail/' + data.id);
   }
