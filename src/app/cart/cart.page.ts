@@ -10,6 +10,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Product } from '../core/models/Product';
 import { AuthService } from '../core/services/auth.service';
 import { environment } from '../../environments/environment';
+import {CouponService} from "../core/services/coupon.service";
 
 @Component({
   selector: 'app-cart',
@@ -28,7 +29,10 @@ export class CartPage implements OnInit {
   };
 
   qty = [];
-  code = '';
+  voucherCode = '';
+  promotionCode = '';
+  voucher: any;
+  promotion: any;
   show = true;
   data: Array<Cart> = [];
 
@@ -46,7 +50,8 @@ export class CartPage implements OnInit {
     public alertController: AlertController,
     private cartService: CartService,
     public sanitizer: DomSanitizer,
-    private auth: AuthService
+    private auth: AuthService,
+    private couponService: CouponService
     ) {
     // this.data = dataService.cart;
     // if (this.data.length === 0) { this.show = false; }
@@ -155,4 +160,25 @@ export class CartPage implements OnInit {
     });
   }
 
+  applyPromotion() {
+    this.couponService.applyCoupon(this.promotionCode, this.calculate(0)).subscribe(
+      (result: any) => {
+        if (result.couponCode) {
+          this.promotion = result;
+          console.log(result);
+        }
+      }
+    );
+  }
+
+  applyVoucher() {
+    this.couponService.applyCoupon(this.promotionCode, this.calculate(0)).subscribe(
+      (result: any) => {
+        if (result.couponCode) {
+          this.voucher = result;
+          console.log(result);
+        }
+      }
+    );
+  }
 }

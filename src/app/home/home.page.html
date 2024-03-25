@@ -53,7 +53,28 @@
           </div>
           <div class="card-voucher-content-bottom">
             <div class="card-voucher-content-bottom-date">{{utilService.convertStringToDate(voucher.expiredDate)}}</div>
-            <ion-button shape="round" size="small">Lưu</ion-button>
+            <ion-button (click)="saveCoupon(voucher)" *ngIf="!voucher.isSave" shape="round" size="small">Lưu</ion-button>
+          </div>
+        </div>
+      </div>
+    </ion-slide>
+  </ion-slides>
+  <ion-text class="ion-text-center" color="primary">
+    <h6>Chương trình khuyến mại</h6>
+  </ion-text>
+  <ion-slides pager="true" [options]="slideVouchers" (click)="preventDefault($event)">
+    <ion-slide class="voucher-slide" *ngFor="let promotion of promotions">
+      <div class="card-voucher">
+        <div class="card-voucher-icon">
+          <img src="assets/logo.svg" alt="">
+        </div>
+        <div class="card-voucher-content">
+          <div>
+            <div class="card-voucher-content-title">{{promotion.name}}</div>
+            <div class="card-voucher-content-code">{{promotion.code}}</div>
+          </div>
+          <div class="card-voucher-content-bottom">
+            <div class="card-voucher-content-bottom-date">{{utilService.convertStringToDate(promotion.expiredDate)}}</div>
           </div>
         </div>
       </div>

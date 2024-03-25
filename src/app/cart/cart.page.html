@@ -50,7 +50,7 @@
                   class="select">
                   <ion-select-option *ngFor="let q of qty" (value)="q" text-center>{{q}}</ion-select-option>
                 </ion-select> -->
-                <div class="d-flex ion-justify-content-between ion-align-items-center cart-pro-quantity" [ngClass]="avaiableQty(item.product) ? '' : 'disabled hidden'"> 
+                <div class="d-flex ion-justify-content-between ion-align-items-center cart-pro-quantity" [ngClass]="avaiableQty(item.product) ? '' : 'disabled hidden'">
                   <!-- <div class="font-small">Số lượng:</div> -->
                   <div class="ion-text-right font-weight-bold d-flex ion-justify-content-end">
                     <app-quantity-input [quantityValue]="item.quantity" [disabled]="!avaiableQty(item.product)" (outputQty)="getQty($event, item)" [max]="item.product.qtyAvailable">
@@ -67,7 +67,7 @@
                 <h3 class="ion-no-margin item-name" *ngIf="!item.product.offer" text-end>{{item.product.currency}}{{item.product.cost_price}}</h3> -->
                 <h3 style="font-weight: 600;" class="ion-no-margin item-name ion-text-end">{{item.product.finalPrice || item.product.price | currency:'VND':'symbol'}}</h3>
               </ion-row>
-              
+
             </ion-col>
           </ion-row>
         </ion-item>
@@ -87,10 +87,20 @@
     <ion-item lines="none" class="ion-no-margin card">
       <ion-row class="full">
         <ion-col size="9">
-          <ion-input placeholder="Nhập mã giảm giá" (value)="code" class="input"></ion-input>
+          <ion-input placeholder="Nhập mã voucher" [(ngModel)]="voucherCode" class="input"></ion-input>
         </ion-col>
         <ion-col class="ion-align-self-center" size="3">
-          <ion-button fill="outline" expand="block" color="mytheme"><span class="small">Áp dụng</span></ion-button>
+          <ion-button  fill="outline" expand="block" color="mytheme" (click)="applyVoucher()"><span class="small">Áp dụng</span></ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-item>
+    <ion-item lines="none" class="ion-no-margin card">
+      <ion-row class="full">
+        <ion-col size="9">
+          <ion-input placeholder="Nhập mã khuyến mại" [(ngModel)]="promotionCode" class="input"></ion-input>
+        </ion-col>
+        <ion-col class="ion-align-self-center" size="3">
+          <ion-button fill="outline" expand="block" color="mytheme" (click)="applyPromotion()"><span class="small">Áp dụng</span></ion-button>
         </ion-col>
       </ion-row>
     </ion-item>

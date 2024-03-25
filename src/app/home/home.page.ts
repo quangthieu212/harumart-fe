@@ -85,7 +85,9 @@ export class HomePage implements OnDestroy {
 
   producer: string;
 
-  vouchers: any;
+  vouchers: any = [];
+  promotions: any = [];
+  currentUser: any;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -118,6 +120,7 @@ export class HomePage implements OnDestroy {
 
     this.isLoading = true;
     this.getVouchers();
+    this.getPromotions();
   }
 
   getData() {
@@ -138,15 +141,48 @@ export class HomePage implements OnDestroy {
   }
 
   async getVouchers() {
-    const user = await this.authService.getUser();
-    this.couponService.getVoucher(user)
+    this.currentUser = await this.authService.getUser();
+    this.couponService.getVoucher(this.currentUser)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(
         (result) => {
           this.vouchers = result || [];
         }
       );
+  }
 
+  getPromotions() {
+    this.couponService.getPromotions()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(
+        (result) => {
+          this.promotions = result;
+        }
+      );
+
+  }
+
+  getCoupons() {
+    this.couponService.getCoupons(this.currentUser)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(
+        (result) => {
+          console.log(result);
+        }
+      );
+
+  }
+
+  saveCoupon(item) {
+    this.couponService.saveCoupon(item.id, this.currentUser).subscribe(
+      (result: any) => {
+        this.vouchers.forEach((voucher) => {
+          if (voucher.id === item.id) {
+            voucher.isSave = true;
+          }
+        });
+      }
+    );
   }
 
   async ionViewWillEnter() {
