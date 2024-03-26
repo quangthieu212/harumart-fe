@@ -14,6 +14,14 @@ import {UtilService} from '../core/services/util.service';
 
 const LIST_BANNER = [
   {
+    image: 'assets/images/banner-1.jpg',
+    producer: null
+  },
+  {
+    image: 'assets/images/banner-2.jpg',
+    producer: null
+  },
+  {
     image: 'assets/images/banner-web-01a.jpg',
     producer: 'sofaco'
   },
@@ -50,15 +58,17 @@ export class HomePage implements OnDestroy {
     effect: 'flip',
     speed: 400,
     loop: false,
-    autoplay: {
-      delay: 2500,
-      disableOnInteraction: false,
-    },
+    // autoplay: {
+    //   delay: 2500,
+    //   disableOnInteraction: false,
+    // },
     pagination: {
       el: '.swiper-paginationsss',
       clickable: true,
     },
-    zoom: false
+    zoom: false,
+    slidesPerView: 'auto',
+    spaceBetween: 1
   };
 
   slideVouchers = {
@@ -282,6 +292,9 @@ export class HomePage implements OnDestroy {
   }
 
   goToOutstandingProductsPage(banner) {
+    if (!banner.producer) {
+      return;
+    }
     this.nav.navigateForward('/home', {queryParams: {producer: banner.producer}});
   }
 }

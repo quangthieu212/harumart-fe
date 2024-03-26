@@ -150,7 +150,7 @@ export class CartPage implements OnInit {
   }
 
   add() {
-    return this.calculate(0);
+    return this.calculateFinalAmount();
   }
 
   browse() {

@@ -30,7 +30,7 @@
   <ion-text class="ion-text-center" color="primary">
     <h6>Sản Phẩm Nổi Bật!</h6>
   </ion-text>
-  <ion-slides pager="true" [options]="slideOpts" (ionSlideDidChange)="change()" (click)="preventDefault($event)" #Slides>
+  <ion-slides class="banner" pager="true" [options]="slideOpts" (ionSlideDidChange)="change()" (click)="preventDefault($event)" #Slides>
     <ion-slide *ngFor="let banner of banners">
       <div class="slide-banner" (click)="goToOutstandingProductsPage(banner)">
         <img [src]="banner.image" alt="">

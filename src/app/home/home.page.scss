@@ -56,13 +56,18 @@ ion-slides {
     margin-top: 10px;
 }
 
-.slide-banner {
-    padding: 0 5px;
-    width: 100%;
-    border-radius: 9px;
-    img {
-        width: 100%;
+.banner {
+    .swiper-slide {
+        width: auto !important;
+    }
+    .slide-banner {
+        padding: 0 5px;
         border-radius: 9px;
+        img {
+            width: auto !important;
+            height: 25vh;
+            border-radius: 9px;
+        }
     }
 }
 .voucher-slide {
