@@ -10,7 +10,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Product } from '../core/models/Product';
 import { AuthService } from '../core/services/auth.service';
 import { environment } from '../../environments/environment';
-import {CouponService} from "../core/services/coupon.service";
+import {CouponService} from '../core/services/coupon.service';
+import { ApplyCouponService } from '../core/services/apply-coupon.service';
 
 @Component({
   selector: 'app-cart',
@@ -51,7 +52,8 @@ export class CartPage implements OnInit {
     private cartService: CartService,
     public sanitizer: DomSanitizer,
     private auth: AuthService,
-    private couponService: CouponService
+    private couponService: CouponService,
+    private applyCouponService: ApplyCouponService
     ) {
     // this.data = dataService.cart;
     // if (this.data.length === 0) { this.show = false; }
@@ -128,6 +130,20 @@ export class CartPage implements OnInit {
     return res;
   }
 
+  calculateFinalAmount() {
+    const promotionFree = this.promotion ? this.promotion.couponFee : 0;
+    const couponFree = this.voucher ? this.voucher.couponFee : 0;
+
+    return Number(this.calculate(0) - couponFree - promotionFree);
+  }
+
+  calculateFinalDiscount() {
+    const promotionFree = this.promotion ? this.promotion.couponFee : 0;
+    const couponFree = this.voucher ? this.voucher.couponFee : 0;
+
+    return Number(this.calculate(1) + couponFree + promotionFree);
+  }
+
 
   fix(a) {
     return a.toFixed(0);
@@ -139,6 +155,18 @@ export class CartPage implements OnInit {
 
   browse() {
     this.fun.navigate('/home', false);
+  }
+
+  checkout() {
+    const coupons = [];
+    if (this.promotion) {
+      coupons.push(this.promotion);
+    }
+    if (this.voucher) {
+      coupons.push(this.voucher);
+    }
+    this.applyCouponService.updateCoupons(coupons);
+    this.fun.checkout();
   }
 
   async remove(item: Cart, j) {
@@ -161,12 +189,18 @@ export class CartPage implements OnInit {
   }
 
   applyPromotion() {
-    this.couponService.applyCoupon(this.promotionCode, this.calculate(0)).subscribe(
+    const totalItems = this.data.reduce((total, product) => total + product.quantity, 0);
+    this.couponService.applyPromotion(this.promotionCode, this.calculate(0), totalItems).subscribe(
       (result: any) => {
         if (result.couponCode) {
           this.promotion = result;
-          console.log(result);
+        } else {
+          this.promotion = null;
         }
+      },
+      (error: any) => {
+        this.voucher = null;
+        console.log(error);
       }
     );
   }
@@ -176,8 +210,13 @@ export class CartPage implements OnInit {
       (result: any) => {
         if (result.couponCode) {
           this.voucher = result;
-          console.log(result);
+        } else {
+          this.voucher = null;
         }
+      },
+      (error: any) => {
+        this.voucher = null;
+        console.log(error);
       }
     );
   }

@@ -39,10 +39,18 @@ export class CouponService {
     return this.http.post(`${environment.apiUrl}/v1/Orders/save-coupons`, null,{params: httpParams});
   }
 
-  applyCoupon(code: string, amount: number) {
+  applyCoupon(code: string, amount: number)  {
     let httpParams = new HttpParams();
     httpParams = httpParams.append('code', code);
     httpParams = httpParams.append('amount', amount);
     return this.http.post(`${environment.apiUrl}/v1/Orders/apply-coupon`, null,{params: httpParams});
+  }
+
+  applyPromotion(code: string, amount: number, numberItems: number)  {
+    let httpParams = new HttpParams();
+    httpParams = httpParams.append('code', code);
+    httpParams = httpParams.append('amount', amount);
+    httpParams = httpParams.append('num_order_item', numberItems);
+    return this.http.post(`${environment.apiUrl}/v1/Orders/apply-promotion`, null,{params: httpParams});
   }
 }

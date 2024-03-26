@@ -110,7 +110,7 @@
           <ion-text>Tổng tiền</ion-text>
         </ion-col>
         <ion-col size="6" class="ion-text-end">
-          <ion-text>{{fix(calculate(0)) | currency:'VND':'symbol'}}</ion-text>
+          <ion-text>{{fix(calculateFinalAmount()) | currency:'VND':'symbol'}}</ion-text>
         </ion-col>
       </ion-row>
       <ion-row class="ion-padding-horizontal full">
@@ -118,7 +118,7 @@
           <ion-text>Tổng chiết khấu</ion-text>
         </ion-col>
         <ion-col size="6" class="ion-text-end">
-          <ion-text>{{fix(calculate(1)) | currency:'VND':'symbol'}}</ion-text>
+          <ion-text>{{fix(calculateFinalDiscount()) | currency:'VND':'symbol'}}</ion-text>
         </ion-col>
       </ion-row>
       <!-- <ion-row class="full ion-padding-horizontal">
@@ -154,7 +154,7 @@
     </div>
   </div>
 </ion-content>
-<ion-footer *ngIf="show" (click)="fun.checkout()">
+<ion-footer *ngIf="show" (click)="checkout()">
   <ion-row style="padding: 10px;" class="full ion-padding-horizontal">
     <ion-col size="6">
       <ion-text style="font-size: 22px;">Tổng thanh toán</ion-text>

@@ -19,6 +19,7 @@ import { IonicCoreService } from '../core/services/ionic-core.service';
 import { PaymentService } from '../core/services/payment.service';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { ApplyCouponService } from '../core/services/apply-coupon.service';
 
 @Component({
   selector: 'app-checkout',
@@ -68,7 +69,8 @@ export class CheckoutPage implements OnInit, OnDestroy {
     private cartService: CartService,
     private auth: AuthService,
     private ionicCoreService: IonicCoreService,
-    private paymentService: PaymentService
+    private paymentService: PaymentService,
+    private applyCouponService: ApplyCouponService
     ) {
       this.setupSearchDebouncer();
      }
@@ -301,8 +303,23 @@ async onClickWard() {
           orderRequests.push(orderRequest);
         }
         console.log(orderRequests);
-        this.orderService.createOrder( { orderAddressRequest: partnerRequest, saleOrders: orderRequests,
-            paymentAcquirerId: this.paymentAcquirerId, reference: this.reference }).subscribe(async (res: any) => {
+        let orderRequestBody;
+        if (this.applyCouponService.getLastCouponsValue()) {
+          orderRequestBody = { orderAddressRequest: partnerRequest,
+            saleOrders: orderRequests,
+            paymentAcquirerId: this.paymentAcquirerId,
+            reference: this.reference,
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            ApplyCoupon: this.applyCouponService.getLastCouponsValue()
+          };
+        } else {
+          orderRequestBody = { orderAddressRequest: partnerRequest,
+            saleOrders: orderRequests,
+            paymentAcquirerId: this.paymentAcquirerId,
+            reference: this.reference
+          };
+        }
+        this.orderService.createOrder(orderRequestBody).subscribe(async (res: any) => {
           this.isLoading = false;
           await this.cartService.removeCarts();
           this.fun.navigate('orders', false);
