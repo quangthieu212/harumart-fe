@@ -286,7 +286,13 @@ async onClickWard() {
         const orderRequests: Array<OrderRequest> = [];
         for (const warehouseIdKey of productMap.keys()) {
           const orderLines = productMap.get(warehouseIdKey);
-          const amountTotal = orderLines.map(o => o.priceTotal).reduce((p1, p2) => p1 + p2, 0);
+          let amountTotal = orderLines.map(o => o.priceTotal).reduce((p1, p2) => p1 + p2, 0);
+          const couponsApplied = this.applyCouponService.getLastCouponsValue();
+          if (couponsApplied && couponsApplied.length) {
+            couponsApplied.forEach((coupon) => {
+              amountTotal = Number(amountTotal - coupon.couponFee);
+            })
+          }
           const orderRequest: OrderRequest = {
             amountTax: 0,
             amountUntaxed: 0,
@@ -304,7 +310,7 @@ async onClickWard() {
         }
         console.log(orderRequests);
         let orderRequestBody;
-        if (this.applyCouponService.getLastCouponsValue()) {
+        if (this.applyCouponService.getLastCouponsValue() && this.applyCouponService.getLastCouponsValue().length) {
           orderRequestBody = { orderAddressRequest: partnerRequest,
             saleOrders: orderRequests,
             paymentAcquirerId: this.paymentAcquirerId,
