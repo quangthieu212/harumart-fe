@@ -31,6 +31,10 @@
       </div>
     </ion-item>
   </ng-container>
+  <ion-item *ngIf="order.totalDiscount">
+    <ion-label style="text-align: right; margin-right: 7px;">Giảm giá: </ion-label>
+    <ion-lable style="color:red;">{{order.totalDiscount| currency:'VND':'symbol'}}</ion-lable>
+  </ion-item>
   <ion-item>
     <ion-label style="text-align: right; margin-right: 7px; font-weight: bold;">Tổng tiền: </ion-label>
     <ion-lable style="color:red;">{{order.amountTotal| currency:'VND':'symbol'}}</ion-lable>

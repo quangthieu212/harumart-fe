@@ -38,6 +38,7 @@ export interface OrderRequest {
     amountTotal: number;
     saleOrderLine: Array<OrderLineRequest>;
     warehouseId: number;
+    ApplyCoupon?: any[];
 }
 
 export interface OrderLineRequest {
@@ -68,6 +69,7 @@ export interface SaleOrder {
     state: string;
     dateOrder: Date;
     amountTotal: number;
+    totalDiscount: number;
     deliveryDate: Date;
     status: string;
     shippingAddress: Address;

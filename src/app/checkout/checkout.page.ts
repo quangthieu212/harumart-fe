@@ -291,9 +291,9 @@ async onClickWard() {
           if (couponsApplied && couponsApplied.length) {
             couponsApplied.forEach((coupon) => {
               amountTotal = Number(amountTotal - coupon.couponFee);
-            })
+            });
           }
-          const orderRequest: OrderRequest = {
+          let orderRequest: OrderRequest = {
             amountTax: 0,
             amountUntaxed: 0,
             amountTotal,
@@ -306,6 +306,13 @@ async onClickWard() {
             userId: user ? user.odooUserId : null,
             warehouseId: warehouseIdKey
           };
+          if (couponsApplied && couponsApplied.length) {
+            orderRequest = {
+              ...orderRequest,
+              // eslint-disable-next-line @typescript-eslint/naming-convention
+              ApplyCoupon: this.applyCouponService.getLastCouponsValue()
+            };
+          }
           orderRequests.push(orderRequest);
         }
         console.log(orderRequests);
@@ -314,9 +321,7 @@ async onClickWard() {
           orderRequestBody = { orderAddressRequest: partnerRequest,
             saleOrders: orderRequests,
             paymentAcquirerId: this.paymentAcquirerId,
-            reference: this.reference,
-            // eslint-disable-next-line @typescript-eslint/naming-convention
-            ApplyCoupon: this.applyCouponService.getLastCouponsValue()
+            reference: this.reference
           };
         } else {
           orderRequestBody = { orderAddressRequest: partnerRequest,
