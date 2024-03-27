@@ -18,7 +18,7 @@ import { AuthService } from '../core/services/auth.service';
 import { IonicCoreService } from '../core/services/ionic-core.service';
 import { PaymentService } from '../core/services/payment.service';
 import { Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, takeUntil, throttleTime } from 'rxjs/operators';
 import { ApplyCouponService } from '../core/services/apply-coupon.service';
 
 @Component({
@@ -58,6 +58,8 @@ export class CheckoutPage implements OnInit, OnDestroy {
   customer: Customer;
   customerName: string;
   customerPhone: string;
+  payDiscountType = null;
+  payShipType = null;
 
   constructor(
     private menuCtrl: MenuController,
@@ -82,6 +84,14 @@ export class CheckoutPage implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.initForm();
+    this.form.get('shippingAddress').valueChanges.pipe(
+      throttleTime(3000 )
+    )
+    .subscribe((value) => {
+      if (value.ward && value.ward.id) {
+        console.log('value', value);
+      }
+    });
     this.paymentService.getPaymentAcquirers().pipe(takeUntil(this.ngUnsubscribe)).subscribe((res: any) => {
       if (res.isSuccess) {
         for (const item of res.data) {
@@ -311,6 +321,20 @@ async onClickWard() {
               ...orderRequest,
               // eslint-disable-next-line @typescript-eslint/naming-convention
               ApplyCoupon: this.applyCouponService.getLastCouponsValue()
+            };
+          }
+          if (this.payDiscountType) {
+            orderRequest = {
+              ...orderRequest,
+              // eslint-disable-next-line @typescript-eslint/naming-convention
+              pay_discount_type: this.payDiscountType
+            };
+          }
+          if (this.payDiscountType) {
+            orderRequest = {
+              ...orderRequest,
+              // eslint-disable-next-line @typescript-eslint/naming-convention
+              pay_ship_type: this.payShipType
             };
           }
           orderRequests.push(orderRequest);

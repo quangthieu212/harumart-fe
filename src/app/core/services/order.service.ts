@@ -18,4 +18,6 @@ export class OrderService {
     getOrdersByUser(filter) {
         return this.http.post(`${environment.apiUrl}/v1/Orders/find-by-user`, filter);
     }
+
+    getShippingAmount() {}
 }

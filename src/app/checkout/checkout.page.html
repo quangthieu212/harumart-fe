@@ -14,41 +14,34 @@
       <ion-row>
         <ion-col>
           <ng-select [items]="customers" bindLabel="name" notFoundText="Không tìm thấy khách hàng"
-          placeholder="Tìm kiếm khách hàng"
-          (keyup)="search($event)" (change)="changeCustomer($event)">
-          <ng-template ng-option-tmp let-item="item">
-            <ion-grid>
-              <ion-row>
-                <ion-label style="font-size: 18px;font-weight: 600;margin-left: 5px;">{{item.displayName}}</ion-label>
-              </ion-row>
-              <ion-row>
-                <ion-col class="label" size="2">SĐT: </ion-col>
-                <ion-col size="4">{{item.phone}}</ion-col>
-              </ion-row>
-              <ion-row>
-                <ion-col  class="label" size="2">Địa chỉ: </ion-col>
-                <ion-col size="10">{{item.street2}} {{item.street}}</ion-col>
-              </ion-row>
-            </ion-grid>
-        </ng-template>
-        </ng-select>
+            placeholder="Tìm kiếm khách hàng" (keyup)="search($event)" (change)="changeCustomer($event)">
+            <ng-template ng-option-tmp let-item="item">
+              <ion-grid>
+                <ion-row>
+                  <ion-label style="font-size: 18px;font-weight: 600;margin-left: 5px;">{{item.displayName}}</ion-label>
+                </ion-row>
+                <ion-row>
+                  <ion-col class="label" size="2">SĐT: </ion-col>
+                  <ion-col size="4">{{item.phone}}</ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col class="label" size="2">Địa chỉ: </ion-col>
+                  <ion-col size="10">{{item.street2}} {{item.street}}</ion-col>
+                </ion-row>
+              </ion-grid>
+            </ng-template>
+          </ng-select>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col>
-          <ion-input 
-            [(ngModel)]="customerName"
-            placeholder="Tên khách hàng" 
-            class="input ion-padding-horizontal">
+          <ion-input [(ngModel)]="customerName" placeholder="Tên khách hàng" class="input ion-padding-horizontal">
           </ion-input>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col>
-          <ion-input 
-            [(ngModel)]="customerPhone"
-            placeholder="Số điện thoại" 
-            class="input ion-padding-horizontal">
+          <ion-input [(ngModel)]="customerPhone" placeholder="Số điện thoại" class="input ion-padding-horizontal">
           </ion-input>
         </ion-col>
       </ion-row>
@@ -57,8 +50,39 @@
       </div>
     </div>
   </ion-list>
+  <ion-radio-group class="radio-pay" [(ngModel)]="payDiscountType">
+    <ion-list-header>
+      <ion-label>Chi trả tiền chiết khấu bán lẻ:</ion-label>
+    </ion-list-header>
+    <ion-row>
+      <ion-item>
+        <ion-label>Tính khi đối soát</ion-label>
+        <ion-radio slot="start" [value]="'after'"></ion-radio>
+      </ion-item>
+      <ion-item>
+        <ion-label>Trừ trên tiền hàng</ion-label>
+        <ion-radio slot="start" [value]="'direct'"></ion-radio>
+      </ion-item>
+    </ion-row>
+  </ion-radio-group>
+  <ion-radio-group class="radio-pay" [(ngModel)]="payShipType">
+    <ion-list-header>
+      <ion-label>Bên thanh toán vận chuyển:</ion-label>
+    </ion-list-header>
+    <ion-row>
+      <ion-item>
+        <ion-label>Đại lý</ion-label>
+        <ion-radio slot="start" [value]="'daily'"></ion-radio>
+      </ion-item>
+      <ion-item>
+        <ion-label>Khách hàng</ion-label>
+        <ion-radio slot="start" [value]="'khachhang'"></ion-radio>
+      </ion-item>
+    </ion-row>
+  </ion-radio-group>
   <ion-list *ngIf="paymentAcquirers && paymentAcquirers.length > 0">
-    <ion-radio-group [value]="paymentAcquirerId" name="radio-group" (ionChange)="paymentAcquirerChange($event)" #radioGroup>
+    <ion-radio-group [value]="paymentAcquirerId" name="radio-group" (ionChange)="paymentAcquirerChange($event)"
+      #radioGroup>
       <ion-list-header>
         <ion-label>Phương thức thanh toán</ion-label>
       </ion-list-header>
@@ -71,7 +95,8 @@
     </ion-radio-group>
     <ion-row *ngIf="isShowReference">
       <ion-col>
-        <ion-input placeholder="Mã chuyển khoản" [(ngModel)]="reference"  class="input ion-padding-horizontal"></ion-input>
+        <ion-input placeholder="Mã chuyển khoản" [(ngModel)]="reference"
+          class="input ion-padding-horizontal"></ion-input>
       </ion-col>
     </ion-row>
   </ion-list>

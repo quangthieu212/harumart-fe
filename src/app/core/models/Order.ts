@@ -39,6 +39,8 @@ export interface OrderRequest {
     saleOrderLine: Array<OrderLineRequest>;
     warehouseId: number;
     ApplyCoupon?: any[];
+    pay_discount_type?: string;
+    pay_ship_type?: string;
 }
 
 export interface OrderLineRequest {

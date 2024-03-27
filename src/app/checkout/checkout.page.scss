@@ -4,16 +4,20 @@
     border-radius: 3px;
     font-size: .9em !important;
 }
+
 .label {
     font-size: 12px;
 }
+
 .small {
     font-size: 9px;
     color: rgb(120, 120, 120);
 }
+
 .icon {
     font-size: 21px;
 }
+
 .bottom {
     position: absolute;
     bottom: 10px;
@@ -21,8 +25,56 @@
     left: 50%;
     transform: translate(-50%, 0%);
 }
-.add-payment-div{
+
+.add-payment-div {
     border: 1px solid #ddd;
     margin-bottom: 10px;
     padding: 10px;
+}
+
+.radio-pay {
+    ion-label {
+        font-size: 13px;
+        margin: 0;
+    }
+    ion-row {
+        flex-wrap: nowrap;
+        ion-item {
+            width: 188px;
+
+            .item-inner {
+                border: none !important;
+            }
+        }
+    }
+    ion-radio::part(container) {
+        width: 20px;
+        height: 20px;
+    
+        border-radius: 8px;
+        border: 2px solid #ddd;
+    }
+    
+    ion-radio::part(mark) {
+        background: none;
+        transition: none;
+        transform: none;
+        border-radius: 0;
+    }
+    
+    ion-radio.radio-checked::part(container) {
+        background: #44a2f4;
+        border-color: transparent;
+    }
+    
+    ion-radio.radio-checked::part(mark) {
+        width: 5px;
+        height: 8px;
+    
+        border-width: 0px 2px 2px 0px;
+        border-style: solid;
+        border-color: #fff;
+    
+        transform: rotate(45deg);
+    }
 }
