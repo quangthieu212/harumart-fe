@@ -113,6 +113,8 @@ export class SignupPage implements OnInit {
         ],
         updateOn: 'blur'
       }),
+      address: new FormControl(''),
+      accountNumber: new FormControl(''),
       matchingPasswords: this.matchingPasswords,
       type: new FormControl('')
     });
@@ -132,6 +134,8 @@ export class SignupPage implements OnInit {
     const body = {
       phoneNumber: values.phone,
       phoneParent: values.phoneParent,
+      adress: values.address,
+      account_Number: values.accountNumber,
       displayName: `${values.firstName} ${values.lastName}`,
       password: values.matchingPasswords.password,
       type: values.type
