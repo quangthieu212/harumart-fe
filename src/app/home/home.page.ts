@@ -120,6 +120,11 @@ export class HomePage implements OnDestroy {
     }
 
     this.activatedRoute.queryParams.subscribe((params) => {
+      this.productFilter = {
+        pageSize: this.pageSize,
+        pageNumber: 1
+      };
+      this.products = [];
       if (params.producer) {
         this.producer = params.producer;
       } else {
