@@ -17,7 +17,7 @@ import { AuthService } from '../core/services/auth.service';
 export class OrdersPage implements OnInit, OnDestroy {
 
   isLogin = false;
-  orders: Array<SaleOrder>;
+  orders: Array<SaleOrder> = [];
   segment = '';
   statusList = [
     {
@@ -82,6 +82,14 @@ export class OrdersPage implements OnInit, OnDestroy {
   }
 
   async ionViewWillEnter() {
+    this.orders = [];
+    this.maxPage = 0;
+    this.pageNumber = 1;
+    this.orderFilter = {
+      pageSize: this.pageSize,
+      pageNumber: this.pageNumber,
+      state: ''
+    };
     this.segment = this.statusList[0].code;
     this.isLogin = await this.auth.isLogin();
     if (!this.isLogin) {
@@ -94,14 +102,16 @@ export class OrdersPage implements OnInit, OnDestroy {
   getOrders(infiniteScroll?) {
     this.isLoading = true;
     this.orderFilter.state = this.segment;
+    this.orderFilter.pageNumber = this.pageNumber;
     this.orderService.getOrdersByUser(this.orderFilter)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((result: any) => {
         this.isLoading = false;
         if (result.isSuccess) {
-          this.orders = result.data;
+          this.orders = this.orders.concat(result.data);
           const totalRecords = result.totalRecords;
-          this.maxPage = this.round(totalRecords/this.pageSize, 0);
+          this.maxPage = this.round(Math.ceil(totalRecords/this.pageSize), 0);
+          console.log(this.maxPage);
         }
         if (infiniteScroll) {
           infiniteScroll.target.complete();
@@ -131,6 +141,7 @@ export class OrdersPage implements OnInit, OnDestroy {
   }
 
   loadData(infiniteScroll) {
+    console.log('infiniteScroll');
     this.pageNumber++;
     if (this.pageNumber > this.maxPage) {
       infiniteScroll.target.disabled = true;

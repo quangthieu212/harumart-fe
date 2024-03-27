@@ -149,7 +149,7 @@ export class HomePage implements OnDestroy {
           this.products = result.data.products;
           // this.filterProductByWarehouse();
           const totalRecords = result.totalRecords;
-          this.maxPage = this.round(totalRecords/this.pageSize, 0);
+          this.maxPage = this.round(Math.ceil(totalRecords/this.pageSize), 0);
           this.isLoading = false;
         }
       });
