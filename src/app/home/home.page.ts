@@ -86,6 +86,19 @@ export class HomePage implements OnDestroy {
     zoom: false
   };
 
+  slidePromodtion = {
+    effect: 'flip',
+    speed: 400,
+    loop: false,
+    pagination: {
+      el: '.swiper-paginationsss',
+      clickable: true,
+    },
+    zoom: false,
+    slidesPerView: 'auto',
+    spaceBetween: 1
+  };
+
   pageSize = 10;
   pageNumber = 1;
   maxPage = 0;

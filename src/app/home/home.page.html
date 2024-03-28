@@ -62,27 +62,34 @@
   <ion-text class="ion-text-center" color="primary">
     <h6>Chương trình khuyến mại</h6>
   </ion-text>
-  <ion-slides pager="true" [options]="slideVouchers" (click)="preventDefault($event)">
-    <ion-slide class="voucher-slide" *ngFor="let promotion of promotions">
-      <div class="card-voucher">
-        <div class="card-voucher-icon">
-          <img src="assets/logo.svg" alt="">
-        </div>
-        <div class="card-voucher-content">
-          <div>
-            <div class="card-voucher-content-title">{{promotion.name}}</div>
-            <div class="card-voucher-content-code">{{promotion.code}}</div>
-          </div>
-          <div class="card-voucher-content-bottom">
-            <div class="card-voucher-content-bottom-date">{{utilService.convertStringToDate(promotion.expiredDate)}}</div>
-          </div>
-        </div>
-      </div>
+  <ion-slides class="promotions" pager="true" [options]="slidePromodtion" (click)="preventDefault($event)">
+    <ion-slide class="promotion-slide" *ngFor="let promotion of promotions">
+      <ion-card>
+        <img style="width:100%;" [src]="promotion.image_url" [alt]="promotion.name" >
+        <ion-card-content>
+          <ion-row>
+            <ion-col class="ion-no-padding">
+              <ion-text class="ion-text-left"><span class="content-title">{{promotion.name}}</span></ion-text>
+            </ion-col>
+          </ion-row>
+          <ion-text>
+            <div style="margin-bottom: 10px;" class="content-code">{{promotion.code}}</div>
+          </ion-text>
+          <ion-text>
+            <div class="content-bottom-date">{{utilService.convertStringToDate(promotion.expiredDate)}}</div>
+          </ion-text>
+        </ion-card-content>
+      </ion-card>
     </ion-slide>
   </ion-slides>
-  <ion-text *ngIf="producer" class="ion-text-left" color="primary">
+  <ion-text *ngIf="producer else noProducer" class="ion-text-left" color="primary">
     <h6 style="padding-left: 3px; margin-bottom: 0">{{ producer | titlecase }}</h6>
   </ion-text>
+  <ng-template #noProducer>
+    <ion-text class="ion-text-center" color="primary">
+      <h6>Sản Phẩm</h6>
+    </ion-text>
+  </ng-template>
   <app-productlist [recieved_data]="products"></app-productlist>
 
 <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">

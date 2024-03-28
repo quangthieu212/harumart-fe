@@ -70,6 +70,31 @@ ion-slides {
         }
     }
 }
+.promotions {
+    margin-bottom: 10px;
+    .promotion-slide {
+        width: 230px;
+
+        ion-text {
+            text-align: left;
+        }
+    }
+    ion-card {
+        margin: 0 5px;
+
+        ion-card-content {
+            padding: 5px;
+
+            .content-title {
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+    }
+}
 .voucher-slide {
     width: 360px !important;
 }
@@ -96,7 +121,7 @@ ion-slides {
 
     &-title {
         font-size: 15px;
-        padding: 5px 0;
+        padding: 0 0 5px 0;
         text-align: left;
     }
     &-code {
