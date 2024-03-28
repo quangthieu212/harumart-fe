@@ -129,6 +129,7 @@ export class OrdersPage implements OnInit, OnDestroy {
 
   seg(event) {
     this.segment = event.detail.value;
+    this.orders = [];
     this.getOrders();
   }
 

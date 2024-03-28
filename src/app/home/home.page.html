@@ -52,7 +52,7 @@
           <div class="card-voucher-content-code">{{voucher.code}}</div>
           </div>
           <div class="card-voucher-content-bottom">
-            <div class="card-voucher-content-bottom-date">{{utilService.convertStringToDate(voucher.expiredDate)}}</div>
+            <div class="card-voucher-content-bottom-date">HSD: {{utilService.convertStringToDate(voucher.expiredDate)}}</div>
             <ion-button (click)="saveCoupon(voucher)" *ngIf="!voucher.isSave" shape="round" size="small">Lưu</ion-button>
           </div>
         </div>
@@ -72,12 +72,16 @@
               <ion-text class="ion-text-left"><span class="content-title">{{promotion.name}}</span></ion-text>
             </ion-col>
           </ion-row>
-          <ion-text>
-            <div style="margin-bottom: 10px;" class="content-code">{{promotion.code}}</div>
-          </ion-text>
-          <ion-text>
-            <div class="content-bottom-date">{{utilService.convertStringToDate(promotion.expiredDate)}}</div>
-          </ion-text>
+          <ion-row>
+            <ion-text>
+              <div style="margin-bottom: 10px;" class="content-code">{{'promotion.code'}}</div>
+            </ion-text>
+          </ion-row>
+          <ion-row>
+            <ion-text>
+              <div class="content-bottom-date">HSD: {{utilService.convertStringToDate(promotion.expiredDate)}}</div>
+            </ion-text>
+          </ion-row>
         </ion-card-content>
       </ion-card>
     </ion-slide>

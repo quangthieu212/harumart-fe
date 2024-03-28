@@ -84,13 +84,22 @@ ion-slides {
 
         ion-card-content {
             padding: 5px;
+            height: 100px;
 
             .content-title {
+                font-size: 15px;
+                color: #000;
                 display: -webkit-box;
                 -webkit-line-clamp: 2;
                 -webkit-box-orient: vertical;
                 overflow: hidden;
                 text-overflow: ellipsis;
+            }
+            .content-code {
+                font-size: 13px;
+            }
+            .content-bottom-date {
+                font-size: 13px;
             }
         }
     }
