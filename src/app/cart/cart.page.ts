@@ -90,6 +90,12 @@ export class CartPage implements OnInit {
   async getQty(qty, cart: Cart) {
     cart.quantity = qty;
     await this.cartService.updateProduct(cart.product, qty);
+    if (this.promotion) {
+      this.applyPromotion();
+    }
+    if (this.voucher) {
+      this.applyVoucher();
+    }
   }
 
   // async open_modal(b) {
@@ -190,7 +196,7 @@ export class CartPage implements OnInit {
 
   applyPromotion() {
     const totalItems = this.data.reduce((total, product) => total + product.quantity, 0);
-    this.couponService.applyPromotion(this.promotionCode, this.calculate(0), totalItems).subscribe(
+    this.couponService.applyPromotion(this.promotionCode, Number(this.calculate(0) - this.calculate(1)), totalItems).subscribe(
       (result: any) => {
         if (result.couponCode) {
           this.promotion = result;
@@ -206,7 +212,7 @@ export class CartPage implements OnInit {
   }
 
   applyVoucher() {
-    this.couponService.applyCoupon(this.voucherCode, this.calculate(0)).subscribe(
+    this.couponService.applyCoupon(this.voucherCode, Number(this.calculate(0) - this.calculate(1))).subscribe(
       (result: any) => {
         if (result.couponCode) {
           this.voucher = result;
