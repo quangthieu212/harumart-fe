@@ -14,6 +14,10 @@ import {UtilService} from '../core/services/util.service';
 
 const LIST_BANNER = [
   {
+    image: 'assets/images/banner-0.jpg',
+    producer: null
+  },
+  {
     image: 'assets/images/banner-1.jpg',
     producer: null
   },
