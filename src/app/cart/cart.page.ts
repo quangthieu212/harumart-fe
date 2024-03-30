@@ -93,16 +93,6 @@ export class CartPage implements OnInit {
       );
   }
 
-  searchVoucher(event) {
-    console.log(event.target.value);
-    if (!event.target.value) {
-      console.log(1);
-      this.vouchersSaved = JSON.parse(JSON.stringify(this.vouchersSavedOrigin));
-      console.log(this.vouchersSaved);
-    }
-    this.vouchersSaved = this.vouchersSavedOrigin.filter((item) => item.code.includes(event.target.value));
-  }
-
   changeVoucher(event) {
     if (!event) {
       this.voucherCode = null;

@@ -86,8 +86,8 @@
     </ion-row>
     <ion-row class="full coupon">
       <ion-col size="9">
-        <ng-select [items]="vouchersSaved" bindLabel="name" notFoundText="Không tìm thấy voucher đã lưu"
-          placeholder="Nhập mã voucher" (keyup)="searchVoucher($event)" (change)="changeVoucher($event)">
+        <ng-select [items]="vouchersSaved" bindLabel="code" notFoundText="Không tìm thấy voucher đã lưu"
+          placeholder="Nhập mã voucher" (change)="changeVoucher($event)">
           <ng-template ng-option-tmp let-item="item">
             <ion-grid>
               <ion-row>
