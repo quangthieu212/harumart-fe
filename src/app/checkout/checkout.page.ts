@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FunctionsService } from '../functions.service';
 import { DataService, Address } from '../data.service';
@@ -261,7 +262,9 @@ async onClickWard() {
         stateId: 1,
         countryId: 1,
         isCompany: false,
-        isDefault: true
+        isDefault: true,
+        ship_partner: this.shipPartner,
+        ship_type: this.shipType === 'fast' ? true : false,
       };
       const productMap = new Map<number, Array<OrderLineRequest>>();
         for (const cart of carts) {

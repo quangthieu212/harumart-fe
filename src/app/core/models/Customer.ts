@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 export interface Customer {
     id?: string;
     name: string;
@@ -25,6 +26,8 @@ export interface PartnerRequest {
     countryId: number;
     stateId: number;
     phone: string;
+    ship_partner: string;
+    ship_type: boolean;
     isCompany: boolean;
     isDefault: boolean;
 }

@@ -41,7 +41,7 @@
               <ion-text color="danger" class="small" (click)="remove(item, j)">Xoá</ion-text>
             </ion-col>
             <ion-col style="display: flex;flex-direction: column;justify-content: space-between;" size="6">
-              <h3 style="font-size: 14px;" class="ion-no-margin item-name">{{item.product.name}}</h3>
+              <h3 style="font-size: 14px;" class="ion-no-margin item-name">{{item.product.name}} - {{item.product.productWarehouseOdoo.warehouseName}}</h3>
               <!-- <h5 class="ion-no-margin item-def">{{item.product.size}}, {{item.product.color}}</h5>
               <h5 class="ion-no-margin item-def">shipping: {{item.product.currency}}{{item.product.shipping}}</h5>
               <h5 class="ion-no-margin item-def">Dec 31 - Jan 17</h5> -->

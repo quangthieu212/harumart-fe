@@ -12,6 +12,7 @@ import { AuthService } from '../core/services/auth.service';
 import { environment } from '../../environments/environment';
 import {CouponService} from '../core/services/coupon.service';
 import { ApplyCouponService } from '../core/services/apply-coupon.service';
+import { IonicCoreService } from '../core/services/ionic-core.service';
 
 @Component({
   selector: 'app-cart',
@@ -36,6 +37,7 @@ export class CartPage implements OnInit {
   promotion: any;
   show = true;
   data: Array<Cart> = [];
+  isNotSameWarehouse = false;
 
   form: FormGroup;
   inventoryQuantity = 1;
@@ -53,7 +55,8 @@ export class CartPage implements OnInit {
     public sanitizer: DomSanitizer,
     private auth: AuthService,
     private couponService: CouponService,
-    private applyCouponService: ApplyCouponService
+    private applyCouponService: ApplyCouponService,
+    private ionicCoreService: IonicCoreService,
     ) {
     // this.data = dataService.cart;
     // if (this.data.length === 0) { this.show = false; }
@@ -68,11 +71,21 @@ export class CartPage implements OnInit {
 
   async ionViewWillEnter() {
     this.data = await this.cartService.getProductsIncart();
+    this.checkSameWarehouse();
     if (this.data.length === 0) {
       this.show = false;
     } else {
       this.show = true;
     }
+  }
+
+  checkSameWarehouse() {
+    const warehouseIds = [];
+    this.data.forEach(item => {
+      warehouseIds.push(item.product.productWarehouseOdoo.warehouseId);
+    });
+    const uniqueArr = [...new Set(warehouseIds)];
+    this.isNotSameWarehouse = uniqueArr.length > 1 ? true : false;
   }
 
   ionViewDidEnter() {
@@ -164,6 +177,10 @@ export class CartPage implements OnInit {
   }
 
   checkout() {
+    if (this.isNotSameWarehouse) {
+      this.ionicCoreService.showToastError({message: 'Các sản phẩm trong giỏ hàng phải cùng một kho'});
+      return;
+    }
     const coupons = [];
     if (this.promotion) {
       coupons.push(this.promotion);
@@ -185,6 +202,7 @@ export class CartPage implements OnInit {
         }
         this.data.splice(j, 1);
         await this.cartService.removeProductToCart(item.product);
+        this.checkSameWarehouse();
         if (this.data.length === 0) {
           this.show = false;
         } else {
