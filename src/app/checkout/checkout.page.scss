@@ -32,6 +32,17 @@
     padding: 10px;
 }
 
+.ship-partner {
+    ion-list-header {
+        display: flex;
+        align-items: center;
+    }
+
+    .ship-fee {
+        margin: 5px 0 0 20px;
+    }
+}
+
 .radio-pay {
     ion-label {
         font-size: 13px;

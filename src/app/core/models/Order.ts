@@ -41,6 +41,8 @@ export interface OrderRequest {
     ApplyCoupon?: any[];
     pay_discount_type?: string;
     pay_ship_type?: string;
+    ship_partner?: string;
+    amount_delivery?: number;
 }
 
 export interface OrderLineRequest {

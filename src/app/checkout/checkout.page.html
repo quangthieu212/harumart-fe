@@ -50,6 +50,31 @@
       </div>
     </div>
   </ion-list>
+  <ion-radio-group class="radio-pay ship-partner" [(ngModel)]="shipType" (ionChange)="shipTypeChange($event)">
+    <ion-list-header>
+      <ion-label>Đơn vị vận chuyển:</ion-label>
+      <ion-item>
+        <ion-select label="Default label" placeholder="Đơn vị vận chuyển" (ionChange)="onShipPartnerChange($event)">
+          <ion-select-option value="ghtk">Giao hàng tiết kiệm</ion-select-option>
+          <ion-select-option value="viettel">Viettel post</ion-select-option>
+          <ion-select-option value="vnpost">VN post</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-list-header>
+    <ion-row *ngIf="shipPartner">
+      <ion-item>
+        <ion-label>Giao nhanh</ion-label>
+        <ion-radio slot="start" [value]="'fast'"></ion-radio>
+      </ion-item>
+      <ion-item>
+        <ion-label>Giao thường</ion-label>
+        <ion-radio slot="start" [value]="'normal'"></ion-radio>
+      </ion-item>
+    </ion-row>
+    <ion-row>
+      <ion-text class="ship-fee"><span>Phí vận chuyển: {{shipFee | currency:'VND':'symbol'}}</span></ion-text>
+    </ion-row>
+  </ion-radio-group>
   <ion-radio-group class="radio-pay" [(ngModel)]="payDiscountType">
     <ion-list-header>
       <ion-label>Chi trả tiền chiết khấu bán lẻ:</ion-label>
@@ -81,16 +106,18 @@
     </ion-row>
   </ion-radio-group>
   <ion-list *ngIf="paymentAcquirers && paymentAcquirers.length > 0">
-    <ion-radio-group [value]="paymentAcquirerId" name="radio-group" (ionChange)="paymentAcquirerChange($event)"
+    <ion-radio-group class="radio-pay" [value]="paymentAcquirerId" name="radio-group" (ionChange)="paymentAcquirerChange($event)"
       #radioGroup>
       <ion-list-header>
         <ion-label>Phương thức thanh toán</ion-label>
       </ion-list-header>
 
-      <ion-item *ngFor="let item of paymentAcquirers" (ionSelect)="radioSelect($event)">
-        <ion-label>{{item.name}}</ion-label>
-        <ion-radio slot="start" name="{{item.name}}" value="{{item.id}}" checked="{{item.checked}}"></ion-radio>
-      </ion-item>
+      <ion-row>
+        <ion-item *ngFor="let item of paymentAcquirers" (ionSelect)="radioSelect($event)">
+          <ion-label>{{item.name}}</ion-label>
+          <ion-radio slot="start" name="{{item.name}}" value="{{item.id}}" checked="{{item.checked}}"></ion-radio>
+        </ion-item>
+      </ion-row>
 
     </ion-radio-group>
     <ion-row *ngIf="isShowReference">

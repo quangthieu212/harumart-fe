@@ -62,6 +62,9 @@ export class HomePage implements OnDestroy {
     effect: 'flip',
     speed: 400,
     loop: false,
+    autoplay: {
+      delay: 2000,
+    },
     // autoplay: {
     //   delay: 2500,
     //   disableOnInteraction: false,

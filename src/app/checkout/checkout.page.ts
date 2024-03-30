@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FunctionsService } from '../functions.service';
-import { DataService } from '../data.service';
+import { DataService, Address } from '../data.service';
 import { AlertController, IonRadioGroup, MenuController, ModalController } from '@ionic/angular';
 import { ProvinceSearchPage } from '../core/modals/province-search/province-search.page';
 import { DistrictsSearchPage } from '../core/modals/districts-search/districts-search.page';
@@ -60,6 +60,10 @@ export class CheckoutPage implements OnInit, OnDestroy {
   customerPhone: string;
   payDiscountType = null;
   payShipType = null;
+  shipType = null;
+  shipPartner = null;
+  shipFee = 0;
+  shipObject: any;
 
   constructor(
     private menuCtrl: MenuController,
@@ -87,9 +91,9 @@ export class CheckoutPage implements OnInit, OnDestroy {
     this.form.get('shippingAddress').valueChanges.pipe(
       throttleTime(3000 )
     )
-    .subscribe((value) => {
+    .subscribe(async (value) => {
       if (value.ward && value.ward.id) {
-        console.log('value', value);
+        this.getShippingFee(value);
       }
     });
     this.paymentService.getPaymentAcquirers().pipe(takeUntil(this.ngUnsubscribe)).subscribe((res: any) => {
@@ -224,6 +228,13 @@ async onClickWard() {
 }
 
   async done() {
+    if (this.form.invalid) {
+      return;
+    }
+    if (!this.shipPartner || !this.shipType) {
+      this.ionicCoreService.showToastError({message: 'Vui lòng chọn đơn vị vận chuyển'});
+      return;
+    }
     if (this.form.valid) {
       this.isLoading = true;
       const carts = await this.cartService.getProductsIncart();
@@ -337,6 +348,15 @@ async onClickWard() {
               pay_ship_type: this.payShipType
             };
           }
+          if (this.shipPartner && this.shipType) {
+            orderRequest = {
+              ...orderRequest,
+              // eslint-disable-next-line @typescript-eslint/naming-convention
+              amount_delivery: this.shipFee,
+              // eslint-disable-next-line @typescript-eslint/naming-convention
+              ship_partner: this.shipPartner
+            };
+          }
           orderRequests.push(orderRequest);
         }
         console.log(orderRequests);
@@ -375,6 +395,47 @@ async onClickWard() {
       this.isShowReference = false;
       this.reference = '';
     }
+  }
+
+  onShipPartnerChange(event) {
+    this.shipPartner = event.detail.value;
+    this.calculateShipFee();
+  }
+
+  shipTypeChange(event) {
+    this.calculateShipFee();
+  }
+
+  calculateShipFee() {
+    this.getShippingFee(this.form.value.shippingAddress);
+  }
+
+  async getShippingFee(address: any) {
+    if (!this.customerName || !this.customerPhone || !this.shipPartner || !this.shipType) {
+      return;
+    }
+    const carts = await this.cartService.getProductsIncart();
+    const warehouseIds = [];
+    const productTmplIds = [];
+    carts.forEach(item => {
+      warehouseIds.push(item.product.productWarehouseOdoo.warehouseId);
+      productTmplIds.push(item.product.productTmplId);
+    });
+    const calShipFeeParams = {
+      address,
+      phone: this.customerPhone,
+      name: this.customerName,
+      shipPartner: this.shipPartner,
+      shipType: this.shipType,
+      wareHouseId: warehouseIds[0],
+      productTmpIds: productTmplIds
+    };
+    this.orderService.getShippingFee(calShipFeeParams).pipe(takeUntil(this.ngUnsubscribe)).subscribe(
+      (res: any) => {
+        this.shipObject = res;
+        this.shipFee = res.ship_fee_only;
+      }
+    );
   }
 
   radioSelect(event) {
