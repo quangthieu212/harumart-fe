@@ -43,6 +43,8 @@ export class CartPage implements OnInit {
   inventoryQuantity = 1;
 
   isDaiLy = false;
+  vouchersSaved: any = [];
+  vouchersSavedOrigin: any = [];
 
   constructor(
     private menuCtrl: MenuController,
@@ -67,6 +69,7 @@ export class CartPage implements OnInit {
     // this.data = await this.cartService.getProductsIncart();
     // if (this.data.length === 0) { this.show = false; }
     this.isDaiLy = await this.auth.isDaiLy();
+    this.getVouchers();
   }
 
   async ionViewWillEnter() {
@@ -77,6 +80,37 @@ export class CartPage implements OnInit {
     } else {
       this.show = true;
     }
+  }
+
+  async getVouchers() {
+    const currentUser = await this.auth.getUser();
+    this.couponService.getVoucher(currentUser)
+      .subscribe(
+        (result: any) => {
+          this.vouchersSavedOrigin = result.filter(item => item.isSave) || [];
+          this.vouchersSaved = result.filter(item => item.isSave)  || [];
+        }
+      );
+  }
+
+  searchVoucher(event) {
+    console.log(event.target.value);
+    if (!event.target.value) {
+      console.log(1);
+      this.vouchersSaved = JSON.parse(JSON.stringify(this.vouchersSavedOrigin));
+      console.log(this.vouchersSaved);
+    }
+    this.vouchersSaved = this.vouchersSavedOrigin.filter((item) => item.code.includes(event.target.value));
+  }
+
+  changeVoucher(event) {
+    if (!event) {
+      this.voucherCode = null;
+      this.voucher = null;
+      return;
+    }
+    this.voucherCode = event.code;
+    this.applyVoucher();
   }
 
   checkSameWarehouse() {
@@ -103,10 +137,10 @@ export class CartPage implements OnInit {
   async getQty(qty, cart: Cart) {
     cart.quantity = qty;
     await this.cartService.updateProduct(cart.product, qty);
-    if (this.promotion) {
+    if (this.promotionCode) {
       this.applyPromotion();
     }
-    if (this.voucher) {
+    if (this.voucherCode) {
       this.applyVoucher();
     }
   }
@@ -138,10 +172,10 @@ export class CartPage implements OnInit {
     if (i === 1) {
       for (const j of this.data) {
         if (j.product) {
-          if (this.isDaiLy && j.product.partnerDiscountOdoo) {
-            res += Number(j.product.partnerDiscountOdoo * j.quantity);
-          } else if (!this.isDaiLy && j.product.agentDiscountOdoo) {
+          if (this.isDaiLy && j.product.agentDiscountOdoo) {
             res += Number(j.product.agentDiscountOdoo * j.quantity);
+          } else if (!this.isDaiLy && j.product.partnerDiscountOdoo) {
+            res += Number(j.product.partnerDiscountOdoo * j.quantity);
           }
         }
       }

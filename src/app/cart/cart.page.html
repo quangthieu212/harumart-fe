@@ -84,26 +84,34 @@
     <ion-row class="ion-margin">
       <ion-text><strong class="text">Chi tiết đơn hàng</strong></ion-text>
     </ion-row>
-    <ion-item lines="none" class="ion-no-margin card">
-      <ion-row class="full">
-        <ion-col size="9">
-          <ion-input placeholder="Nhập mã voucher" [(ngModel)]="voucherCode" class="input"></ion-input>
-        </ion-col>
-        <ion-col class="ion-align-self-center" size="3">
-          <ion-button  fill="outline" expand="block" color="mytheme" (click)="applyVoucher()"><span class="small">Áp dụng</span></ion-button>
-        </ion-col>
-      </ion-row>
-    </ion-item>
-    <ion-item lines="none" class="ion-no-margin card">
-      <ion-row class="full">
-        <ion-col size="9">
-          <ion-input placeholder="Nhập mã khuyến mại" [(ngModel)]="promotionCode" class="input"></ion-input>
-        </ion-col>
-        <ion-col class="ion-align-self-center" size="3">
-          <ion-button fill="outline" expand="block" color="mytheme" (click)="applyPromotion()"><span class="small">Áp dụng</span></ion-button>
-        </ion-col>
-      </ion-row>
-    </ion-item>
+    <ion-row class="full coupon">
+      <ion-col size="9">
+        <ng-select [items]="vouchersSaved" bindLabel="name" notFoundText="Không tìm thấy voucher đã lưu"
+          placeholder="Nhập mã voucher" (keyup)="searchVoucher($event)" (change)="changeVoucher($event)">
+          <ng-template ng-option-tmp let-item="item">
+            <ion-grid>
+              <ion-row>
+                <ion-label style="font-size: 13px;font-weight: 600;margin-left: 5px;">{{item.code}}</ion-label>
+              </ion-row>
+              <ion-row>
+                <ion-col style="font-size: 13px;" class="label">{{item.name}}</ion-col>
+              </ion-row>
+            </ion-grid>
+          </ng-template>
+        </ng-select>
+      </ion-col>
+      <ion-col class="ion-align-self-center" size="3">
+        <ion-button  fill="outline" expand="block" size="small" color="mytheme" (click)="applyVoucher()"><span class="small">Áp dụng</span></ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-row class="full coupon">
+      <ion-col class="promotion" size="9">
+        <ion-input placeholder="Nhập mã khuyến mại" [(ngModel)]="promotionCode" class="input"></ion-input>
+      </ion-col>
+      <ion-col class="ion-align-self-center" size="3">
+        <ion-button fill="outline" expand="block" size="small" color="mytheme" (click)="applyPromotion()"><span class="small">Áp dụng</span></ion-button>
+      </ion-col>
+    </ion-row>
     <div lines="none" class="card ion-no-margin ion-padding-bottom">
       <ion-row class="ion-padding-horizontal full">
         <ion-col size="6">
