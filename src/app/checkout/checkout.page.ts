@@ -351,11 +351,11 @@ async onClickWard() {
               pay_ship_type: this.payShipType
             };
           }
-          if (this.shipPartner && this.shipType) {
+          if (this.shipPartner) {
             orderRequest = {
               ...orderRequest,
               // eslint-disable-next-line @typescript-eslint/naming-convention
-              amount_delivery: this.shipFee,
+              amount_delivery: this.shipPartner === 'taikho' ? 0 : this.shipFee,
               // eslint-disable-next-line @typescript-eslint/naming-convention
               ship_partner: this.shipPartner
             };
@@ -402,6 +402,11 @@ async onClickWard() {
 
   onShipPartnerChange(event) {
     this.shipPartner = event.detail.value;
+    this.shipType = 'fast'
+    if (this.shipPartner === 'taikho') {
+      this.shipFee = 0;
+      return;
+    }
     this.calculateShipFee();
   }
 
