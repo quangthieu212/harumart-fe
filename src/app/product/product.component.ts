@@ -108,7 +108,7 @@ export class ProductComponent implements OnInit {
   }
 
   copy() {
-    this.ionicNativeService.copy(`${this.webUrl}/products/${this.product.odooId}`);
+    this.ionicNativeService.copy(`${this.webUrl}productdetail/${this.product.id}`);
   }
 
   share() {

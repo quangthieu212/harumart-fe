@@ -65,6 +65,10 @@ export class ProductdetailPage implements OnInit, OnDestroy {
     .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((result: any) => {
         if (result.isSuccess) {
+          if (result.data.mapProducts) {
+            this.mapProducts = result.data.mapProducts;
+            this.mapProductsService.updateMapProducts(result.data.mapProducts);
+          }
           if (this.mapProducts) {
             this.getQtyAvailable().subscribe((res: any) => {
               this.product = result.data;
