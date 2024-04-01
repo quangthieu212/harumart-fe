@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Component, Input, OnInit } from '@angular/core';
 import { OrderLine, SaleOrder } from '../../models/Order';
 import { UtilService } from '../../services/util.service';
-import { ModalController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { StateOrderModalComponent } from '../state-order-modal/state-order-modal.component';
 
 @Component({
@@ -23,10 +24,12 @@ export class OrderItemComponent implements OnInit {
   };
   constructor(
     public utilService: UtilService,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private alertController: AlertController
   ) { }
 
   ngOnInit() {
+    console.log(this.segment);
   }
 
   async showModalTimeLine(item: OrderLine) {
@@ -38,6 +41,31 @@ export class OrderItemComponent implements OnInit {
       id: 'state-modal'
     });
     modal.present();
+  }
+
+  async cancelOrder() {
+    const alert = await this.alertController.create({
+      header: 'Xác nhận!',
+      message: 'Bạn chắc chắn muốn huỷ đơn hàng này không?',
+      buttons: [
+        {
+          text: 'Không',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (cancel) => {
+            console.log('Confirm Cancel: blah ', this.order);
+            window.location.reload();
+          }
+        }, {
+          text: 'Có',
+          handler: (ok) => {
+            console.log('Confirm Okay', this.order);
+          }
+        }
+      ]
+    });
+
+    alert.present();
   }
 
 }
