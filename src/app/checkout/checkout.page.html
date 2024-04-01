@@ -114,7 +114,7 @@
       </ion-list-header>
 
       <ion-row>
-        <ion-item *ngFor="let item of paymentAcquirers" (ionSelect)="radioSelect($event)">
+        <ion-item *ngFor="let item of paymentAcquirers" [ngClass]="{'cod' : item.provider === 'COD'}" (ionSelect)="radioSelect($event)">
           <ion-label>{{item.name_display}}</ion-label>
           <ion-radio slot="start" name="{{item.name}}" value="{{item.id}}" checked="{{item.checked}}"></ion-radio>
         </ion-item>
