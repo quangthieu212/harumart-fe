@@ -105,14 +105,14 @@ export class SignupPage implements OnInit {
           Validators.required,
           phoneNumberValidator
         ],
-        updateOn: 'blur'
+        updateOn: 'change'
       }),
       phoneParent: new FormControl(this.phoneParent || '', {
         validators: [
           Validators.required,
           phoneNumberValidator
         ],
-        updateOn: 'blur'
+        updateOn: 'change'
       }),
       address: new FormControl(''),
       accountNumber: new FormControl(''),
