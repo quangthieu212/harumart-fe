@@ -74,6 +74,10 @@ ion-item {
   white-space: initial;
 }
 
+.order-info {
+  margin-left: 20px;
+}
+
 ::ng-deep {
   ion-modal#state-modal {
     --width: 80%;

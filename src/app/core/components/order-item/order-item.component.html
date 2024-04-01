@@ -7,6 +7,18 @@
       {{utilService.convertStringToDateTime(order.dateOrder)}}
     </div>
   </ion-row>
+  <ion-row class="order-info">
+    <span>Khách hàng: {{order.displayName}}</span>
+  </ion-row>
+  <ion-row class="order-info">
+    <span>SĐT: {{order.phone}}</span>
+  </ion-row>
+  <ion-row class="order-info">
+    <span>Trả tiền chiết khấu: {{order.pay_discount_type === 'after' ? 'Trả sau' : 'Trừ trên tiền hàng'}}</span>
+  </ion-row>
+  <ion-row class="order-info" style="margin-bottom: 5px; padding-bottom: 5px ;border-bottom: 0.5px solid #c8c7cc;">
+    <span>Người trả tiền ship: {{order.pay_ship_type === 'daily' ? isDaiLy ? 'Đại lý' : 'CTV' : 'Khách trả'}}</span>
+  </ion-row>
   <ng-container *ngFor="let lineItem of order.orderLines">
     <ion-item lines="none" detail="false">
       <!-- <ion-avatar slot="start" class="order-item__img">
@@ -22,18 +34,26 @@
         </div>
       </ion-label>
     </ion-item>
-    <ion-item *ngIf="segment === 'sale'" (click)="showModalTimeLine(lineItem)">
-      <div style="display: flex; justify-content: space-between; width: 100%;color: #108a61;">
-        <span>
-          {{STATE_SALE_ORDER[lineItem.state]}}
-        </span>
-        <span>></span>
-      </div>
-    </ion-item>
   </ng-container>
   <ion-item *ngIf="order.totalDiscount">
     <ion-label style="text-align: right; margin-right: 7px;">Giảm giá: </ion-label>
     <ion-lable style="color:red;">{{order.totalDiscount| currency:'VND':'symbol'}}</ion-lable>
+  </ion-item>
+  <ion-item>
+    <ion-label style="text-align: right; margin-right: 7px;">Chiết khấu: </ion-label>
+    <ion-lable style="color:red;">{{order.agent_partner_discount| currency:'VND':'symbol'}}</ion-lable>
+  </ion-item>
+  <ion-item>
+    <ion-label style="text-align: right; margin-right: 7px;">Phí ship: </ion-label>
+    <ion-lable style="color:red;">{{order.amount_delivery| currency:'VND':'symbol'}}</ion-lable>
+  </ion-item>
+  <ion-item *ngIf="segment === 'sale'" (click)="showModalTimeLine(order.state)">
+    <div style="display: flex; justify-content: space-between; width: 100%;color: #108a61;">
+      <span>
+        {{STATE_SALE_ORDER[order.state]}}
+      </span>
+      <span>></span>
+    </div>
   </ion-item>
   <ion-item>
     <!-- <ion-button *ngIf="segment === 'draft'" (click)="cancelOrder()">Huỷ đơn</ion-button> -->

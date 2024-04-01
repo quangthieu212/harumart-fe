@@ -4,6 +4,7 @@ import { OrderLine, SaleOrder } from '../../models/Order';
 import { UtilService } from '../../services/util.service';
 import { AlertController, ModalController } from '@ionic/angular';
 import { StateOrderModalComponent } from '../state-order-modal/state-order-modal.component';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-order-item',
@@ -22,21 +23,23 @@ export class OrderItemComponent implements OnInit {
     sale_shipping: 'Đang giao hàng',
     sale_cancel_ship: 'Không giao được hàng'
   };
+  isDaiLy = false;
   constructor(
     public utilService: UtilService,
     private modalCtrl: ModalController,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private auth: AuthService,
   ) { }
 
-  ngOnInit() {
-    console.log(this.segment);
+  async ngOnInit() {
+    this.isDaiLy = await this.auth.isDaiLy();
   }
 
-  async showModalTimeLine(item: OrderLine) {
+  async showModalTimeLine(state: any) {
     const modal = await this.modalCtrl.create({
       component: StateOrderModalComponent,
       componentProps: {
-        state: Object.keys(this.STATE_SALE_ORDER).indexOf(item.state)
+        state: Object.keys(this.STATE_SALE_ORDER).indexOf(state)
       },
       id: 'state-modal'
     });

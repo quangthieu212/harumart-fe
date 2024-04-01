@@ -76,7 +76,13 @@ export interface SaleOrder {
     totalDiscount: number;
     deliveryDate: Date;
     status: string;
+    amount_delivery: number;
+    agent_partner_discount: number;
     shippingAddress: Address;
+    displayName: string;
+    phone: string;
+    pay_discount_type: string;
+    pay_ship_type: string;
     orderLines: Array<OrderLine>;
 }
 
