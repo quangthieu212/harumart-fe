@@ -109,6 +109,7 @@ export class SignupPage implements OnInit {
       }),
       phoneParent: new FormControl(this.phoneParent || '', {
         validators: [
+          Validators.required,
           phoneNumberValidator
         ],
         updateOn: 'blur'
