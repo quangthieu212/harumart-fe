@@ -15,6 +15,12 @@ export class OrderService {
         return this.http.post(`${environment.apiUrl}/v1/Orders`, data);
     }
 
+    cancelOrder(orderId: number) {
+        let httpParams = new HttpParams();
+        httpParams = httpParams.append('order_id', orderId);
+        return this.http.post(`${environment.apiUrl}/v1/Orders/cancel-order`, null, {params: httpParams});
+    }
+
     getOrdersByUser(filter) {
         return this.http.post(`${environment.apiUrl}/v1/Orders/find-by-user`, filter);
     }

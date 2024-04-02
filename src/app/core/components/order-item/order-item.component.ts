@@ -5,6 +5,7 @@ import { UtilService } from '../../services/util.service';
 import { AlertController, ModalController } from '@ionic/angular';
 import { StateOrderModalComponent } from '../state-order-modal/state-order-modal.component';
 import { AuthService } from '../../services/auth.service';
+import { OrderService } from '../../services/order.service';
 
 @Component({
   selector: 'app-order-item',
@@ -29,6 +30,7 @@ export class OrderItemComponent implements OnInit {
     private modalCtrl: ModalController,
     private alertController: AlertController,
     private auth: AuthService,
+    private orderService: OrderService,
   ) { }
 
   async ngOnInit() {
@@ -56,13 +58,13 @@ export class OrderItemComponent implements OnInit {
           role: 'cancel',
           cssClass: 'secondary',
           handler: (cancel) => {
-            console.log('Confirm Cancel: blah ', this.order);
-            window.location.reload();
           }
         }, {
           text: 'Có',
           handler: (ok) => {
-            console.log('Confirm Okay', this.order);
+            this.orderService.cancelOrder(this.order.id).subscribe((res: any) => {
+              window.location.reload();
+            });
           }
         }
       ]
