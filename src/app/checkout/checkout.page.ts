@@ -402,7 +402,7 @@ async onClickWard() {
 
   onShipPartnerChange(event) {
     this.shipPartner = event.detail.value;
-    this.shipType = 'fast'
+    this.shipType = 'normal'
     if (this.shipPartner === 'taikho') {
       this.shipFee = 0;
       return;

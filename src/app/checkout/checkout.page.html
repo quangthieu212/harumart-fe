@@ -64,12 +64,12 @@
     </ion-list-header>
     <ion-row *ngIf="shipPartner && shipPartner !== 'taikho'">
       <ion-item>
-        <ion-label>Giao nhanh</ion-label>
-        <ion-radio slot="start" [value]="'fast'"></ion-radio>
-      </ion-item>
-      <ion-item>
         <ion-label>Giao thường</ion-label>
         <ion-radio slot="start" [value]="'normal'"></ion-radio>
+      </ion-item>
+      <ion-item>
+        <ion-label>Giao nhanh</ion-label>
+        <ion-radio slot="start" [value]="'fast'"></ion-radio>
       </ion-item>
     </ion-row>
     <ion-row>
