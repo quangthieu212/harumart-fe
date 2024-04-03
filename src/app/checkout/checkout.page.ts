@@ -424,10 +424,13 @@ async onClickWard() {
     }
     const carts = await this.cartService.getProductsIncart();
     const warehouseIds = [];
-    const productTmplIds = [];
+    const productTmp = [];
     carts.forEach(item => {
       warehouseIds.push(item.product.productWarehouseOdoo.warehouseId);
-      productTmplIds.push(item.product.productTmplId);
+      productTmp.push({
+        product_tmp_id: item.product.productTmplId,
+        quantity: item.quantity
+      });
     });
     const calShipFeeParams = {
       address,
@@ -435,10 +438,9 @@ async onClickWard() {
       name: this.customerName,
       shipPartner: this.shipPartner,
       shipType: this.shipType,
-      wareHouseId: warehouseIds[0],
-      productTmpIds: productTmplIds
+      wareHouseId: warehouseIds[0]
     };
-    this.orderService.getShippingFee(calShipFeeParams).pipe(takeUntil(this.ngUnsubscribe)).subscribe(
+    this.orderService.getShippingFee(productTmp, calShipFeeParams).pipe(takeUntil(this.ngUnsubscribe)).subscribe(
       (res: any) => {
         this.shipObject = res;
         this.shipFee = res.ship_fee_only;

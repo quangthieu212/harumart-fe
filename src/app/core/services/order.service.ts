@@ -25,7 +25,7 @@ export class OrderService {
         return this.http.post(`${environment.apiUrl}/v1/Orders/find-by-user`, filter);
     }
 
-    getShippingFee(params: any) {
+    getShippingFee(productTmp, params: any) {
         const {address, phone, name, shipPartner, shipType, wareHouseId, productTmpIds} = params;
         let httpParams = new HttpParams();
         if (address) {
@@ -39,6 +39,6 @@ export class OrderService {
             httpParams = httpParams.append('wareHouseId', wareHouseId);
             httpParams = httpParams.append('product_tmp_ids', productTmpIds);
         }
-        return this.http.get(`${environment.apiUrl}/v1/Orders/get-ship-fee`, { params: httpParams });
+        return this.http.post(`${environment.apiUrl}/v1/Orders/get-ship-fee`, productTmp, { params: httpParams });
     }
 }
