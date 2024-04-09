@@ -50,10 +50,19 @@ export class CartService {
     const existInCarts = lastProducts.find(c => this.compareFn(c.product, product));
     if (existInCarts) {
       existInCarts.quantity = qty;
-      existInCarts.note = note;
       this.cart$.next(lastProducts);
       return this.storageCtrl.set(STORAGE_CART, JSON.stringify(lastProducts));
     }
+  }
+
+  async updateProductNote(carts: Array<Cart>) {
+    const lastProducts = await this.getProductsIncart();
+    lastProducts.forEach(item => {
+      const note = carts.find(cart => cart.product.id === item.product.id).note;
+      item.note = note;
+    });
+    this.cart$.next(lastProducts);
+    return this.storageCtrl.set(STORAGE_CART, JSON.stringify(lastProducts));
   }
 
   async loadProductsInCart() {

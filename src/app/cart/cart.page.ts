@@ -201,7 +201,7 @@ export class CartPage implements OnInit {
     this.fun.navigate('/home', false);
   }
 
-  checkout() {
+  async checkout() {
     if (this.isNotSameWarehouse) {
       this.ionicCoreService.showToastError({message: 'Các sản phẩm trong giỏ hàng phải cùng một kho'});
       return;
@@ -213,9 +213,7 @@ export class CartPage implements OnInit {
     if (this.voucher) {
       coupons.push(this.voucher);
     }
-    this.data.forEach(async item => {
-      await this.cartService.updateProduct(item.product, item.quantity, item.note);
-    });
+    await this.cartService.updateProductNote(this.data);
     this.applyCouponService.updateCoupons(coupons);
     this.fun.checkout();
   }

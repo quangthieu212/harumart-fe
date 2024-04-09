@@ -363,7 +363,6 @@ async onClickWard() {
           }
           orderRequests.push(orderRequest);
         }
-        console.log(orderRequests);
         let orderRequestBody;
         if (this.applyCouponService.getLastCouponsValue() && this.applyCouponService.getLastCouponsValue().length) {
           orderRequestBody = { orderAddressRequest: partnerRequest,
