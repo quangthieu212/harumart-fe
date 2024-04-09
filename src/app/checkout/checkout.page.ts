@@ -287,6 +287,7 @@ async onClickWard() {
             productId: Number(product.odooId),
             productTmplId: product.productTmplId,
             quantity: cart.quantity,
+            note: cart.note,
             product:  {uomId: 1},
             // eslint-disable-next-line @typescript-eslint/naming-convention
             product_uom_qty: 1,

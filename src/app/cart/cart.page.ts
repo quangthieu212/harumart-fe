@@ -79,6 +79,7 @@ export class CartPage implements OnInit {
       this.show = false;
     } else {
       this.show = true;
+      this.data.forEach(item => item.note = '');
     }
   }
 
@@ -212,6 +213,9 @@ export class CartPage implements OnInit {
     if (this.voucher) {
       coupons.push(this.voucher);
     }
+    this.data.forEach(async item => {
+      await this.cartService.updateProduct(item.product, item.quantity, item.note);
+    });
     this.applyCouponService.updateCoupons(coupons);
     this.fun.checkout();
   }

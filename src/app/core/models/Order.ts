@@ -65,6 +65,7 @@ export interface OrderLineRequest {
     agentDiscountOdoo: number;
     agentPointOdoo?: string;
     partnerPointOdoo?: string;
+    note?: string;
 }
 
 export interface SaleOrder {
@@ -98,5 +99,6 @@ export interface OrderLine {
     discount: number;
     productImageOdoo?: Array<ProductImageOdoo>;
     state: string;
+    note?: string;
 }
 

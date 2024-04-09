@@ -45,11 +45,12 @@ export class CartService {
     return  this.storageCtrl.set(STORAGE_CART, JSON.stringify(lastProducts));
   }
 
-  async updateProduct(product: Partial<Product>, qty: number) {
+  async updateProduct(product: Partial<Product>, qty: number, note = '') {
     const lastProducts = await this.getProductsIncart();
     const existInCarts = lastProducts.find(c => this.compareFn(c.product, product));
     if (existInCarts) {
       existInCarts.quantity = qty;
+      existInCarts.note = note;
       this.cart$.next(lastProducts);
       return this.storageCtrl.set(STORAGE_CART, JSON.stringify(lastProducts));
     }

@@ -28,6 +28,9 @@
         <div class="order-item__name">
           {{ lineItem.name }}
         </div>
+        <div *ngIf="lineItem.note" class="order-item__name" style="color: #666666;">
+          Ghi chú: {{ lineItem.note }}
+        </div>
         <div class="ion-margin-top order-item__price">
           <ion-lable>SL: {{lineItem.quantity}}</ion-lable>
           <ion-lable style="margin-left: auto; color: red;">{{lineItem.priceSubtotal| currency:'VND':'symbol'}}</ion-lable>

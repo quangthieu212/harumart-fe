@@ -37,24 +37,23 @@
               <ng-container *ngIf="!item.product || !item.product.productTempImage || !item.product.productTempImage[0]">
                 <img src="assets/logo.svg">
               </ng-container>
-
-              <ion-text color="danger" class="small" (click)="remove(item, j)">Xoá</ion-text>
             </ion-col>
             <ion-col style="display: flex;flex-direction: column;justify-content: space-between;" size="6">
               <h3 style="font-size: 14px;" class="ion-no-margin item-name">{{item.product.name}} - {{item.product.productWarehouseOdoo.warehouseName}}</h3>
               <!-- <h5 class="ion-no-margin item-def">{{item.product.size}}, {{item.product.color}}</h5>
               <h5 class="ion-no-margin item-def">shipping: {{item.product.currency}}{{item.product.shipping}}</h5>
               <h5 class="ion-no-margin item-def">Dec 31 - Jan 17</h5> -->
-              <ion-row class="ion-justify-content-end" style="width: 65%; margin-bottom: 25px;">
+              <ion-row class="ion-justify-content-end" style="width: 100%; margin-bottom: 25px;">
                 <!-- <ion-select placeholder="-" interface="popover" [interfaceOptions]="customAlertOptions" [(ngModel)]='item.quantity'
                   class="select">
                   <ion-select-option *ngFor="let q of qty" (value)="q" text-center>{{q}}</ion-select-option>
                 </ion-select> -->
                 <div class="d-flex ion-justify-content-between ion-align-items-center cart-pro-quantity" [ngClass]="avaiableQty(item.product) ? '' : 'disabled hidden'">
                   <!-- <div class="font-small">Số lượng:</div> -->
-                  <div class="ion-text-right font-weight-bold d-flex ion-justify-content-end">
+                  <div class="ion-text-right font-weight-bold d-flex ion-justify-content-between ion-align-items-center" style="display: flex;">
                     <app-quantity-input [quantityValue]="item.quantity" [disabled]="!avaiableQty(item.product)" (outputQty)="getQty($event, item)" [max]="item.product.qtyAvailable">
                     </app-quantity-input>
+                    <ion-text color="danger" class="small" (click)="remove(item, j)">Xoá</ion-text>
                   </div>
                 </div>
               </ion-row>
@@ -69,6 +68,15 @@
               </ion-row>
 
             </ion-col>
+          </ion-row>
+        </ion-item>
+        <ion-item>
+          <ion-row style="width: 100%; margin-bottom: 5px;">
+            <ion-input placeholder="Ghi chú" [(ngModel)]="item.note" class="input"></ion-input>
+          </ion-row>
+        </ion-item>
+        <ion-item>
+          <ion-row>
           </ion-row>
         </ion-item>
         <!-- <ion-item-options side="end">
