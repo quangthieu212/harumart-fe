@@ -236,6 +236,14 @@ async onClickWard() {
       this.ionicCoreService.showToastError({message: 'Vui lòng chọn đơn vị vận chuyển'});
       return;
     }
+    if (!this.payDiscountType) {
+      this.ionicCoreService.showToastError({message: 'Vui lòng chọn chi trả tiền chiết khấu bán lẻ'});
+      return;
+    }
+    if (this.shipPartner !== 'taikho' && !this.payShipType) {
+      this.ionicCoreService.showToastError({message: 'Vui lòng chọn bên thanh toán vận chuyển'});
+      return;
+    }
     if (this.form.valid) {
       this.isLoading = true;
       const carts = await this.cartService.getProductsIncart();
@@ -402,8 +410,9 @@ async onClickWard() {
 
   onShipPartnerChange(event) {
     this.shipPartner = event.detail.value;
-    this.shipType = 'normal'
+    this.shipType = 'normal';
     if (this.shipPartner === 'taikho') {
+        this.payShipType = null;
       this.shipFee = 0;
       return;
     }

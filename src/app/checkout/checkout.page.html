@@ -91,7 +91,7 @@
       </ion-item>
     </ion-row>
   </ion-radio-group>
-  <ion-radio-group class="radio-pay" [(ngModel)]="payShipType">
+  <ion-radio-group *ngIf="shipPartner && shipPartner !== 'taikho'" class="radio-pay" [(ngModel)]="payShipType">
     <ion-list-header>
       <ion-label>Bên thanh toán vận chuyển:</ion-label>
     </ion-list-header>
