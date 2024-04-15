@@ -60,6 +60,9 @@ export class AddressFormComponent implements OnInit, ControlValueAccessor {
   }
 
   writeValue(obj: any) {
+    if (obj === null) {
+      this.form.reset();
+    };
     this.form.patchValue(obj);
   }
 

@@ -93,7 +93,7 @@ export class CheckoutPage implements OnInit, OnDestroy {
       throttleTime(3000 )
     )
     .subscribe(async (value) => {
-      if (value.ward && value.ward.id) {
+      if (value && value.ward && value.ward.id) {
         this.getShippingFee(value);
       }
     });
@@ -161,6 +161,15 @@ export class CheckoutPage implements OnInit, OnDestroy {
   }
 
   ionViewDidEnter(){
+    this.form.reset();
+    this.form.get('shippingAddress').reset();
+    this.customerName = null;
+    this.customerPhone = null;
+    this.customer = null;
+    this.shipType = null;
+    this.shipPartner = null;
+    this.payDiscountType = null;
+    this.payShipType = null;
     this.menuCtrl.enable(false, 'start');
     this.menuCtrl.enable(false, 'end');
   }

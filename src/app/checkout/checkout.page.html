@@ -14,7 +14,7 @@
       <ion-row>
         <ion-col>
           <ng-select [items]="customers" bindLabel="name" notFoundText="Không tìm thấy khách hàng"
-            placeholder="Tìm kiếm khách hàng" (keyup)="search($event)" (change)="changeCustomer($event)">
+            placeholder="Tìm kiếm khách hàng" [(ngModel)]="customer" (keyup)="search($event)" (change)="changeCustomer($event)">
             <ng-template ng-option-tmp let-item="item">
               <ion-grid>
                 <ion-row>
@@ -54,7 +54,7 @@
     <ion-list-header>
       <ion-label>Đơn vị vận chuyển:</ion-label>
       <ion-item>
-        <ion-select label="Default label" placeholder="Đơn vị vận chuyển" (ionChange)="onShipPartnerChange($event)">
+        <ion-select label="Default label" placeholder="Đơn vị vận chuyển" [(ngModel)]="shipPartner" (ionChange)="onShipPartnerChange($event)">
           <ion-select-option value="taikho">Nhận hàng tại kho</ion-select-option>
           <ion-select-option value="ghtk">Giao hàng tiết kiệm</ion-select-option>
           <ion-select-option value="viettel">Viettel post</ion-select-option>
