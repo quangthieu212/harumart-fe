@@ -73,6 +73,10 @@ export class CartPage implements OnInit {
   }
 
   async ionViewWillEnter() {
+    this.voucher = null;
+    this.voucherCode = null;
+    this.promotion = null;
+    this.promotionCode = null;
     this.data = await this.cartService.getProductsIncart();
     this.checkSameWarehouse();
     if (this.data.length === 0) {
