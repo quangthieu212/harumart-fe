@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Platform } from '@ionic/angular';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
@@ -100,6 +100,25 @@ export class AuthService {
 			}),
       tap((_) => {
 				this.isAuthenticated.next(true);
+			})
+		);
+  }
+
+  changePwd(phoneNumber: string): Observable<any> {
+    const headers = new HttpHeaders()
+      .append('Accept', '*/*')
+      .append('content-type','application/json; charset=utf-8;');
+    let httpParams = new HttpParams();
+    httpParams = httpParams.append('phone', phoneNumber);
+    httpParams = httpParams.append('key', 'sofaco');
+    const options = { headers,withCredentials: true, params: httpParams};
+    return this.http.post(`${environment.apiUrl}/v1/Users/changepwd`, null, options).pipe(
+			take(1),
+			map((res: any) => {
+        if (res.isSuccess) {
+          return res.data;
+        }
+        return res;
 			})
 		);
   }

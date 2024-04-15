@@ -19,6 +19,12 @@ const routes: Routes = [
     canLoad: [LoginGuard],
   },
   {
+    path: 'reset-password',
+    loadChildren: () =>
+      import('./reset-password/reset-password.module').then((x) => x.ResetPasswordPageModule),
+    canLoad: [LoginGuard],
+  },
+  {
     path: 'signup',
     loadChildren: () =>
       import('./signup/signup.module').then((x) => x.SignupPageModule),
@@ -145,6 +151,10 @@ const routes: Routes = [
     path: 'info-app',
     loadChildren: () =>
       import('./info-app/info-app.module').then((m) => m.InfoAppPageModule),
+  },
+  {
+    path: 'reset-password',
+    loadChildren: () => import('./reset-password/reset-password.module').then( m => m.ResetPasswordPageModule)
   },
 ];
 

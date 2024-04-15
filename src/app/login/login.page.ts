@@ -106,6 +106,10 @@ export class LoginPage implements OnInit {
     });
   }
 
+  goResetPwd() {
+    this.fun.navigate('reset-password', false);
+  }
+
   async openModal(b) {
     let modal;
     if (b) {
