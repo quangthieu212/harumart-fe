@@ -13,6 +13,7 @@ export interface Customer {
     street2: string;
     createDate: Date;
     create_date: Date;
+    bank_number: string;
 }
 
 export interface CustomerFilter {

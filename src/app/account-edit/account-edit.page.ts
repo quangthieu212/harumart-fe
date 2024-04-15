@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Storage } from '@ionic/storage-angular';
@@ -67,6 +68,7 @@ export class AccountEditPage implements OnInit {
       nationalId: new FormControl(this.customer.nationalId),
       gender: new FormControl(this.customer.gender),
       phone: new FormControl(this.customer.phone),
+      bank_number: new FormControl(this.customer.bank_number),
     });
   }
 
