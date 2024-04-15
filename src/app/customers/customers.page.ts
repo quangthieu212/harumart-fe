@@ -73,10 +73,14 @@ export class CustomersPage implements OnInit, OnDestroy {
 
   async ionViewWillEnter() {
     this.isLogin = await this.auth.isLogin();
-    if (!this.isLogin) {
-      this.customers = [];
-      return;
-    }
+    this.customers = [];
+    this.pageNumber = 1;
+    this.filter = {
+      pageSize: this.pageSize,
+      pageNumber: this.pageNumber,
+      type: 'daily',
+      searchValue: ''
+    };
     this.getCustomers();
   }
 
@@ -87,13 +91,14 @@ export class CustomersPage implements OnInit, OnDestroy {
   getCustomers(infiniteScroll?) {
     this.isLoading = true;
     this.filter.searchValue = this.searchValue;
+    this.filter.pageNumber = this.pageNumber;
     this.customerService.searchCustomer(this.filter)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((result: any) => {
         if (result && result.isSuccess) {
-          this.customers = result.data;
+          this.customers = this.customers.concat(result.data);
           const totalRecords = result.totalRecords;
-          this.maxPage = this.round(totalRecords/this.pageSize, 0);
+          this.maxPage = this.round(Math.ceil(totalRecords/this.pageSize), 0);
         }
         if (infiniteScroll) {
           infiniteScroll.target.complete();
