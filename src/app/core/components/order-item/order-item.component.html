@@ -46,6 +46,9 @@
     <ion-label style="text-align: right; margin-right: 7px;">Chiết khấu: </ion-label>
     <ion-lable style="color:red;">{{order.agent_partner_discount| currency:'VND':'symbol'}}</ion-lable>
   </ion-item>
+  <ion-row class="order-info">
+    <span>Vận chuyển: {{order.ship_partner}}</span>
+  </ion-row>
   <ion-item>
     <ion-label style="text-align: right; margin-right: 7px;">Phí ship: </ion-label>
     <ion-lable style="color:red;">{{order.amount_delivery| currency:'VND':'symbol'}}</ion-lable>

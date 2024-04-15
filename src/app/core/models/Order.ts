@@ -84,6 +84,7 @@ export interface SaleOrder {
     phone: string;
     pay_discount_type: string;
     pay_ship_type: string;
+    ship_partner: string;
     orderLines: Array<OrderLine>;
 }
 
