@@ -63,6 +63,7 @@
   </ion-item>
   <ion-item>
     <ion-button *ngIf="segment === 'draft'" (click)="cancelOrder()">Huỷ đơn</ion-button>
+    <ion-button *ngIf="segment === 'sale' && hasPermCompleteOrder" (click)="completeOrder()">Hoàn thành</ion-button>
     <ion-label style="text-align: right; margin-right: 7px; font-weight: bold;">Tổng tiền: </ion-label>
     <ion-lable style="color:red;">{{order.amountTotal| currency:'VND':'symbol'}}</ion-lable>
   </ion-item>

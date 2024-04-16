@@ -24,7 +24,8 @@ export class OrderItemComponent implements OnInit {
     sale_shipping: 'Đang giao hàng',
     sale_cancel_ship: 'Không giao được hàng'
   };
-  isDaiLy = false;
+  isDaiLy: boolean = false;
+  hasPermCompleteOrder: boolean = false;
   constructor(
     public utilService: UtilService,
     private modalCtrl: ModalController,
@@ -35,6 +36,10 @@ export class OrderItemComponent implements OnInit {
 
   async ngOnInit() {
     this.isDaiLy = await this.auth.isDaiLy();
+    const phoneNumberCurrentUser = await this.auth.getPhoneNumber();
+    if (phoneNumberCurrentUser === '0987887111' || phoneNumberCurrentUser === '0838316416') {
+      this.hasPermCompleteOrder = true;
+    }
   }
 
   async showModalTimeLine(state: any) {
@@ -63,6 +68,30 @@ export class OrderItemComponent implements OnInit {
           text: 'Có',
           handler: (ok) => {
             this.orderService.cancelOrder(this.order.id).subscribe((res: any) => {
+              window.location.reload();
+            });
+          }
+        }
+      ]
+    });
+
+    alert.present();
+  }
+  async completeOrder() {
+    const alert = await this.alertController.create({
+      header: 'Xác nhận!',
+      message: 'Bạn chắc chắn muốn hoàn thành đơn hàng này không?',
+      buttons: [
+        {
+          text: 'Không',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (cancel) => {
+          }
+        }, {
+          text: 'Có',
+          handler: (ok) => {
+            this.orderService.completeOrder(this.order.id).subscribe((res: any) => {
               window.location.reload();
             });
           }
