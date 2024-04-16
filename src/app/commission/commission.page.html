@@ -30,23 +30,42 @@
   <ng-container *ngIf="isLogin; else notLogin">
     <ng-container *ngIf="segment === 'ban-le'">
       <ion-row>
-        <ion-col size="6" style="margin-top: 7px;" class="ion-padding-start">
+        <ion-col size="3" style="margin-top: 7px;" class="ion-padding-start">
           <ion-text style="font-weight: bold;" class="ion-text-left">
             <span class="price">Doanh thu tháng</span>
           </ion-text>
         </ion-col>
-        <ion-col size="6">
-          <ion-datetime-button datetime="datetime"></ion-datetime-button>
+        <ion-col size="4">
+          <ion-datetime-button datetime="fromDatetime"></ion-datetime-button>
           <ion-modal [keepContentsMounted]="true">
             <ng-template>
               <ion-datetime
-              locale="vi-VN"
-              presentation="month-year"
-              [showDefaultButtons]="true"
-              doneText="Ok"
-              cancelText="Huỷ"
-              (ionChange)="changeDate($event)"
-               id="datetime"></ion-datetime>
+                locale="vi-VN"
+                presentation="date"
+                [showDefaultButtons]="true"
+                doneText="Ok"
+                cancelText="Huỷ"
+                (ionChange)="changeDate($event)"
+                [(ngModel)]="firstDayPicker"
+                id="fromDatetime"
+               ></ion-datetime>
+            </ng-template>
+          </ion-modal>
+        </ion-col>
+        <ion-col size="4">
+          <ion-datetime-button datetime="toDatetime"></ion-datetime-button>
+          <ion-modal [keepContentsMounted]="true">
+            <ng-template>
+              <ion-datetime
+                locale="vi-VN"
+                presentation="date"
+                [showDefaultButtons]="true"
+                doneText="Ok"
+                cancelText="Huỷ"
+                [(ngModel)]="lastDayPicker"
+                (ionChange)="changeDate($event)"
+                id="toDatetime"
+               ></ion-datetime>
             </ng-template>
           </ion-modal>
         </ion-col>
@@ -67,7 +86,7 @@
     
       <ion-row>
         <ion-col size="12" style="margin-top: 7px;" class="justify-content-center align-items-center">
-          <ion-button style="height: 40px; width: 30%;" (click)="getOrders()" class="white foot-btn" color="orange" no-margin expand="block"><strong>Chi tiết</strong></ion-button>
+          <ion-button [disabled]="disableButtonDetail" style="height: 40px; width: 30%;" (click)="getOrders()" class="white foot-btn" color="orange" no-margin expand="block"><strong>Chi tiết</strong></ion-button>
         </ion-col>
       </ion-row>
     
@@ -131,9 +150,9 @@
                   </ion-row> -->
                   <ion-row>
                     <ion-col  class="label" size="2">Doanh thu: </ion-col>
-                    <ion-col size="4">{{userSalary.commission | currency:'VND':'symbol'}}}</ion-col>
+                    <ion-col size="4">{{userSalary.commission | currency:'VND':'symbol'}}</ion-col>
                     <ion-col  class="label" size="2">Điểm: </ion-col>
-                    <ion-col size="4">{{userSalary.points}}}</ion-col>
+                    <ion-col size="4">{{userSalary.points}}</ion-col>
                   </ion-row>
                 </ion-grid>
                 

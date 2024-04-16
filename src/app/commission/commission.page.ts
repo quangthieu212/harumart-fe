@@ -10,6 +10,7 @@ import { Subject } from 'rxjs';
 import { AuthService } from '../core/services/auth.service';
 import { Commission, CommissionRequest } from '../core/models/Commission';
 import { CommissionService } from '../core/services/commission.service';
+import { addMonths, format, startOfMonth } from 'date-fns';
 
 @Component({
   selector: 'app-commission',
@@ -25,6 +26,8 @@ export class CommissionPage implements OnInit, OnDestroy {
   isShowOrders = false;
   firstDay;
   lastDay;
+  firstDayPicker: any;
+  lastDayPicker: any;
 
   segment = '';
   statusList = [
@@ -38,6 +41,7 @@ export class CommissionPage implements OnInit, OnDestroy {
     }
   ];
   isLoading = false;
+  disableButtonDetail = false;
   pageSize = 10;
   pageNumber = 1;
   maxPage = 0;
@@ -68,16 +72,22 @@ export class CommissionPage implements OnInit, OnDestroy {
   }
 
   async ionViewWillEnter() {
+    const currentDate = new Date();
+    this.firstDayPicker = format(startOfMonth(new Date()), 'yyyy-MM-dd');
+    this.lastDayPicker = format(startOfMonth(addMonths(new Date(), 1)), 'yyyy-MM-dd');
+
     this.segment = this.statusList[0].code;
     this.isLogin = await this.auth.isLogin();
+    this.commission = null;
+    this.orders = [];
+    this.pageNumber = 1;
     if (!this.isLogin) {
-      this.commission = null;
       return;
     }
     this.userId = (await this.auth.getUser()).odooUserId;
     const date = new Date();
-    this.firstDay = this.formatDate(new Date(date.getFullYear(), date.getMonth(), 1));
-    this.lastDay = this.formatDate(new Date(date.getFullYear(), date.getMonth() + 1, 0));
+    this.firstDay = this.firstDayPicker;
+    this.lastDay = this.lastDayPicker;
     const request: CommissionRequest = {
       start: this.firstDay,
       end: this.lastDay,
@@ -92,10 +102,11 @@ export class CommissionPage implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((result: any) => {
         this.isLoading = false;
-        if (result.isSuccess) {
-          this.commission = result.data;
-          const totalRecords = result.totalRecords;
-          this.maxPage = this.round(totalRecords/this.pageSize, 0);
+        if (result) {
+          this.commission = result;
+          this.orders = [];
+          this.pageNumber = 1;
+          this.disableButtonDetail = false;
         }
     },
     (e) => {
@@ -103,18 +114,23 @@ export class CommissionPage implements OnInit, OnDestroy {
     });
   }
 
-  getOrders() {
+  getOrders(infiniteScroll) {
     this.isLoading = true;
+    this.disableButtonDetail = true;
     this.orderFilter.fromDate = this.firstDay;
     this.orderFilter.toDate = this.lastDay;
+    this.orderFilter.pageNumber = this.pageNumber;
     this.orderService.getOrdersByUser(this.orderFilter)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((result: any) => {
         this.isLoading = false;
         if (result.isSuccess) {
-          this.orders = result.data;
+          this.orders = this.orders.concat(result.data);
           const totalRecords = result.totalRecords;
-          this.maxPage = this.round(totalRecords/this.pageSize, 0);
+          this.maxPage = this.round(Math.ceil(totalRecords/this.pageSize), 0);
+        }
+        if (infiniteScroll) {
+          infiniteScroll.target.complete();
         }
     },
     (e) => {
@@ -129,9 +145,8 @@ export class CommissionPage implements OnInit, OnDestroy {
   }
 
   changeDate(event) {
-    const date = new Date(event.target.value);
-    this.firstDay = this.formatDate(new Date(date.getFullYear(), date.getMonth(), 1));
-    this.lastDay = this.formatDate(new Date(date.getFullYear(), date.getMonth() + 1, 0));
+    this.firstDay = this.firstDayPicker;
+    this.lastDay = this.lastDayPicker;
     const request: CommissionRequest = {
       start: this.firstDay,
       end: this.lastDay,
@@ -166,7 +181,17 @@ export class CommissionPage implements OnInit, OnDestroy {
   update(i) {
   }
 
-  loadData(event) {
+  loadData(infiniteScroll) {
+    console.log('infiniteScroll');
+    this.pageNumber++;
+    if (this.pageNumber > this.maxPage) {
+      infiniteScroll.target.disabled = true;
+      return;
+    }
+    this.getOrders(infiniteScroll);
+    if (this.pageNumber === this.maxPage) {
+      infiniteScroll.target.disabled = true;
+    }
   }
 
 }
