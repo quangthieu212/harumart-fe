@@ -104,13 +104,13 @@ export class AuthService {
 		);
   }
 
-  changePwd(phoneNumber: string): Observable<any> {
+  changePwd(phoneNumber: string, key: string): Observable<any> {
     const headers = new HttpHeaders()
       .append('Accept', '*/*')
       .append('content-type','application/json; charset=utf-8;');
     let httpParams = new HttpParams();
     httpParams = httpParams.append('phone', phoneNumber);
-    httpParams = httpParams.append('key', 'sofaco');
+    httpParams = httpParams.append('key', key);
     const options = { headers,withCredentials: true, params: httpParams};
     return this.http.post(`${environment.apiUrl}/v1/Users/changepwd`, null, options).pipe(
 			take(1),

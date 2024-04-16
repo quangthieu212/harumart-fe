@@ -29,13 +29,19 @@ export class ResetPasswordPage implements OnInit {
           phoneNumberValidator
         ],
         updateOn: 'change'
+      }),
+      key: new FormControl('', {
+        validators: [
+          Validators.required
+        ],
+        updateOn: 'change'
       })
     });
   }
 
   forgotPwd(value) {
     this.isLoading = true;
-    this.auth.changePwd(value.phoneNumber).subscribe(async (res) => {
+    this.auth.changePwd(value.phoneNumber, value.key).subscribe(async (res) => {
       this.isLoading = false;
       this.ionicCoreService.showToastSuccess({ message: 'Reset password success', duration: 3000 });
       this.fun.navigate('login', false);
