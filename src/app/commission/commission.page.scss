@@ -26,14 +26,11 @@
 .btn-active{
     background-color: unset;
     color: white !important;
-    text-decoration: underline;
     font-weight: bold;
     border-radius: 3px;
     font-size: 21px;
-    border-bottom: 1px solid gray;
     --indicator-color-checked:none !important;
     ion-text{
-        border-bottom: 2px solid white;
         padding-bottom: 5px;
     }
 }
@@ -84,4 +81,14 @@
         align-items: flex-end;
         min-height:30px;
     }
+}
+.customer-item {
+    margin-left: 0;
+    margin-right: 0;
+}
+ion-segment-button::part(indicator-background) {
+    background: white;
+}
+ion-segment-button.md::part(indicator-background) {
+    height: 2px;
 }

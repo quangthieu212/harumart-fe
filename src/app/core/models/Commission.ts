@@ -4,6 +4,10 @@ export interface UserSalary {
     fullName: string;
     commission: number;
     points: number;
+    sub_Member_Count: number;
+    bank_Number: string;
+    phone: string;
+    userSub: Array<UserSalary>;
 }
 
 export interface Commission {

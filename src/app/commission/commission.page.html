@@ -29,7 +29,7 @@
   <app-spinner *ngIf="isLoading"></app-spinner>
   <ng-container *ngIf="isLogin; else notLogin">
     <ng-container *ngIf="segment === 'ban-le'">
-      <ion-row>
+      <ion-row style="align-items: center;">
         <ion-col size="3" style="margin-top: 7px;" class="ion-padding-start">
           <ion-text style="font-weight: bold;" class="ion-text-left">
             <span class="price">Doanh thu tháng</span>
@@ -145,18 +145,55 @@
                   <ion-row>
                     <ion-label style="font-size: 18px;font-weight: 600;margin-left: 5px;">{{userSalary.fullName}}</ion-label>
                   </ion-row>
-                  <!-- <ion-row>
-                    <ion-col class="label" size="2">SĐT: </ion-col>
-                    <ion-col size="4">{{userSalary.phone}}</ion-col>
-                  </ion-row> -->
                   <ion-row>
-                    <ion-col  class="label" size="2">Doanh thu: </ion-col>
+                    <ion-col class="label" size="6">SĐT: </ion-col>
+                    <ion-col size="4">{{userSalary.phone}}</ion-col>
+                  </ion-row>
+                  <ion-row>
+                    <ion-col class="label" size="6">Số tài khoản: </ion-col>
+                    <ion-col size="4">{{userSalary.bank_Number}}</ion-col>
+                  </ion-row>
+                  <ion-row>
+                    <ion-col class="label" size="6">Số đại lý/ctv cấp dưới: </ion-col>
+                    <ion-col size="4">{{userSalary.sub_Member_Count}}</ion-col>
+                  </ion-row>
+                  <ion-row>
+                    <ion-col  class="label" size="6">Doanh thu: </ion-col>
                     <ion-col size="4">{{userSalary.commission | currency:'VND':'symbol'}}</ion-col>
-                    <ion-col  class="label" size="2">Điểm: </ion-col>
-                    <ion-col size="4">{{userSalary.points}}</ion-col>
                   </ion-row>
                 </ion-grid>
-                
+                <ion-accordion-group *ngIf="userSalary.userSub.length">
+                  <ion-accordion>
+                    <ion-item slot="header" color="light">
+                      <ion-label>Đại lý - CTV đã giới thiệu</ion-label>
+                    </ion-item>
+                    <div class="ion-padding" slot="content">
+                      <ion-card *ngFor="let subUser of userSalary.userSub" class="customer-item">
+                        <ion-grid>
+                          <ion-row>
+                            <ion-label style="font-size: 18px;font-weight: 600;margin-left: 5px;">{{subUser.fullName}}</ion-label>
+                          </ion-row>
+                          <ion-row>
+                            <ion-col class="label" size="6">SĐT: </ion-col>
+                            <ion-col size="4">{{subUser.phone}}</ion-col>
+                          </ion-row>
+                          <ion-row>
+                            <ion-col class="label" size="6">Số tài khoản: </ion-col>
+                            <ion-col size="4">{{subUser.bank_Number}}</ion-col>
+                          </ion-row>
+                          <ion-row>
+                            <ion-col class="label" size="6">Số đại lý/ctv cấp dưới: </ion-col>
+                            <ion-col size="4">{{subUser.sub_Member_Count}}</ion-col>
+                          </ion-row>
+                          <ion-row>
+                            <ion-col  class="label" size="6">Doanh thu: </ion-col>
+                            <ion-col size="4">{{subUser.commission | currency:'VND':'symbol'}}</ion-col>
+                          </ion-row>
+                        </ion-grid>
+                      </ion-card>
+                    </div>
+                  </ion-accordion>
+                </ion-accordion-group>
               </ion-card>
               <app-divider [forceFullWith]="true" [innerHeight]="1" [height]="1"></app-divider>
             </ng-container>
