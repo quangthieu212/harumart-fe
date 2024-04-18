@@ -13,6 +13,7 @@ import { environment } from '../../environments/environment';
 import {CouponService} from '../core/services/coupon.service';
 import { ApplyCouponService } from '../core/services/apply-coupon.service';
 import { IonicCoreService } from '../core/services/ionic-core.service';
+import { Params } from '@angular/router';
 
 @Component({
   selector: 'app-cart',
@@ -203,6 +204,13 @@ export class CartPage implements OnInit {
 
   browse() {
     this.fun.navigate('/home', false);
+  }
+
+  gotoProudctPromotions() {
+    const query: Params = {
+      categoryId: 40
+    };
+    this.fun.navigateWithQuery('/products', {queryParams: query});
   }
 
   async checkout() {

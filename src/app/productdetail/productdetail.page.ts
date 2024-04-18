@@ -130,14 +130,19 @@ export class ProductdetailPage implements OnInit, OnDestroy {
   }
 
   async goToCart() {
-    this.productService.getProductById(this.currentWarehouse.id).pipe(takeUntil(this.ngUnsubscribe)).subscribe(
-      async (result: any) => {
-        if (result.isSuccess) {
-          await this.cartService.addProductToCart(result.data);
-          this.fun.navigate('cart', false);
+    if (this.product.categoryOdooId === 40) {
+      await this.cartService.addProductToCart(this.product);
+      this.fun.navigate('cart', false);
+    } else {
+      this.productService.getProductById(this.currentWarehouse.id).pipe(takeUntil(this.ngUnsubscribe)).subscribe(
+        async (result: any) => {
+          if (result.isSuccess) {
+            await this.cartService.addProductToCart(result.data);
+            this.fun.navigate('cart', false);
+          }
         }
+      );
     }
-    );
   }
 
   update(i) {

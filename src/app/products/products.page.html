@@ -1,0 +1,16 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Sản phẩm khuyến mại</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <app-productlist [recieved_data]="products"></app-productlist>
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Đang tải thêm...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

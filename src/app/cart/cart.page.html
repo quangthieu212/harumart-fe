@@ -26,7 +26,7 @@
       <ion-text><strong class="text">Sản phẩm trong giỏ</strong></ion-text>
     </ion-row>
     <ion-list #slidingList>
-      <ion-item-sliding  *ngFor="let item of data; let j = index;" class="card ion-no-padding" no-margin>
+      <ion-item-sliding  *ngFor="let item of data; let j = index; let isLast = last" class="card ion-no-padding" no-margin>
         <ion-item lines="none">
           <ion-row style="width: 100%;">
             <ion-col size="3" class="ion-text-center">
@@ -39,7 +39,8 @@
               </ng-container>
             </ion-col>
             <ion-col style="display: flex;flex-direction: column;justify-content: space-between;" size="6">
-              <h3 style="font-size: 14px;" class="ion-no-margin item-name">{{item.product.name}} - {{item.product.productWarehouseOdoo.warehouseName}}</h3>
+              <h3 *ngIf="item.product.categoryOdooId === 40" style="font-size: 14px;" class="ion-no-margin item-name">{{item.product.name}}</h3>
+              <h3 *ngIf="item.product.categoryOdooId !== 40" style="font-size: 14px;" class="ion-no-margin item-name">{{item.product.name}} - {{item.product.productWarehouseOdoo.warehouseName}}</h3>
               <!-- <h5 class="ion-no-margin item-def">{{item.product.size}}, {{item.product.color}}</h5>
               <h5 class="ion-no-margin item-def">shipping: {{item.product.currency}}{{item.product.shipping}}</h5>
               <h5 class="ion-no-margin item-def">Dec 31 - Jan 17</h5> -->
@@ -75,20 +76,20 @@
             <ion-input placeholder="Ghi chú" [(ngModel)]="item.note" class="input"></ion-input>
           </ion-row>
         </ion-item>
-        <ion-item>
-          <ion-row>
-          </ion-row>
-        </ion-item>
         <!-- <ion-item-options side="end">
           <ion-item-option color="danger" (click)="remove(item, j)">
             <ion-icon name="trash" size="large"></ion-icon>
           </ion-item-option>
         </ion-item-options> -->
+        <ion-row *ngIf="isLast" size="12" disabled="true">
+          <ion-button style="margin-left: 20px; margin-top: 10px; height: 40px;" fill="outline" color="primary" (click)="gotoProudctPromotions()">Khuyến Mại</ion-button>
+        </ion-row>
       </ion-item-sliding>
     </ion-list>
+    
     <ion-row size="12" class="ion-justify-content-center" disabled="true">
-        <ion-button style="margin-top: 10px; height: 40px;" fill="outline" color="primary" (click)="browse()">Tiếp tục mua hàng</ion-button>
-      </ion-row>
+      <ion-button style="margin-top: 10px; height: 40px;" fill="outline" color="primary" (click)="browse()">Tiếp tục mua hàng</ion-button>
+    </ion-row>
     <ion-row class="ion-margin">
       <ion-text><strong class="text">Chi tiết đơn hàng</strong></ion-text>
     </ion-row>

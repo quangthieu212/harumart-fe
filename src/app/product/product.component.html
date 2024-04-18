@@ -37,7 +37,7 @@
           </strong></ion-text>
       </ion-col>
     </ion-row> -->
-    <div class="radio-toolbar">
+    <div class="radio-toolbar" *ngIf="product.categoryOdooId !== 40">
       <ng-container *ngFor="let mapProduct of product.mapsProducts">
         <input type="radio" (change)="changeWarehouse(mapProduct)" [id]="mapProduct.warehouseId" name="radioKho" [value]="mapProduct">
         <label [for]="mapProduct.warehouseId">{{mapProduct.warehouseId === 18 ? 'Kho HN' : 'Kho HCM'}}</label>
