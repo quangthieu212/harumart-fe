@@ -112,7 +112,9 @@ export class CartPage implements OnInit {
   checkSameWarehouse() {
     const warehouseIds = [];
     this.data.forEach(item => {
-      warehouseIds.push(item.product.productWarehouseOdoo.warehouseId);
+      if (item.product.categoryOdooId !== 40) {
+        warehouseIds.push(item.product.productWarehouseOdoo.warehouseId);
+      }
     });
     const uniqueArr = [...new Set(warehouseIds)];
     this.isNotSameWarehouse = uniqueArr.length > 1 ? true : false;
