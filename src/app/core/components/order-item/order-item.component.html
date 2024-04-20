@@ -16,8 +16,11 @@
   <ion-row class="order-info">
     <span>Trả tiền chiết khấu: {{order.pay_discount_type === 'after' ? 'Trả sau' : 'Trừ trên tiền hàng'}}</span>
   </ion-row>
-  <ion-row class="order-info" style="margin-bottom: 5px; padding-bottom: 5px ;border-bottom: 0.5px solid #c8c7cc;">
+  <ion-row class="order-info">
     <span>Người trả tiền ship: {{order.pay_ship_type === 'daily' ? isDaiLy ? 'Đại lý' : 'CTV' : 'Khách trả'}}</span>
+  </ion-row>
+  <ion-row class="order-info" style="margin-bottom: 5px; padding-bottom: 5px ;border-bottom: 0.5px solid #c8c7cc;">
+    <span>Phương thức thanh toán: {{order.payment}}</span>
   </ion-row>
   <ng-container *ngFor="let lineItem of order.orderLines">
     <ion-item lines="none" detail="false">

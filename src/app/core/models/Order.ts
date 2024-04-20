@@ -85,6 +85,7 @@ export interface SaleOrder {
     pay_discount_type: string;
     pay_ship_type: string;
     ship_partner: string;
+    payment: string;
     orderLines: Array<OrderLine>;
 }
 
