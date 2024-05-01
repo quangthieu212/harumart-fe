@@ -48,6 +48,7 @@
   </ion-item> -->
 
   <app-spinner *ngIf="isLoading"></app-spinner>
+  <ion-searchbar [(ngModel)]="searchTerm" (ionChange)="searchChanged($event)"></ion-searchbar>
   <ng-container *ngIf="isLogin && orders && orders.length > 0; else noOrder">
     <ng-container *ngFor="let order of orders">
       <app-order-item [order]="order" [segment]="segment">

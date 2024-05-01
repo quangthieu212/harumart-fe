@@ -5,7 +5,7 @@ import { DataService, Orders } from '../data.service';
 // import { OrderinfoPage } from '../orderinfo/orderinfo.page';
 import { OrderStatus, SaleOrder } from '../core/models/Order';
 import { OrderService } from '../core/services/order.service';
-import { takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, switchMap, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { AuthService } from '../core/services/auth.service';
 
@@ -17,6 +17,8 @@ import { AuthService } from '../core/services/auth.service';
 export class OrdersPage implements OnInit, OnDestroy {
 
   isLogin = false;
+  searchTerm: string;
+  searchTerms = new Subject<string>();
   orders: Array<SaleOrder> = [];
   segment = '';
   statusList = [
@@ -57,7 +59,8 @@ export class OrdersPage implements OnInit, OnDestroy {
   orderFilter = {
     pageSize: this.pageSize,
     pageNumber: this.pageNumber,
-    state: ''
+    state: '',
+    name: ''
   };
   ngUnsubscribe = new Subject();
 
@@ -79,6 +82,14 @@ export class OrdersPage implements OnInit, OnDestroy {
   ngOnInit() {
     // this.segment = this.statusList[0].code;
     // this.getOrders();
+    this.searchTerms.pipe(
+      debounceTime(500),
+      distinctUntilChanged()
+    ).subscribe(value => {
+      this.pageNumber = 1;
+      this.orderFilter.name = value;
+      this.getOrders(null, true);
+    });
   }
 
   async ionViewWillEnter() {
@@ -88,7 +99,8 @@ export class OrdersPage implements OnInit, OnDestroy {
     this.orderFilter = {
       pageSize: this.pageSize,
       pageNumber: this.pageNumber,
-      state: ''
+      state: '',
+      name: ''
     };
     this.segment = this.statusList[0].code;
     this.isLogin = await this.auth.isLogin();
@@ -99,16 +111,21 @@ export class OrdersPage implements OnInit, OnDestroy {
     this.getOrders();
   }
 
-  getOrders(infiniteScroll?) {
+  searchChanged(event) {
+    this.searchTerms.next(event.detail.value);
+  }
+
+  getOrders(infiniteScroll?, isForceLoad = false) {
     this.isLoading = true;
     this.orderFilter.state = this.segment;
     this.orderFilter.pageNumber = this.pageNumber;
+
     this.orderService.getOrdersByUser(this.orderFilter)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((result: any) => {
         this.isLoading = false;
         if (result.isSuccess) {
-          this.orders = this.orders.concat(result.data);
+          this.orders = isForceLoad ? result.data : this.orders.concat(result.data);
           const totalRecords = result.totalRecords;
           this.maxPage = this.round(Math.ceil(totalRecords/this.pageSize), 0);
           console.log(this.maxPage);
@@ -130,6 +147,7 @@ export class OrdersPage implements OnInit, OnDestroy {
   seg(event) {
     this.segment = event.detail.value;
     this.orders = [];
+    this.searchTerm = '';
     this.getOrders();
   }
 
