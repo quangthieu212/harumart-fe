@@ -260,6 +260,21 @@ async onClickWard() {
         this.isLoading = false;
         return;
       }
+      const warehouseIds = [];
+      carts.forEach(item => {
+        if (item.product.categoryOdooId !== 40) {
+          warehouseIds.push(item.product.productWarehouseOdoo.warehouseId);
+        }
+      });
+      const uniqueArr = [...new Set(warehouseIds)];
+      const currentWarehouseId = uniqueArr[0];
+
+      carts.forEach(item => {
+        if (item.product.categoryOdooId === 40) {
+         item.product.productWarehouseOdoo.warehouseId = currentWarehouseId;
+        }
+      });
+
       if (!this.customerName || !this.customerPhone) {
         this.ionicCoreService.showToastError({message: 'Bạn phải chọn khách hàng hoặc nhập thông tin nhận hàng.'});
         this.isLoading = false;
