@@ -55,6 +55,17 @@ ion-list-header {
     width: 222px !important;
 }
 
+
+@media screen and (min-width: 768px) {
+    .radio-pay {
+        ion-row {
+            ion-item {
+                width: 250px !important;
+            }
+        }
+    }
+}
+
 .radio-pay {
     ion-label {
         font-size: 13px;

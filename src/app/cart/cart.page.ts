@@ -126,7 +126,7 @@ export class CartPage implements OnInit {
   }
 
   avaiableQty(product: Product) {
-    if (product.qtyAvailable) {
+    if (product.qtyAvailable || product.categoryOdooId === 40) {
       return true;
     }
     return false;
