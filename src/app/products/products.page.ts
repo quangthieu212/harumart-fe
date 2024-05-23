@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Product } from '../core/models/Product';
 import { ProductService } from '../core/services/product.service';
 import { ActivatedRoute } from '@angular/router';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'app-products',
@@ -9,6 +11,8 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./products.page.scss'],
 })
 export class ProductsPage implements OnInit {
+  searchTerm: string;
+  searchTerms$ = new Subject<string>();
 
   pageSize = 10;
   pageNumber = 1;
@@ -30,6 +34,15 @@ export class ProductsPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.searchTerms$.pipe(
+      debounceTime(250),
+      distinctUntilChanged(),
+    ).subscribe((searchValue: string) => {
+      // Remember value after debouncing
+      this.searchTerm = searchValue;
+      // this.showLoading = true;
+      this.loadProductConfirms(null, true);
+    });
   }
 
   ionViewWillEnter() {
@@ -51,17 +64,20 @@ export class ProductsPage implements OnInit {
     }
   }
 
-  loadProductConfirms(infiniteScroll?) {
+  loadProductConfirms(infiniteScroll?, isForceLoad = false) {
     this.isLoading = true;
     this.productFilter.pageNumber = this.pageNumber;
-    this.productService.searchProduct('', {
+    this.productService.searchProduct(this.searchTerm, {
       ...this.productFilter,
       categoryId: this.categoryId
     }).subscribe((result: any) => {
       if (result.isSuccess) {
         const totalRecords = result.totalRecords;
         this.maxPage = this.round(Math.ceil(totalRecords/this.pageSize), 0);
-        this.products = this.products.concat(result.data.products);
+        console.log('searchTerm', this.searchTerm);
+        this.products = isForceLoad ? result.data.products : this.products.concat(result.data.products);
+        console.log('products', this.products);
+        console.log('result.data.products)', result.data.products);
         // this.filterProductByWarehouse();
       }
       if (infiniteScroll) {
@@ -74,6 +90,10 @@ export class ProductsPage implements OnInit {
   round(value, precision) {
     const multiplier = Math.pow(10, precision || 0);
     return Math.round(value * multiplier) / multiplier;
+  }
+
+  searchByValue(event) {
+    this.searchTerms$.next(event.target.value);
   }
 
 }

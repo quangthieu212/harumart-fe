@@ -5,6 +5,7 @@
 </ion-header>
 
 <ion-content>
+  <ion-searchbar placeholder="Tìm kiếm" [(ngModel)]="searchTerm" (ionChange)="searchByValue($event)"></ion-searchbar>
   <app-productlist [recieved_data]="products"></app-productlist>
 
   <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
