@@ -244,7 +244,7 @@ export class HomePage implements OnDestroy {
     }).subscribe((result: any) => {
       if (result.isSuccess) {
         const totalRecords = result.totalRecords;
-        this.maxPage = this.round(totalRecords/this.pageSize, 0);
+        this.maxPage = this.round(Math.ceil(totalRecords/this.pageSize), 0);
         this.products = this.products.concat(result.data.products);
         // this.filterProductByWarehouse();
       }
