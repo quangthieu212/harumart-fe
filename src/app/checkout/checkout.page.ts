@@ -400,13 +400,13 @@ async onClickWard() {
           orderRequestBody = { orderAddressRequest: partnerRequest,
             saleOrders: orderRequests,
             paymentAcquirerId: this.paymentAcquirerId,
-            reference: this.reference
+            // reference: this.reference
           };
         } else {
           orderRequestBody = { orderAddressRequest: partnerRequest,
             saleOrders: orderRequests,
             paymentAcquirerId: this.paymentAcquirerId,
-            reference: this.reference
+            // reference: this.reference
           };
         }
         this.orderService.createOrder(orderRequestBody).subscribe(async (res: any) => {
