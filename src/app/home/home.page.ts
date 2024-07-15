@@ -13,10 +13,10 @@ import {AuthService} from '../core/services/auth.service';
 import {UtilService} from '../core/services/util.service';
 
 const LIST_BANNER = [
-  // {
-  //   image: 'assets/images/banner-new.jpg',
-  //   producer: null
-  // },
+  {
+    image: 'assets/images/banner-new.jpg',
+    producer: null
+  },
   {
     image: 'assets/images/banner-0.jpg',
     producer: null
