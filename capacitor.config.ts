@@ -1,8 +1,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.tii.starter',
-  appName: 'Tii-Sale',
+  appId: 'io.Sofsta.starter',
+  appName: 'Sofsta',
   webDir: 'www',
   bundledWebRuntime: false,
   cordova: {
