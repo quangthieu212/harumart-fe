@@ -160,6 +160,10 @@ const routes: Routes = [
     path: 'products',
     loadChildren: () => import('./products/products.module').then( m => m.ProductsPageModule)
   },
+  {
+    path: 'privacy-policy',
+    loadChildren: () => import('./privacy-policy/privacy-policy.module').then( m => m.PrivacyPolicyPageModule)
+  },
 ];
 
 @NgModule({
