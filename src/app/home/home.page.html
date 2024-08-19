@@ -37,7 +37,7 @@
       </div>
     </ion-slide>
   </ion-slides>
-  <ion-text class="ion-text-center" color="primary">
+  <ion-text *ngIf="vouchers.length" class="ion-text-center" color="primary">
     <h6>Voucher</h6>
   </ion-text>
   <ion-slides pager="true" [options]="slideVouchers" (click)="preventDefault($event)">
@@ -59,7 +59,7 @@
       </div>
     </ion-slide>
   </ion-slides>
-  <ion-text class="ion-text-center" color="primary">
+  <ion-text *ngIf="promotions.length" class="ion-text-center" color="primary">
     <h6>Chương trình khuyến mại</h6>
   </ion-text>
   <ion-slides class="promotions" pager="true" [options]="slidePromodtion" (click)="preventDefault($event)">
