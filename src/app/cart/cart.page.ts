@@ -14,6 +14,7 @@ import {CouponService} from '../core/services/coupon.service';
 import { ApplyCouponService } from '../core/services/apply-coupon.service';
 import { IonicCoreService } from '../core/services/ionic-core.service';
 import { Params } from '@angular/router';
+import { OrderLineRequest } from '../core/models/Order';
 
 @Component({
   selector: 'app-cart',
@@ -254,7 +255,40 @@ export class CartPage implements OnInit {
 
   applyPromotion() {
     const totalItems = this.data.reduce((total, product) => total + product.quantity, 0);
-    this.couponService.applyPromotion(this.promotionCode, Number(this.calculate(0) - this.calculate(1)), totalItems).subscribe(
+    const saleOrderLine: OrderLineRequest[] = this.data.map(item => {
+          const product = item.product;
+          const warehouseId = product?.productWarehouseOdoo?.warehouseId;
+          if (!warehouseId) {
+            this.ionicCoreService.showToastError({message: 'Sản phẩm ' + product.name + ' chưa được cấu hình kho.'});
+            return;
+          }
+          const orderLine: OrderLineRequest = {
+            name: product.name,
+            priceReduce: 0,
+            priceReduceTaxexcl: 0,
+            priceReduceTaxinc: 0,
+            priceSubtotal: product.finalPrice || product.price,
+            priceTax: 0,
+            priceTotal: (product.finalPrice || product.price)*item.quantity,
+            priceUnit: 0,
+            productId: Number(product.odooId),
+            productTmplId: product.productTmplId,
+            quantity: item.quantity,
+            note: item.note,
+            product:  {uomId: 1},
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            product_uom_qty: 1,
+            uom: 1,
+            discount: 0,
+            partnerDiscountOdoo: product.partnerDiscountOdoo || 0,
+            agentDiscountOdoo: product.agentDiscountOdoo || 0,
+            partnerPointOdoo: product.partnerPointOdoo,
+            agentPointOdoo: product.agentPointOdoo
+          };
+          return orderLine;
+    });
+    console.log('saleOrderLine', saleOrderLine);
+    this.couponService.applyPromotion(this.promotionCode, Number(this.calculate(0) - this.calculate(1)), totalItems, saleOrderLine).subscribe(
       (result: any) => {
         if (result.couponCode) {
           this.promotion = result;

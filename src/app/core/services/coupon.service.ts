@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import { format } from 'date-fns';
+import { OrderLineRequest } from '../models/Order';
 
 @Injectable({
   providedIn: 'root'
@@ -46,11 +47,11 @@ export class CouponService {
     return this.http.post(`${environment.apiUrl}/v1/Orders/apply-coupon`, null,{params: httpParams});
   }
 
-  applyPromotion(code: string, amount: number, numberItems: number)  {
+  applyPromotion(code: string, amount: number, numberItems: number, saleOrderLine: OrderLineRequest[])  {
     let httpParams = new HttpParams();
     httpParams = httpParams.append('code', code);
     httpParams = httpParams.append('amount', amount);
     httpParams = httpParams.append('num_order_item', numberItems);
-    return this.http.post(`${environment.apiUrl}/v1/Orders/apply-promotion`, null,{params: httpParams});
+    return this.http.post(`${environment.apiUrl}/v1/Orders/apply-promotion`, saleOrderLine, {params: httpParams});
   }
 }
