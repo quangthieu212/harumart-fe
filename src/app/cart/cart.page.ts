@@ -303,7 +303,7 @@ export class CartPage implements OnInit {
   }
 
   applyVoucher() {
-    this.couponService.applyCoupon(this.voucherCode, Number(this.calculate(0) - this.calculate(1))).subscribe(
+    this.couponService.applyCoupon(this.voucherCode, Number(this.calculate(0))).subscribe(
       (result: any) => {
         if (result.couponCode) {
           this.voucher = result;
