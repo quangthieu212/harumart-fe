@@ -287,8 +287,7 @@ export class CartPage implements OnInit {
           };
           return orderLine;
     });
-    console.log('saleOrderLine', saleOrderLine);
-    this.couponService.applyPromotion(this.promotionCode, Number(this.calculate(0) - this.calculate(1)), totalItems, saleOrderLine).subscribe(
+    this.couponService.applyPromotion(this.promotionCode, Number(this.calculate(0)), totalItems, saleOrderLine).subscribe(
       (result: any) => {
         if (result.couponCode) {
           this.promotion = result;
