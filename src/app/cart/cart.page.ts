@@ -15,6 +15,10 @@ import { ApplyCouponService } from '../core/services/apply-coupon.service';
 import { IonicCoreService } from '../core/services/ionic-core.service';
 import { Params } from '@angular/router';
 import { OrderLineRequest } from '../core/models/Order';
+import { forkJoin } from 'rxjs/internal/observable/forkJoin';
+import { Storage } from '@ionic/storage-angular';
+
+const PHONE_NUMBER = 'phone-number';
 
 @Component({
   selector: 'app-cart',
@@ -49,6 +53,7 @@ export class CartPage implements OnInit {
   vouchersSavedOrigin: any = [];
 
   constructor(
+    private storage: Storage,
     private menuCtrl: MenuController,
     // public dataService: DataService,
     public fun: FunctionsService,
@@ -253,7 +258,8 @@ export class CartPage implements OnInit {
     });
   }
 
-  applyPromotion() {
+  async applyPromotion() {
+    const phone = await this.storage.get(PHONE_NUMBER);
     const totalItems = this.data.reduce((total, product) => total + product.quantity, 0);
     const saleOrderLine: OrderLineRequest[] = this.data.map(item => {
           const product = item.product;
@@ -287,16 +293,22 @@ export class CartPage implements OnInit {
           };
           return orderLine;
     });
-    this.couponService.applyPromotion(this.promotionCode, Number(this.calculate(0)), totalItems, saleOrderLine).subscribe(
-      (result: any) => {
-        if (result.couponCode) {
-          this.promotion = result;
+    
+    forkJoin([
+      this.couponService.applyPromotion(this.promotionCode, Number(this.calculate(0)), totalItems, saleOrderLine),
+      this.couponService.validPromotion(this.promotionCode, phone)
+    ]).subscribe(
+      ([applyResult, validResult]: [any, any]) => {
+        console.log('applyResult', applyResult);
+        console.log('validResult', validResult);
+        if (applyResult.couponCode && validResult.toUpperCase() === 'SUCCESS') {
+          this.promotion = applyResult;
         } else {
           this.promotion = null;
         }
       },
       (error: any) => {
-        this.voucher = null;
+        this.promotion = null;
         console.log(error);
       }
     );

@@ -54,4 +54,11 @@ export class CouponService {
     httpParams = httpParams.append('num_order_item', numberItems);
     return this.http.post(`${environment.apiUrl}/v1/Orders/apply-promotion`, saleOrderLine, {params: httpParams});
   }
+
+  validPromotion(code: string, phone: number)  {
+    let httpParams = new HttpParams();
+    httpParams = httpParams.append('code', code);
+    httpParams = httpParams.append('phone', phone);
+    return this.http.post(`${environment.apiUrl}/v1/Orders/valid-promotion`, null, {params: httpParams});
+  }
 }
