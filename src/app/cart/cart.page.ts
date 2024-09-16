@@ -293,7 +293,7 @@ export class CartPage implements OnInit {
           };
           return orderLine;
     });
-    
+
     forkJoin([
       this.couponService.applyPromotion(this.promotionCode, Number(this.calculate(0)), totalItems, saleOrderLine),
       this.couponService.validPromotion(this.promotionCode, phone)
@@ -305,6 +305,9 @@ export class CartPage implements OnInit {
           this.promotion = applyResult;
         } else {
           this.promotion = null;
+          if (validResult.toUpperCase() !== 'SUCCESS') {
+            this.ionicCoreService.showToastError({message: validResult});
+          }
         }
       },
       (error: any) => {
